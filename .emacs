@@ -1,0 +1,1 @@
+/home/dingo/.emacs
