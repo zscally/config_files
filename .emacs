@@ -27,7 +27,6 @@
 
 (define-key xah-fly-c-keymap (kbd "l") (kbd "s u RET"))
 
-
 ;; automatic save buffer when switching to command mode
 (add-hook 'xah-fly-command-mode-activate-hook 'xah-fly-save-buffer-if-file)
 
@@ -76,6 +75,7 @@
  )
 
 (define-key key-translation-map "\C-t" "\C-x")
+(define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
 
 (flyspell-mode)
 (require 'writegood-mode)
@@ -85,8 +85,7 @@
 (setq langtool-language-tool-jar "~/LanguageTool-4.1/languagetool-commandline.jar")
 (require 'langtool)
 
-(menu-bar-mode -1) 
-(toggle-scroll-bar -1) 
-(toggle-scroll-bar -1) 
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
