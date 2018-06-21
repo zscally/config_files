@@ -1,4 +1,7 @@
-(setq package-list '(xah-fly-keys which-key better-defaults elpy helm flycheck smex rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get ps-ccrypt emr csharp-mode auto-indent-mode undo-tree epa company-mode flycheck))
+(setq package-list '(xah-fly-keys which-key better-defaults elpy helm flycheck smex rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck))
+
+(if (eq system-type 'gnu/linux)
+		'add-to-list 'package-list (ps-ccrypt))
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -31,7 +34,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-(require 'windows-path)
+(if (eq system-type 'windows-nt)
+		(require 'windows-path))
 
 (setq visible-bell 1)
 
@@ -201,7 +205,8 @@ Version 2018-03-01"
 
 (set-face-attribute 'default nil :height 200)
 (add-to-list 'load-path "~/.cargo/bin")
-(toggle-frame-maximized)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 
 (defun my-hook ()
