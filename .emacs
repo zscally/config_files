@@ -209,37 +209,7 @@ Version 2018-03-01"
 (add-hook 'LaTeX-mode-hook 'my-hook)
 
 (hl-line-mode)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-	 [default default default italic underline success warning error])
- '(ansi-color-names-vector
-	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
- '(custom-enabled-themes (quote (tsdh-dark)))
- '(custom-safe-themes
-	 (quote
-		("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(elpy-project-root "~/breeder/")
- '(elpy-rpc-python-command "~/breeder/env/bin/python3.6")
- '(package-selected-packages
-	 (quote
-		(emr spacemacs-theme wc-mode better-defaults elpy which-key xah-fly-keys rust-mode markdown-mode)))
- '(pyvenv-virtualenvwrapper-python "/usr/bin/python3.6"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
-(define-key key-translation-map "\C-t" "\C-x")
-
-
-
-(flyspell-mode)
 (require 'writegood-mode)
 (wc-mode)
 
@@ -250,8 +220,6 @@ Version 2018-03-01"
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
-(require 'ps-ccrypt)
 
 (setq inhibit-splash-screen t)
 
