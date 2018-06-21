@@ -27,7 +27,7 @@
 (display-time-mode 1)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-﻿(server-start)
+(server-start)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
@@ -44,14 +44,14 @@
 	 t))
 
 (when (boundp 'w32-pipe-read-delay)
-  (setq w32-pipe-read-delay 0))
+	(setq w32-pipe-read-delay 0))
 ;; Set the buffer size to 64K on Windows (from the original 4K)
 (when (boundp 'w32-pipe-buffer-size)
-  (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+	(setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
 (package-initialize)
 
-(require 'auto-indent-mode) 
+(require 'auto-indent-mode)
 
 (load-theme 'leuven)
 
@@ -72,7 +72,7 @@
 
 ;; xah fly keymap
 (defun xah-run-current-file ()
-  "Execute the current file.
+	"Execute the current file.
 For example, if the current buffer is x.py, then it'll call 「python x.py」 in a shell.
 Output is printed to buffer “*xah-run output*”.
 
@@ -83,67 +83,67 @@ If the file is modified or not saved, save it automatically before run.
 
 URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
 Version 2018-03-01"
-  (interactive)
-  (let (
+	(interactive)
+	(let (
 	($outputb "*xah-run output*")
 	(resize-mini-windows nil)
 	($suffix-map
 	 ;; (‹extension› . ‹shell program name›)
 	 `(
-	   ("php" . "php")
-	   ("pl" . "perl")
-	   ("py" . "python")
-	   ("py3" . ,(if (string-equal system-type "windows-nt") "c:/Python32/python.exe" "python3"))
-	   ("ps1" . "start powershell.exe")
-	   ("psm1" . "start powershell_ise.exe")
-	   ("rb" . "ruby")
-	   ("go" . "go run")
-	   ("hs" . "runhaskell")
-	   ("js" . "node")
-	   ("ts" . "tsc") ; TypeScript
-	   ("tsx" . "tsc")
-	   ("sh" . "bash")
-	   ("clj" . "java -cp ~/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
-	   ("rkt" . "racket")
-	   ("ml" . "ocaml")
-	   ("vbs" . "cscript")
-	   ("tex" . "pdflatex")
-	   ("latex" . "pdflatex")
-	   ("java" . "javac")
-	   ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
-	   ))
+		 ("php" . "php")
+		 ("pl" . "perl")
+		 ("py" . "python")
+		 ("py3" . ,(if (string-equal system-type "windows-nt") "c:/Python32/python.exe" "python3"))
+		 ("ps1" . "start powershell.exe")
+		 ("psm1" . "start powershell_ise.exe")
+		 ("rb" . "ruby")
+		 ("go" . "go run")
+		 ("hs" . "runhaskell")
+		 ("js" . "node")
+		 ("ts" . "tsc") ; TypeScript
+		 ("tsx" . "tsc")
+		 ("sh" . "bash")
+		 ("clj" . "java -cp ~/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
+		 ("rkt" . "racket")
+		 ("ml" . "ocaml")
+		 ("vbs" . "cscript")
+		 ("tex" . "pdflatex")
+		 ("latex" . "pdflatex")
+		 ("java" . "javac")
+		 ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
+		 ))
 	$fname
 	$fSuffix
 	$prog-name
 	$cmd-str)
-    (when (not (buffer-file-name)) (save-buffer))
-    (when (buffer-modified-p) (save-buffer))
-    (setq $fname (buffer-file-name))
-    (setq $fSuffix (file-name-extension $fname))
-    (setq $prog-name (cdr (assoc $fSuffix $suffix-map)))
-    (setq $cmd-str (concat $prog-name " \""   $fname "\""))
-    (cond
-     ((string-equal $fSuffix "el")
-      (load $fname))
-     ((or (string-equal $fSuffix "ts") (string-equal $fSuffix "tsx"))
-      (if (fboundp 'xah-ts-compile-file)
-	  (xah-ts-compile-file current-prefix-arg)
+		(when (not (buffer-file-name)) (save-buffer))
+		(when (buffer-modified-p) (save-buffer))
+		(setq $fname (buffer-file-name))
+		(setq $fSuffix (file-name-extension $fname))
+		(setq $prog-name (cdr (assoc $fSuffix $suffix-map)))
+		(setq $cmd-str (concat $prog-name " \""   $fname "\""))
+		(cond
+		 ((string-equal $fSuffix "el")
+			(load $fname))
+		 ((or (string-equal $fSuffix "ts") (string-equal $fSuffix "tsx"))
+			(if (fboundp 'xah-ts-compile-file)
+		(xah-ts-compile-file current-prefix-arg)
 	(if $prog-name
-	    (progn
-	      (message "Running")
-	      (shell-command $cmd-str $outputb ))
-	  (message "No recognized program file suffix for this file."))))
-     ((string-equal $fSuffix "go")
-      ;; (when (fboundp 'gofmt) (gofmt) )
-      (shell-command $cmd-str $outputb ))
-     ((string-equal $fSuffix "java")
-      (progn
+			(progn
+				(message "Running")
+				(shell-command $cmd-str $outputb ))
+		(message "No recognized program file suffix for this file."))))
+		 ((string-equal $fSuffix "go")
+			;; (when (fboundp 'gofmt) (gofmt) )
+			(shell-command $cmd-str $outputb ))
+		 ((string-equal $fSuffix "java")
+			(progn
 	(shell-command (format "java %s" (file-name-sans-extension (file-name-nondirectory $fname))) $outputb )))
-     (t (if $prog-name
-	    (progn
-	      (message "Running")
-	      (shell-command $cmd-str $outputb ))
-	  (message "No recognized program file suffix for this file."))))))
+		 (t (if $prog-name
+			(progn
+				(message "Running")
+				(shell-command $cmd-str $outputb ))
+		(message "No recognized program file suffix for this file."))))))
 
 (xah-fly-keys-set-layout "dvorak") ; required if you use qwertyb
 
