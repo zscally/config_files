@@ -168,6 +168,8 @@ Version 2018-03-01"
 (define-key xah-fly-dot-keymap (kbd "r") 'org-refile)
 (define-key xah-fly-dot-keymap (kbd "n") 'org-capture)
 
+(define-key xah-fly-c-keymap (kbd "s") 'bookmark-set)
+
 (define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
 
 (define-key xah-fly--tab-key-map (kbd "t") 'toggle-truncate-lines)
@@ -226,7 +228,7 @@ Version 2018-03-01"
 ;;(setq langtool-language-tool-jar "~/LanguageTool-4.1/languagetool-commandline.jar")
 ;; (require 'langtool)
 
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (add-hook 'before-save-hook 'whitespace-cleanup)
