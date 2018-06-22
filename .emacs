@@ -47,6 +47,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(require 'dirtree)
+
 (if (eq system-type 'windows-nt)
 		(require 'windows-path))
 
@@ -183,6 +185,11 @@ Version 2018-03-01"
 (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
 (define-key xah-fly--tab-key-map (kbd "o") 'find-file)
 (define-key xah-fly--tab-key-map (kbd "d") 'ido-find-file-in-dir)
+
+
+;; Regular keybindings
+(global-set-key (kbd "C-,") 'scroll-other-window-down)
+(global-set-key (kbd "C-.") 'scroll-other-window)
 
 ;; automatic save buffer when switching to command mode
 (add-hook 'xah-fly-command-mode-activate-hook 'xah-fly-save-buffer-if-file)
