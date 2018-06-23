@@ -187,9 +187,7 @@ Version 2018-03-01"
 (define-key xah-fly--tab-key-map (kbd "d") 'ido-find-file-in-dir)
 
 
-;; Regular keybindings
-(global-set-key (kbd "C-,") 'scroll-other-window-down)
-(global-set-key (kbd "C-.") 'scroll-other-window)
+
 
 ;; automatic save buffer when switching to command mode
 (add-hook 'xah-fly-command-mode-activate-hook 'xah-fly-save-buffer-if-file)
@@ -244,4 +242,16 @@ Version 2018-03-01"
 
 (setq latex-run-command "pdflatex")
 
-(setq python-shell-interpreter "/usr/bin/python3.6")
+(defvar my-keys-minor-mode-map
+	(let ((map (make-sparse-keymap)))
+		(define-key map (kbd "C-,") 'scroll-other-window-down)
+		(define-key map (kbd "C-.") 'scroll-other-window)
+		map)
+	"my-keys-minor-mode keymap.")
+
+(define-minor-mode my-keys-minor-mode
+	"A minor mode so that my key settings override annoying major modes."
+	:init-value t
+	:lighter " my-fly")
+
+(my-keys-minor-mode 1)
