@@ -7,11 +7,23 @@
 	 '("marmalade" . "http://marmalade-repo.org/packages/")
 	 t)
 
-(setq package-list '(xah-fly-keys which-key better-defaults elpy helm flycheck smex rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck))
+(setq package-list '(which-key better-defaults elpy helm flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids drag-stuff aggressive-indent))
 																				; company mode and auto-complete and auto-install-el from package manager on gnu/linux
-; TODO: Add to .lisp and unify
+					; TODO: Add to .lisp and unify
+
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+
+(require 'drag-stuff)
+(drag-stuff-global-mode t)
+(drag-stuff-define-keys)
+(require 'aggressive-indent)
+(global-aggressive-indent-mode 1)
+																				; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
 
 (add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
 
 (if (eq system-type 'gnu/linux)
 		'add-to-list 'package-list (ps-ccrypt))
@@ -45,8 +57,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (server-start)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'unbound)
 
+(require 'icicles)
+(icy-mode 1)
 (require 'dirtree)
 
 (if (eq system-type 'windows-nt)
@@ -72,7 +86,9 @@
 	(unless (package-installed-p package)
 		(package-install package)))
 
+(winner-mode 1)
 (require 'ido)
+(require 'dired+)
 (ido-mode t)
 
 ;; xah-fly-keys configuration and shortcuts
@@ -178,13 +194,15 @@ Version 2018-03-01"
 (define-key xah-fly--tab-key-map (kbd "l") 'fill-region)
 (define-key xah-fly--tab-key-map (kbd "c") 'comment-or-uncomment-region)
 
-(define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
-(define-key xah-fly-comma-keymap (kbd ",") 'kill-sentence)
+
 (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
 (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org")))
 (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
 (define-key xah-fly--tab-key-map (kbd "o") 'find-file)
 (define-key xah-fly--tab-key-map (kbd "d") 'ido-find-file-in-dir)
+
+(define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
+(define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
 
 
 
