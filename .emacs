@@ -1,5 +1,5 @@
 (defun sum-d10-rolls (num)
-	"Roll <num> d10s and summarize them.")
+	"Roll 'num' d10 and return the sum"
 	(interactive "nNum dice? ")
 	(message
 	 (format "%s"
