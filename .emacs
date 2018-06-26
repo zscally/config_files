@@ -1,3 +1,14 @@
+(defun sum-d10-rolls (num)
+	"Roll <num> d10s and summarize them.")
+	(interactive "nNum dice? ")
+	(message
+	 (format "%s"
+					 (let ((lst ()))
+						 (dotimes (i num)
+							 (setf lst (cons (+ (random 9) 1) lst)))
+						 (apply '+ lst)))))
+
+
 (require 'package)
 (add-to-list 'package-archives
  '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -9,10 +20,9 @@
 
 (setq package-list '(which-key better-defaults elpy helm flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent))
 																				; company mode and auto-complete and auto-install-el from package manager on gnu/linux
-					; TODO: Add to .lisp and unify
+																				; TODO: Add to .lisp and unify
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-
 
 (require 'aggressive-indent)
 (global-aggressive-indent-mode 1)
