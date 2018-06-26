@@ -17,6 +17,25 @@
 			 (let ((fn-list (dired-get-marked-files nil arg)))
 				 (mapc 'find-file fn-list)))))
 
+(defun my-mark-word (N)
+	(interactive "p")
+	(if (and
+			 (not (eq last-command this-command))
+			 (not (eq last-command 'my-mark-word-backward)))
+			(set-mark (point)))
+	(forward-word N))
+
+
+(defun my-mark-word-backward (N)
+	(interactive "p")
+	(if (and
+			 (not (eq last-command this-command))
+			 (not (eq last-command 'my-mark-word)))
+			(set-mark (point)))
+	(backward-word N))
+
+(winner-mode 1)
+
 
 (require 'package)
 (add-to-list 'package-archives
@@ -27,7 +46,7 @@
 	 '("marmalade" . "http://marmalade-repo.org/packages/")
 	 t)
 
-(setq package-list '(which-key better-defaults elpy helm flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent))
+(setq package-list '(which-key better-defaults elpy flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent powershell))
 																				; company mode and auto-complete and auto-install-el from package manager on gnu/linux
 																				; TODO: Add to .lisp and unify
 
@@ -40,9 +59,8 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
-
-(if (eq system-type 'gnu/linux)
-		'add-to-list 'package-list (ps-ccrypt))
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -280,6 +298,8 @@ Version 2018-03-01"
 	(let ((map (make-sparse-keymap)))
 		(define-key map (kbd "C-,") 'scroll-other-window-down)
 		(define-key map (kbd "C-.") 'scroll-other-window)
+		(define-key map (kbd "M-g") 'my-mark-word-backward)
+		(define-key map (kbd "M-r") 'my-mark-word)
 		map)
 	"my-keys-minor-mode keymap.")
 
