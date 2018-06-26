@@ -25,7 +25,6 @@
 			(set-mark (point)))
 	(forward-word N))
 
-
 (defun my-mark-word-backward (N)
 	(interactive "p")
 	(if (and
@@ -36,6 +35,7 @@
 
 (winner-mode 1)
 
+(setq dired-dwim-target t)
 
 (require 'package)
 (add-to-list 'package-archives
