@@ -7,16 +7,13 @@
 	 '("marmalade" . "http://marmalade-repo.org/packages/")
 	 t)
 
-(setq package-list '(which-key better-defaults elpy helm flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids drag-stuff aggressive-indent))
+(setq package-list '(which-key better-defaults elpy helm flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent))
 																				; company mode and auto-complete and auto-install-el from package manager on gnu/linux
 					; TODO: Add to .lisp and unify
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 
-(require 'drag-stuff)
-(drag-stuff-global-mode t)
-(drag-stuff-define-keys)
 (require 'aggressive-indent)
 (global-aggressive-indent-mode 1)
 																				; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
