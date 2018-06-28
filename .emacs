@@ -33,6 +33,11 @@
 			(set-mark (point)))
 	(backward-word N))
 
+(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode))
+
+(setq dired-hide-details-mode nil)
+
+
 (winner-mode 1)
 
 (setq dired-dwim-target t)
