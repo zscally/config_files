@@ -219,7 +219,7 @@ Version 2018-03-01"
 (define-key xah-fly-c-keymap (kbd "l") (kbd "s u RET")) ; insert new line after
 (define-key xah-fly-c-keymap (kbd "u") 'capitalize-word)
 
-;; org mode settings
+;; TODO: Fix and make system specific
 (setq org-default-notes-file "~/Dropbox/Notes.org")
 
 (define-key xah-fly-dot-keymap (kbd "f") (lambda () (interactive) (find-file "~/Dropbox/Notes.org")))
@@ -315,3 +315,18 @@ Version 2018-03-01"
 	:lighter " my-fly")
 
 (my-keys-minor-mode 1)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-export-backends (quote (ascii html latex md odt confluence)))
+ '(package-selected-packages
+	 (quote
+		(powershell xah-fly-keys writegood-mode which-key web-mode wc-mode visual-regexp-steroids undo-tree smex salt-mode rainbow-delimiters puppet-mode magit lua-mode latex-preview-pane js2-mode go-mode go-errcheck flycheck-rust emr elpy el-get drag-stuff docker csharp-mode company-irony chef-mode cargo better-defaults auto-indent-mode ansible aggressive-indent))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
