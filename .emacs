@@ -57,6 +57,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(require 'define-word)
 (require 'aggressive-indent)
 (global-aggressive-indent-mode 1)
 																				; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
@@ -251,7 +252,7 @@ Version 2018-03-01"
 
 ;; Text processing
 
-(set-default 'truncate-lines nil)
+(setq-default truncate-lines t)
 
 ;; Python and coding tools
 
