@@ -1,0 +1,210 @@
+* Load paths and imports
+** Initialization
+#+BEGIN_SRC emacs-lisp
+
+  (load-file "~/.emacs.d/custom.el")
+  (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (add-to-list 'load-path "~/.emacs.d/use-package/")
+  (add-to-list 'load-path "~/.cargo/bin")
+
+  (eval-when-compile
+    (add-to-list 'load-path "~/.emacs.d/use-package/")
+    (require 'use-package))
+
+
+  (package-initialize)
+
+  (require 'package)
+
+  (package-initialize)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives
+               '("elpa" . "https://elpa.gnu.org/packages/") t)
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/")
+               t)
+
+  (setq package-list '(which-key better-defaults elpy flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent powershell))
+  (use-package auto-indent-mode)
+
+  (use-package dired+
+    :init
+    (setq dired-dwim-target t)
+    :hook
+    (dired-hide-details-mode))
+
+  (use-package xah-fly-keys)
+
+  (use-package windows-path)
+
+  (use-package ps-ccrypt)
+
+  (use-package dirtree)
+
+  (use-package epa-file)
+
+  (when (boundp 'w32-pipe-read-delay)
+    (setq w32-pipe-read-delay 0))
+  ;; Set the buffer size to 64K on Windows (from the original 4K)
+  (when (boundp 'w32-pipe-buffer-size)
+    (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+
+  (or (file-exists-p package-user-dir) (package-refresh-contents))
+
+  (dolist (package package-list)
+    (unless (package-installed-p package)
+      (package-install package)))
+
+
+#+END_SRC
+* Mode control
+** Auto mode alist
+#+BEGIN_SRC emacs-lisp
+
+  (add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode))
+
+#+END_SRC
+** Global and toggled modes
+#+BEGIN_SRC emacs-lisp
+
+(winner-mode 1)
+
+(which-key-mode)
+(prettify-symbols-mode)
+
+(menu-bar-mode 1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+
+#+END_SRC
+** Load hooks
+#+BEGIN_SRC emacs-lisp
+
+  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+
+
+#+END_SRC
+* File handling
+** Encryption
+#+BEGIN_SRC emacs-lisp
+
+(epa-file-enable)
+
+#+END_SRC
+** Backups & versioning
+#+BEGIN_SRC emacs-lisp
+
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
+;; keep old versions, much version control
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+(setq savehist-file "~/.emacs.d/savehist")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+  search-ring
+  regexp-search-ring))
+
+#+END_SRC
+
+* Editor config
+** Graphics / UI
+
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-splash-screen t)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq visible-bell 1)
+(setq tab-width 2)
+(setq-default tab-width 2)
+(setq indent-tab-mode t)
+(show-paren-mode 1)
+(display-time-mode 1)
+
+(load-theme 'leuven)
+
+(set-face-attribute 'default nil :height 200)
+
+#+END_SRC
+** Interaction / input
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+
+#+END_SRC
+
+** Code completion
+#+BEGIN_SRC emacs-lisp
+
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0)
+
+#+END_SRC emacs-lisp
+** Operating System Integration
+#+BEGIN_SRC emacs-lisp
+(server-start)
+
+#+END_SRC
+** LaTex
+#+BEGIN_SRC emacs-lisp
+(setq latex-run-command "pdflatex")
+
+#+END_SRC
+** Xah-fly and keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  ;; xah fly keymap
+  (xah-fly-keys-set-layout "dvorak") ; required if you use qwertyb
+
+  (define-key xah-fly-c-keymap (kbd "l") (kbd "s u RET")) ; insert new line after
+  (define-key xah-fly-c-keymap (kbd "u") 'capitalize-word)
+
+  (define-key xah-fly-dot-keymap (kbd "r") 'org-refile)
+  (define-key xah-fly-dot-keymap (kbd "n") 'org-capture)
+
+  (define-key xah-fly-c-keymap (kbd "s") 'bookmark-set)
+
+  (define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
+
+  (define-key xah-fly--tab-key-map (kbd "t") 'toggle-truncate-lines)
+  (define-key xah-fly--tab-key-map (kbd "l") 'fill-region)
+  (define-key xah-fly--tab-key-map (kbd "c") 'comment-or-uncomment-region)
+
+  (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
+
+  (if (eq system-type 'windows-nt)
+      (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org")))
+      (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org.gpg"))))
+  (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
+  (define-key xah-fly--tab-key-map (kbd "o") 'find-file)
+  (define-key xah-fly--tab-key-map (kbd "d") 'ido-find-file-in-dir)
+
+  (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
+  (define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
+
+  (defvar my-keys-minor-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-,") 'scroll-other-window-down)
+      (define-key map (kbd "C-.") 'scroll-other-window)
+      (define-key map (kbd "M-g") 'my-mark-word-backward)
+      (define-key map (kbd "M-r") 'my-mark-word)
+      map)
+    "my-keys-minor-mode keymap.")
+
+  (define-minor-mode my-keys-minor-mode
+    "A minor mode so that my key settings override annoying major modes."
+    :init-value t
+    :lighter " my-fly")
+
+  (my-keys-minor-mode 1)
+
+#+END_SRC
