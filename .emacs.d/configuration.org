@@ -2,30 +2,39 @@
 ** Initialization
 #+BEGIN_SRC emacs-lisp
 
-  (load-file "~/.emacs.d/custom.el")
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (add-to-list 'load-path "~/.emacs.d/use-package/")
-  (add-to-list 'load-path "~/.cargo/bin")
+       (load-file "~/.emacs.d/custom.el")
+       (add-to-list 'load-path "~/.emacs.d/lisp/")
+       (add-to-list 'load-path "~/.emacs.d/use-package/")
+       (add-to-list 'load-path "~/.cargo/bin")
 
-  (eval-when-compile
-    (add-to-list 'load-path "~/.emacs.d/use-package/")
-    (require 'use-package))
+       (eval-when-compile
+         (add-to-list 'load-path "~/.emacs.d/use-package/")
+         (require 'use-package))
+
+       (package-initialize)
+
+       (require 'package)
+
+       (package-initialize)
+       (add-to-list 'package-archives
+                    '("melpa" . "http://melpa.milkbox.net/packages/") t)
+       (add-to-list 'package-archives
+                    '("elpa" . "https://elpa.gnu.org/packages/") t)
+       (add-to-list 'package-archives
+                    '("marmalade" . "http://marmalade-repo.org/packages/")
+                   t)
+
+  (when (boundp 'w32-pipe-read-delay)
+        (setq w32-pipe-read-delay 0))
+      ;; Set the buffer size to 64K on Windows (from the original 4K)
+      (when (boundp 'w32-pipe-buffer-size)
+        (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
 
-  (package-initialize)
+#+END_SRC
 
-  (require 'package)
-
-  (package-initialize)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives
-               '("elpa" . "https://elpa.gnu.org/packages/") t)
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/")
-               t)
-
-  (setq package-list '(which-key better-defaults elpy flycheck rainbow-delimiters web-mode js2-mode json-mode go-mode go-errcheck rust-mode flycheck-rust cargo lua-mode magit markdown-mode latex-preview-pane chef-mode ansible puppet-mode salt-mode docker flyspell writegood-mode wc-mode el-get emr csharp-mode auto-indent-mode undo-tree epa flycheck visual-regexp visual-regexp-steroids aggressive-indent powershell))
+**  Use package
+#+BEGIN_SRC emacs-lisp
   (use-package auto-indent-mode)
 
   (use-package dired+
@@ -34,29 +43,56 @@
     :hook
     (dired-hide-details-mode))
 
-  (use-package xah-fly-keys)
-
   (use-package windows-path)
 
   (use-package ps-ccrypt)
 
-  (use-package dirtree)
+  (use-package dirtree
+    :ensure t)
 
   (use-package epa-file)
 
-  (when (boundp 'w32-pipe-read-delay)
-    (setq w32-pipe-read-delay 0))
-  ;; Set the buffer size to 64K on Windows (from the original 4K)
-  (when (boundp 'w32-pipe-buffer-size)
-    (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+  (use-package xah-fly-keys
+    :config
+    (xah-fly-keys 1))
 
-  (or (file-exists-p package-user-dir) (package-refresh-contents))
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode))
 
-  (dolist (package package-list)
-    (unless (package-installed-p package)
-      (package-install package)))
+  (use-package helm
+    :ensure t
+    :config
+    (helm-mode 1))
 
+  (use-package ws-trim
+    :config
+    (global-ws-trim-mode t)
+    (set-default 'ws-trim-level 2)
+    (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
 
+  (use-package cygwin-mount)
+
+  (use-package unbound)
+
+  (use-package auto-indent-mode)
+
+  (use-package adjust-parens
+    :ensure t)
+
+  (use-package auto-correct
+    :ensure t
+    :config
+    (auto-correct-mode))
+
+  (use-package csv-mode)
+
+  (use-package vlf-setup
+    :ensure vlf)
+
+  (use-package wconf
+    :ensure t)
 #+END_SRC
 * Mode control
 ** Auto mode alist
@@ -70,7 +106,6 @@
 
 (winner-mode 1)
 
-(which-key-mode)
 (prettify-symbols-mode)
 
 (menu-bar-mode 1)
@@ -121,18 +156,19 @@
 ** Graphics / UI
 
 #+BEGIN_SRC emacs-lisp
-(setq inhibit-splash-screen t)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq visible-bell 1)
-(setq tab-width 2)
-(setq-default tab-width 2)
-(setq indent-tab-mode t)
-(show-paren-mode 1)
-(display-time-mode 1)
+  (setq inhibit-splash-screen t)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (setq visible-bell 1)
+  (setq tab-width 2)
+  (setq-default tab-width 2)
+  (setq indent-tab-mode t)
+  (show-paren-mode 1)
+  (display-time-mode 1)
 
-(load-theme 'leuven)
+  (load-theme 'leuven)
 
-(set-face-attribute 'default nil :height 200)
+  (set-face-attribute 'default nil :height 200)
+
 
 #+END_SRC
 ** Interaction / input
@@ -175,7 +211,7 @@
 
   (define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
 
-  (define-key xah-fly--tab-key-map (kbd "t") 'toggle-truncate-lines)
+  (define-key xah-fly--tab-key-map (kbd "t") 'visual-line-mode)
   (define-key xah-fly--tab-key-map (kbd "l") 'fill-region)
   (define-key xah-fly--tab-key-map (kbd "c") 'comment-or-uncomment-region)
 
@@ -185,16 +221,14 @@
       (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org")))
       (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org.gpg"))))
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
-  (define-key xah-fly--tab-key-map (kbd "o") 'find-file)
-  (define-key xah-fly--tab-key-map (kbd "d") 'ido-find-file-in-dir)
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
   (define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
 
   (defvar my-keys-minor-mode-map
     (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "C-,") 'scroll-other-window-down)
-      (define-key map (kbd "C-.") 'scroll-other-window)
+      (define-key map (kbd "M-c") 'scroll-other-window-down)
+      (define-key map (kbd "M-t") 'scroll-other-window)
       (define-key map (kbd "M-g") 'my-mark-word-backward)
       (define-key map (kbd "M-r") 'my-mark-word)
       map)
@@ -206,5 +240,14 @@
     :lighter " my-fly")
 
   (my-keys-minor-mode 1)
+
+#+END_SRC
+** Org Mode
+#+BEGIN_SRC emacs-lisp
+
+  (with-eval-after-load 'org
+    (add-hook 'org-mode-hook #'visual-line-mode))
+
+  (setq org-hide-emphasis-makers t)
 
 #+END_SRC
