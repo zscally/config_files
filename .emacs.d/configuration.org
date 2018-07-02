@@ -241,7 +241,6 @@
   (define-key xah-fly-c-keymap (kbd "u") 'capitalize-word)
 
   (define-key xah-fly-dot-keymap (kbd "r") 'org-refile)
-  (define-key xah-fly-dot-keymap (kbd "n") 'org-capture)
 
   (define-key xah-fly-c-keymap (kbd "s") 'bookmark-set)
 
@@ -253,13 +252,84 @@
 
   (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
 
-  (if (eq system-type 'windows-nt)
-      (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org")))
-      (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file "~/Desktop/Notes.org.gpg"))))
+  (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
+
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
   (define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
+
+                                          ; xah-fly deep editing
+                                          ; Custom xah-fly leader layout
+  (xah-fly--define-keys
+   (define-prefix-command 'xah-fly-leader-key-map)
+   '(
+     ("SPC" . xah-fly-insert-mode-activate)
+     ("DEL" . xah-fly-insert-mode-activate)
+     ("RET" . execute-extended-command)
+     ("TAB" . xah-fly--tab-key-map)
+     ("." . xah-fly-dot-keymap)
+     ("'" . xah-fill-or-unfill)
+     ("," . xah-fly-comma-keymap)
+     ("i" . xah-fly-i-keymap)
+     ("-" . xah-display-form-feed-as-line)
+     ;; /
+     ;; ;
+     ;; =
+     ;; [
+     ("\\" . toggle-input-method)
+     ;; `
+
+     ;; 1
+     ;; 2
+     ("3" . delete-window)
+     ("4" . split-window-right)
+     ("5" . balance-windows)
+     ("6" . xah-upcase-sentence)
+     ;; 7
+     ;; 8
+     ("9" . ispell-word)
+     ;; 0
+
+     ("a" . mark-whole-buffer)
+     ("b" . end-of-buffer)
+     ("c" . xah-fly-c-keymap)
+     ("d" . beginning-of-buffer)
+     ("e" . xah-fly-e-keymap)
+     ("f" . xah-search-current-word)
+     ("g" . isearch-forward)
+     ("h" . xah-fly-h-keymap)
+     ("j" . xah-copy-all-or-region)
+     ("k" . xah-paste-or-paste-previous)
+     ("l" . recenter-top-bottom)
+     ("m" . dired-jump)
+     ("n" . xah-fly-n-keymap)
+     ("o" . exchange-point-and-mark)
+     ("p" . query-replace)
+     ("q" . xah-cut-all-or-region)
+     ("r" . xah-fly-r-keymap)
+     ("s" . save-buffer)
+     ("t" . xah-fly-t-keymap)
+     ("u" . switch-to-buffer)
+     ;; v
+     ("w" . xah-fly-w-keymap)
+     ;; x
+     ("y" . xah-show-kill-ring)
+     ;; z
+     ;;
+     ))
+
+  (xah-fly--define-keys
+   (define-prefix-command 'xah-fly-i-keymap)
+   '(
+     ("a" . org-agenda)
+     ("c" . org-capture)
+     ("s" . org-schedule)
+     ("o" . org-open-at-point)
+     ("l" . org-store-link)
+     ("i" . org-insert-link)
+     ))
+
 
   (defvar my-keys-minor-mode-map
     (let ((map (make-sparse-keymap)))
@@ -267,23 +337,23 @@
       (define-key map (kbd "M-t") 'scroll-other-window)
       (define-key map (kbd "M-g") 'my-mark-word-backward)
       (define-key map (kbd "M-r") 'my-mark-word)
+      (define-key map (kbd "SPC-i-t") 'scroll-other-window)
       map)
     "my-keys-minor-mode keymap.")
 
   (define-minor-mode my-keys-minor-mode
     "A minor mode so that my key settings override annoying major modes."
     :init-value t
-    :lighter " my-fly")
+    :lighter "mf")
 
   (my-keys-minor-mode 1)
 
+
 #+END_SRC
-** Org Mode
+
+** Org mode
 #+BEGIN_SRC emacs-lisp
-
-  (with-eval-after-load 'org
-    (add-hook 'org-mode-hook #'visual-line-mode))
-
-  (setq org-hide-emphasis-makers t)
-
+  (setq org-hide-emphasis-markers t)
+  (setq org-default-notes-file notes-file)
+  (setq org-indent-mode t)
 #+END_SRC
