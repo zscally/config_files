@@ -222,6 +222,12 @@
 
 #+END_SRC
 
+** Text
+#+BEGIN_SRC emacs-lisp
+
+(global-visual-line-mode 1)
+
+#+END_SRC
 ** Code completion
 #+BEGIN_SRC emacs-lisp
 
@@ -258,12 +264,11 @@
   (define-key xah-fly--tab-key-map (kbd "t") 'visual-line-mode)
   (define-key xah-fly--tab-key-map (kbd "l") 'fill-region)
   (define-key xah-fly--tab-key-map (kbd "c") 'comment-or-uncomment-region)
-
   (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
-
   (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
-
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
+  (define-key xah-fly--tab-key-map (kbd "m") 'helm-imenu)
+
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
   (define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
@@ -347,6 +352,9 @@
       (define-key map (kbd "M-g") 'my-mark-word-backward)
       (define-key map (kbd "M-r") 'my-mark-word)
       (define-key map (kbd "SPC-i-t") 'scroll-other-window)
+      (define-key map (kbd "C-o") 'helm-find-files)
+      (define-key map (kbd "S") nil) ; unset problematic binding from somewhere
+      (define-key map (kbd "S-P") nil)
       map)
     "my-keys-minor-mode keymap.")
 
