@@ -7,12 +7,6 @@
        (add-to-list 'load-path "~/.emacs.d/use-package/")
        (add-to-list 'load-path "~/.cargo/bin")
 
-       (eval-when-compile
-         (add-to-list 'load-path "~/.emacs.d/use-package/")
-         (require 'use-package))
-
-       (package-initialize)
-
        (require 'package)
 
        (package-initialize)
@@ -23,6 +17,10 @@
        (add-to-list 'package-archives
                     '("marmalade" . "http://marmalade-repo.org/packages/")
                    t)
+
+       (eval-when-compile
+         (add-to-list 'load-path "~/.emacs.d/use-package/")
+         (require 'use-package))
 
 #+END_SRC
 ** Always UTF8, all the time
@@ -52,21 +50,32 @@
 
 **  Use package
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-indent-mode
-    :diminish)
 
-  (use-package org
-    :diminish
-    :hook
-    (visual-line-mode)
-    (org-bullets-mode)
-    :config
-    (setq org-agenda-files (list notes-file))
-    )
 
   (use-package diminish
     :ensure t)
 
+
+  (use-package auto-indent-mode
+    :diminish)
+
+
+  (use-package company-mode
+    :diminish
+    :ensure company
+    :hook
+    (global-company-mode))
+
+  (use-package popup)
+
+  (use-package org-mode
+    :ensure org
+    :diminish
+    :hook
+    (org-bullets-mode)
+    :config
+    (setq org-agenda-files (list notes-file))
+    )
   (use-package dired+
     :init
     (setq dired-dwim-target t)
@@ -83,6 +92,7 @@
   (use-package epa-file)
 
   (use-package xah-fly-keys
+    :diminish
     :config
     (xah-fly-keys 1))
 
@@ -113,7 +123,7 @@
     :ensure t)
 
   (use-package auto-correct
-    :diminish ACorr
+    :diminish
     :ensure t
     :config
     (auto-correct-mode))
@@ -148,7 +158,6 @@
 ** Load hooks
 #+BEGIN_SRC emacs-lisp
 
-  (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'before-save-hook 'whitespace-cleanup)
 
 
