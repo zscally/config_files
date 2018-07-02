@@ -52,7 +52,20 @@
 
 **  Use package
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-indent-mode)
+  (use-package auto-indent-mode
+    :diminish)
+
+  (use-package org
+    :diminish
+    :hook
+    (visual-line-mode)
+    (org-bullets-mode)
+    :config
+    (setq org-agenda-files (list notes-file))
+    )
+
+  (use-package diminish
+    :ensure t)
 
   (use-package dired+
     :init
@@ -84,6 +97,7 @@
     (helm-mode 1))
 
   (use-package ws-trim
+    :diminish
     :config
     (global-ws-trim-mode t)
     (set-default 'ws-trim-level 2)
@@ -99,6 +113,7 @@
     :ensure t)
 
   (use-package auto-correct
+    :diminish ACorr
     :ensure t
     :config
     (auto-correct-mode))
@@ -186,6 +201,10 @@
 
   (set-face-attribute 'default nil :height 200)
 
+  ;; Way to set title bar contexnct
+                                          ;(setq frame-title-format '((:eval (projectile-project-name))))
+
+  (global-prettify-symbols-mode t)
 
 #+END_SRC
 ** Interaction / input
