@@ -108,3 +108,11 @@ Version 2018-03-01"
 							(message "Running")
 							(shell-command $cmd-str $outputb ))
 					(message "No recognized program file suffix for this file."))))))
+
+(defun org-archive-done-tasks ()
+	(interactive)
+	(org-map-entries
+	 (lambda ()
+		 (org-archive-subtree)
+		 (setq org-map-continue-from (outline-previous-heading)))
+	 "/DONE" 'tree))
