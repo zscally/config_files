@@ -390,4 +390,5 @@
   (setq org-indent-mode t)
   (setq org-todo-keywords
     '((sequence "TODO(t)" "DONE(d!)" "CANCELED(c@)")))
+  (setq org-M-RET-may-split-line '((default . nil)))
 #+END_SRC
