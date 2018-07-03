@@ -68,14 +68,21 @@
 
   (use-package popup)
 
-  (use-package org-mode
+  (use-package org-bullets
+    :ensure t
+    :init
+    (setq org-bullets-bullet-list
+          '("◉" "◎" "⚫" "○" "►" "◇"))
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+  (use-package org
     :ensure org
     :diminish
-    :hook
-    (org-bullets-mode)
     :config
     (setq org-agenda-files (list notes-file))
     )
+
   (use-package dired+
     :init
     (setq dired-dwim-target t)
@@ -104,7 +111,8 @@
   (use-package helm
     :ensure t
     :config
-    (helm-mode 1))
+    (helm-mode 1)
+    (setq helm-bookmark-show-location t))
 
   (use-package ws-trim
     :diminish
@@ -258,6 +266,7 @@
   (define-key xah-fly-dot-keymap (kbd "r") 'org-refile)
 
   (define-key xah-fly-c-keymap (kbd "s") 'bookmark-set)
+  (define-key xah-fly-c-keymap (kbd "c") 'helm-filtered-bookmarks)
 
   (define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
 
@@ -267,7 +276,6 @@
   (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
   (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
-  (define-key xah-fly--tab-key-map (kbd "m") 'helm-imenu)
 
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
@@ -342,6 +350,7 @@
      ("o" . org-open-at-point)
      ("l" . org-store-link)
      ("i" . org-insert-link)
+     ("m" . helm-imenu)
      ))
 
 
@@ -353,6 +362,7 @@
       (define-key map (kbd "M-r") 'my-mark-word)
       (define-key map (kbd "SPC-i-t") 'scroll-other-window)
       (define-key map (kbd "C-o") 'helm-find-files)
+      (define-key map (kbd "M-x") 'helm-M-x)
       (define-key map (kbd "S") nil) ; unset problematic binding from somewhere
       (define-key map (kbd "S-P") nil)
       map)
