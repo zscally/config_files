@@ -246,7 +246,7 @@
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
 (server-start)
-
+(setq delete-by-moving-to-trash t)
 #+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
@@ -276,6 +276,7 @@
   (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
   (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
+  (define-key xah-fly--tab-key-map (kbd "d") 'dired)
 
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
