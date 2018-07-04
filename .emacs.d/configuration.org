@@ -48,7 +48,7 @@
 
 #+END_SRC
 
-**  Use package
+** Use package
 #+BEGIN_SRC emacs-lisp
 
 
@@ -146,6 +146,11 @@
     :ensure t)
 #+END_SRC
 * Mode control
+** Helm conf
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+ '(helm-ag-command-option "-i"))
+#+END_SRC
 ** Auto mode alist
 #+BEGIN_SRC emacs-lisp
 
