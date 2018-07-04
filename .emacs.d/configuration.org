@@ -114,7 +114,8 @@
     :ensure t
     :config
     (helm-mode 1)
-    (setq helm-bookmark-show-location t))
+    (setq helm-bookmark-show-location t)
+    (custom-set-variables '(helm-ag-command-option "-i")))
 
   (use-package ws-trim
     :diminish
@@ -156,11 +157,7 @@
 
 #+END_SRC
 * Mode control
-** Helm conf
-#+BEGIN_SRC emacs-lisp
-(custom-set-variables
- '(helm-ag-command-option "-i"))
-#+END_SRC
+
 ** Auto mode alist
 #+BEGIN_SRC emacs-lisp
 
