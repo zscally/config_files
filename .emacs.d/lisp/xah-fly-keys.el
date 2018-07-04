@@ -1,9 +1,9 @@
-;;; xah-fly-keys.el --- ergonomic modal keybinding minor mode. -*- coding: utf-8; lexical-binding: t; -*-
+﻿;;; xah-fly-keys.el --- ergonomic modal keybinding minor mode. -*- coding: utf-8; lexical-binding: t; -*-
 
 ;; Copyright © 2013-2017, by Xah Lee
 
 ;; Author: Xah Lee ( http://xahlee.info/ )
-;; Version: 10.3.20180618151900
+;; Version: 10.4.20180702151750
 ;; Created: 10 Sep 2013
 ;; Package-Requires: ((emacs "24.1"))
 ;; Keywords: convenience, emulations, vim, ergoemacs
@@ -54,8 +54,8 @@
 ;; 【f】 (or Dvorak 【u】) activates insertion mode.
 ;; 【Space】 is a leader key. For example, 【SPACE r】 (Dvorak 【SPACE p】) calls query-replace. Press 【SPACE C-h】 to see the full list.
 ;; 【Space Space】 also activates insertion mode.
-;; 【Space Enter】 calls execute-extended-command or smex (if smex is installed).
-;; 【a】 calls execute-extended-command or smex (if smex is installed).
+;; 【Space Enter】 calls execute-extended-command or smex or helm (if they are installed).
+;; 【a】 calls execute-extended-command or smex or helm (if they are installed).
 
 ;; The leader key sequence basically replace ALL emacs commands that starts with C-x key.
 
@@ -70,7 +70,7 @@
 
 ;; You NEVER need to press Ctrl+x
 
-;; Any emacs commands that has a keybinding starting with C-x, has also a key sequence binding in xah-fly-keys. For example,
+;; Any emacs command that has a keybinding starting with C-x, has also a key sequence binding in xah-fly-keys. For example,
 ;; 【C-x b】 switch-to-buffer is 【SPACE f】 (Dvorak 【SPACE u】)
 ;; 【C-x C-f】 find-file is 【SPACE i e】 (Dvorak 【SPACE c .】)
 ;; 【C-x n n】 narrow-to-region is 【SPACE l l】 (Dvorak 【SPACE n n】)
@@ -139,7 +139,7 @@
   "Move cursor to last mark position of current buffer.
 Call this repeatedly will cycle all positions in `mark-ring'.
 URL `http://ergoemacs.org/emacs/emacs_jump_to_previous_position.html'
-version 2016-04-04"
+Version 2016-04-04"
   (interactive)
   (set-mark-command t))
 
@@ -1862,7 +1862,7 @@ Version 2015-11-06"
         ("◆" . "4" )
         ("¤" . "2" )
         ("…" . "...ellipsis" )
-        (" " . "nbsp" )
+        (" " . "nbsp" )
         ("、" . "," )
         ("⭑" . "9" )
         ("🎶" . "5" )
@@ -2259,7 +2259,7 @@ Version 2018-02-21"
                         (buffer-substring-no-properties (region-beginning) (region-end))
                       (let ($p0 $p1 $p2
                                 ;; chars that are likely to be delimiters of file path or url, e.g. space, tabs, brakets. The colon is a problem. cuz it's in url, but not in file name. Don't want to use just space as delimiter because path or url are often in brackets or quotes as in markdown or html
-                                ($pathStops "^  \t\n\"`'‘’“”|()[]{}「」<>〔〕〈〉《》【】〖〗«»‹›❮❯❬❭·。\\"))
+                                ($pathStops "^  \t\n\"`'‘’“”|()[]{}「」<>〔〕〈〉《》【】〖〗«»‹›❮❯❬❭·。\\"))
                         (setq $p0 (point))
                         (skip-chars-backward $pathStops)
                         (setq $p1 (point))
@@ -2318,7 +2318,7 @@ File suffix is used to determine what program to run.
 If the file is modified or not saved, save it automatically before run.
 
 URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
-Version 2018-03-01"
+Version 2018-07-01"
   (interactive)
   (let (
         ($outputb "*xah-run output*")
@@ -3661,7 +3661,8 @@ Version 2017-01-21"
      ("y" . set-mark-command)
      ("z" . xah-goto-matching-bracket)))
 
-  (define-key xah-fly-key-map (kbd "a") (if (fboundp 'smex) 'smex 'execute-extended-command ))
+  (define-key xah-fly-key-map (kbd "a")
+    (if (fboundp 'smex) 'smex (if (fboundp 'helm-M-x) 'helm-M-x 'execute-extended-command)))
 
   ;; (when xah-fly-swapped-1-8-and-2-7-p
   ;;     (xah-fly--define-keys
