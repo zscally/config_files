@@ -1,12 +1,15 @@
 (defun sum-d10-rolls (num)
 	"Roll 'num' d10 and return the sum"
 	(interactive "nNum dice? ")
-	(message
-	 (format "%s"
-					 (let ((lst ()))
-						 (dotimes (i num)
-							 (setf lst (cons (+ (random 9) 1) lst)))
-						 (apply '+ lst)))))
+	(progn
+		(random t)
+		(message
+		 (format "%s"
+						 (let ((lst ()))
+							 (dotimes (i num)
+								 (setf lst (cons (+ (random 9) 1) lst)))
+							 (apply '+ lst))))))
+
 
 (eval-after-load "dired"
 	'(progn
