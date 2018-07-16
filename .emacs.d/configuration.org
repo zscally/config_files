@@ -42,9 +42,15 @@
         (when (boundp 'w32-pipe-buffer-size)
           (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
+  (getenv "HOME")
+
   (if (eq system-type 'windows-nt)
-      (setq notes-file "~/Desktop/Notes.org")
+      (setq notes-file (getenv "NOTESORG"))
     (setq notes-file "~/Desktop/Notes.org.gpg"))
+
+  (if (eq system-type 'windows-nt)
+      (progn
+        (setq w32-get-true-file-attributes nil)))
 
 #+END_SRC
 
@@ -52,110 +58,112 @@
 #+BEGIN_SRC emacs-lisp
 
 
-  (use-package diminish
-    :ensure t)
+    (use-package diminish
+      :ensure t)
 
 
-  (use-package auto-indent-mode
-    :diminish)
+    (use-package auto-indent-mode
+      :diminish)
 
 
-  (use-package company-mode
-    :diminish
-    :ensure company
-    :hook
-    (global-company-mode))
+    (use-package company-mode
+      :diminish
+      :ensure company
+      :hook
+      (global-company-mode))
 
-  (use-package popup)
+    (use-package popup)
 
-  (use-package org-bullets
-    :if
-    (eq system-type 'gnu/linux)
-    :init
-    (setq org-bullets-bullet-list
-          '("◉" "◎" "⚫" "○" "►" "◇"))
+    (use-package org-bullets
+      :if
+      (eq system-type 'gnu/linux)
+      :init
+      (setq org-bullets-bullet-list
+            '("◉" "◎" "⚫" "○" "►" "◇"))
 
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-  (use-package org
-    :ensure org
-    :diminish
-    :config
-    (setq org-agenda-files (list notes-file))
-    )
+    (use-package org
+      :ensure org
+      :diminish
+      :config
+      (setq org-agenda-files (list notes-file))
+      )
 
-  (use-package ox-twbs)
+    (use-package ox-md)
 
-  (use-package dired+
-    :init
-    (setq dired-dwim-target t)
-    :hook
-    (dired-hide-details-mode))
+    (use-package dired+
+      :init
+      (setq dired-dwim-target t)
+      :hook
+      (dired-hide-details-mode))
 
-  (use-package windows-path)
+    (use-package windows-path)
 
-  (use-package ps-ccrypt)
+    (use-package ps-ccrypt)
 
-  (use-package dirtree
-    :ensure t)
+    (use-package dirtree
+      :ensure t)
 
-  (use-package epa-file)
+    (use-package epa-file
+      :config
+      (epa-file-enable))
 
-  (use-package xah-fly-keys
-    :diminish
-    :config
-    (xah-fly-keys 1))
+    (use-package xah-fly-keys
+      :diminish
+      :config
+      (xah-fly-keys 1))
 
-  (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode))
+    (use-package which-key
+      :ensure t
+      :config
+      (which-key-mode))
 
-  (use-package helm
-    :ensure t
-    :config
-    (helm-mode 1)
-    (setq helm-bookmark-show-location t)
-    (custom-set-variables '(helm-ag-command-option "-i")))
+    (use-package helm
+      :ensure t
+      :config
+      (helm-mode 1)
+      (setq helm-bookmark-show-location t)
+      (custom-set-variables '(helm-ag-command-option "-i")))
 
-  (use-package ws-trim
-    :diminish
-    :config
-    (global-ws-trim-mode t)
-    (set-default 'ws-trim-level 2)
-    (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
+    (use-package ws-trim
+      :diminish
+      :config
+      (global-ws-trim-mode t)
+      (set-default 'ws-trim-level 2)
+      (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
 
-  (use-package cygwin-mount)
+    (use-package cygwin-mount)
 
-  (use-package unbound)
+    (use-package unbound)
 
-  (use-package auto-indent-mode)
+    (use-package auto-indent-mode)
 
-  (use-package adjust-parens
-    :ensure t)
+    (use-package adjust-parens
+      :ensure t)
 
-  (use-package auto-correct
-    :diminish
-    :ensure t
-    :config
-    (auto-correct-mode))
+    (use-package auto-correct
+      :diminish
+      :ensure t
+      :config
+      (auto-correct-mode))
 
-  (use-package csv-mode)
+    (use-package csv-mode)
 
-  (use-package vlf-setup
-    :ensure vlf)
+    (use-package vlf-setup
+      :ensure vlf)
 
-  (use-package wconf
-    :ensure t)
+    (use-package wconf
+      :ensure t)
 
-  (use-package weechat
-    :if
-    (eq system-type 'gnu/linux))
+    (use-package weechat
+      :if
+      (eq system-type 'gnu/linux))
 
-  (use-package weechat-notifications
-    :if
-    (eq system-type 'gnu/linux))
+    (use-package weechat-notifications
+      :if
+      (eq system-type 'gnu/linux))
 
 #+END_SRC
 * Mode control
@@ -250,7 +258,6 @@
 ** Text
 #+BEGIN_SRC emacs-lisp
 
-(global-visual-line-mode 1)
 
 #+END_SRC
 ** Code completion
@@ -404,8 +411,8 @@
   (setq org-default-notes-file notes-file)
   (setq org-indent-mode t)
   (setq org-todo-keywords
-    '((sequence "TODO(t)" "DONE(d!)" "CANCELED(c@)")))
+    '((sequence "TODO(t)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELED(c@)")))
   (setq org-keyword-faces
-        '(("TODO(t)" . org-warning) ("DONE(d!)" . "blue") ("CANCELED(c@)" . (:foreground "blue" :background "yellow" :weight bold))))
+        '(("TODO(t)" . org-warning) ("IN PROGRESS(p!)" . "yellow") ("DONE(d!)" . "blue") ("CANCELED(c@)" . (:foreground "blue" :background "yellow" :weight bold))))
   (setq org-M-RET-may-split-line '((default . nil)))
 #+END_SRC
