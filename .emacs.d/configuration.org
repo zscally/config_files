@@ -85,6 +85,8 @@
     (setq org-agenda-files (list notes-file))
     )
 
+  (use-package ox-twbs)
+
   (use-package dired+
     :init
     (setq dired-dwim-target t)
