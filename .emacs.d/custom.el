@@ -119,3 +119,13 @@ Version 2018-03-01"
 		 (org-archive-subtree)
 		 (setq org-map-continue-from (outline-previous-heading)))
 	 "/DONE" 'tree))
+
+(defun copy-file-name-to-clipboard ()
+	"Copy the current buffer file name to the clipboard."
+	(interactive)
+	(let ((filename (if (equal major-mode 'dired-mode)
+											default-directory
+										(buffer-file-name))))
+		(when filename
+			(kill-new filename)
+			(message "Copied buffer file name '%s' to the clipboard." filename))))
