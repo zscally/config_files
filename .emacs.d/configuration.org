@@ -415,4 +415,11 @@
   (setq org-keyword-faces
         '(("TODO(t)" . org-warning) ("IN PROGRESS(p!)" . "yellow") ("DONE(d!)" . "blue") ("CANCELED(c@)" . (:foreground "blue" :background "yellow" :weight bold))))
   (setq org-M-RET-may-split-line '((default . nil)))
+
+  (add-to-list 'org-latex-classes
+               '("booklet"
+                 "\\documentclass[11pt,a4paper]{memoir}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ))
+
 #+END_SRC
