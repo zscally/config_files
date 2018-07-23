@@ -8,6 +8,7 @@
   (add-to-list 'load-path "~/.cargo/bin")
 
   (require 'package)
+  (require 'misc)
 
   (package-initialize)
   (add-to-list 'package-archives
@@ -90,6 +91,7 @@
     :diminish
     :config
     (setq org-agenda-files (list notes-file))
+    (require 'ox-confluence)
     )
 
   (use-package ox-md)
@@ -256,7 +258,6 @@
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   (undo-tree-mode)
-
 #+END_SRC
 
 ** Text
@@ -403,6 +404,7 @@
       (define-key map (kbd "M-x") 'helm-M-x)
       (define-key map (kbd "S") nil) ; unset problematic binding from somewhere
       (define-key map (kbd "S-P") nil)
+      (define-key map (kbd "M-z") 'zap-up-to-char)
       map)
     "my-keys-minor-mode keymap.")
 
