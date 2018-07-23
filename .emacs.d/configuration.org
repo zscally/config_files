@@ -16,7 +16,7 @@
                '("elpa" . "https://elpa.gnu.org/packages/") t)
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")
-               t)
+              t)
 
   (eval-when-compile
     (add-to-list 'load-path "~/.emacs.d/use-package/")
@@ -56,6 +56,8 @@
 
 ** Use package
 #+BEGIN_SRC emacs-lisp
+
+
   (use-package diminish
     :ensure t)
 
@@ -71,6 +73,7 @@
     (global-company-mode))
 
   (use-package popup)
+  (use-package ox-confluence)
 
   (use-package org-bullets
     :if
@@ -164,6 +167,7 @@
   (use-package weechat-notifications
     :if
     (eq system-type 'gnu/linux))
+
 #+END_SRC
 * Mode control
 
@@ -250,20 +254,26 @@
 #+END_SRC
 ** Interaction / input
 #+BEGIN_SRC emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (undo-tree-mode)
 
 #+END_SRC
 
 ** Text
 #+BEGIN_SRC emacs-lisp
 
+  (if (eq system-type 'windows-nt)
+      (add-to-list 'exec-path ""))
+
+  (setq-default search-invisible t)
 
 #+END_SRC
 ** Code completion
 #+BEGIN_SRC emacs-lisp
 
-(setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0)
+  (setq global-company-mode t)
+  (setq company-dabbrev-downcase 0)
+  (setq company-idle-delay 0)
 
 #+END_SRC emacs-lisp
 ** Operating System Integration
@@ -301,6 +311,7 @@
   (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
   (define-key xah-fly--tab-key-map (kbd "d") 'dired)
   (define-key xah-fly--tab-key-map (kbd "u") 'ibuffer)
+  (define-key xah-fly--tab-key-map (kbd "f") 'undo-tree-visualize)
 
 
   (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
