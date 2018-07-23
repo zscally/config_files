@@ -95,7 +95,10 @@
     )
 
   (use-package ox-md)
-  (use-package ox-twbs)
+  (use-package ox-twbs
+    :if
+    (eq system-type 'gnu/linux))
+
   (use-package ox-latex)
 
   (use-package dired+
