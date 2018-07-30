@@ -57,8 +57,6 @@
 
 ** Use package
 #+BEGIN_SRC emacs-lisp
-
-
   (use-package diminish
     :ensure t)
 
@@ -74,11 +72,15 @@
     (global-company-mode))
 
   (use-package popup)
-  (use-package ox-confluence)
+
+  (use-package ox-confluence
+    :if
+    (eq system-type 'windows-nt))
 
   (use-package org-bullets
     :if
     (eq system-type 'gnu/linux)
+    :ensure t
     :init
     (setq org-bullets-bullet-list
           '("◉" "◎" "⚫" "○" "►" "◇"))
@@ -90,9 +92,7 @@
     :ensure org
     :diminish
     :config
-    (setq org-agenda-files (list notes-file))
-    (require 'ox-confluence)
-    )
+    (setq org-agenda-files (list notes-file)))
 
   (use-package ox-md)
   (use-package ox-twbs
@@ -157,7 +157,8 @@
     :config
     (auto-correct-mode))
 
-  (use-package csv-mode)
+  (use-package csv-mode
+    :ensure t)
 
   (use-package vlf-setup
     :ensure vlf)
@@ -165,14 +166,11 @@
   (use-package wconf
     :ensure t)
 
-  (use-package weechat
-    :if
-    (eq system-type 'gnu/linux))
+  (use-package undo-tree
+    :ensure t)
 
-  (use-package weechat-notifications
-    :if
-    (eq system-type 'gnu/linux))
-
+  (use-package darkroom
+    :ensure t)
 #+END_SRC
 * Mode control
 
