@@ -1,4 +1,8 @@
 * Load paths and imports
+**  Custom Set Variables (MUST BE FIRST)
+#+BEGIN_SRC emacs-lisp
+  (custom-set-variables '(helm-ag-command-option "-i"))
+#+END_SRC
 ** Initialization
 #+BEGIN_SRC emacs-lisp
 
@@ -60,7 +64,12 @@
   (use-package smart-mode-line
     :ensure t
     :config
-   (setq evil-mode-line-format '(before . mode-line-front-space)))
+    (progn
+      (setq evil-mode-line-format '(before . mode-line-front-space))
+      (setq sml/theme 'dark)
+      (setq sml/no-confirm-load-theme t)
+      (sml/setup)
+    ))
 
   (use-package evil-collection
     :after evil
@@ -79,7 +88,17 @@
 
   (use-package company
     :diminish
-    :ensure company)
+    :ensure company
+    :config
+    (add-hook 'after-init-hook 'global-company-mode)
+    (setq company-backends
+          '((company-files
+             company-dabbrev
+             company-keywords
+             company-yasnippet
+             company-cmake))))
+
+
 
   (use-package popup)
 
@@ -94,7 +113,6 @@
     :init
     (setq org-bullets-bullet-list
           '("◉" "◎" "⚫" "○" "►" "◇"))
-
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -137,8 +155,7 @@
     :ensure t
     :config
     (helm-mode 1)
-    (setq helm-bookmark-show-location t)
-    (custom-set-variables '(helm-ag-command-option "-i")))
+    (setq helm-bookmark-show-location t))
 
   (use-package ws-trim
     :diminish
@@ -241,6 +258,7 @@
 ** Graphics / UI
 
 #+BEGIN_SRC emacs-lisp
+
   (setq inhibit-splash-screen t)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq visible-bell 1)
@@ -253,9 +271,6 @@
   (load-theme 'leuven)
 
   (set-face-attribute 'default nil :height 200)
-
-  ;; Way to set title bar contexnct
-                                          ;(setq frame-title-format '((:eval (projectile-project-name))))
 
   (global-prettify-symbols-mode t)
 
@@ -277,7 +292,6 @@
 #+END_SRC
 ** Code completion
 #+BEGIN_SRC emacs-lisp
-  (setq global-company-mode t)
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 1)
 
@@ -341,11 +355,12 @@
           (define-key my-buffer-menu (kbd "n") 'next-buffer)
           (define-key my-buffer-menu (kbd "p") 'previous-buffer)
 
-          (define-key my-window-menu (kbd "d") 'delete-window)
+          (define-key my-window-menu (kbd "k") 'delete-window)
           (define-key my-window-menu (kbd "c") 'delete-other-windows)
           (define-key my-window-menu (kbd "h") 'split-window-horizontally)
           (define-key my-window-menu (kbd "v") 'split-window-vertically)
           (define-key my-window-menu (kbd "o") 'other-window)
+          (define-key my-window-menu (kbd "f") 'toggle-frame-fullscreen)
   ))
 
 
@@ -450,9 +465,13 @@
   (setq org-indent-mode t)
   (setq org-todo-keywords
     '((sequence "TODO(t)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELED(c@)")))
+
   (setq org-keyword-faces
         '(("TODO(t)" . org-warning) ("IN PROGRESS(p!)" . "yellow") ("DONE(d!)" . "blue") ("CANCELED(c@)" . (:foreground "blue" :background "yellow" :weight bold))))
   (setq org-M-RET-may-split-line '((default . nil)))
+
+  (if (eq system-type 'gnu/linux)
+      (setq org-ellipsis "▼"))
 
   (add-to-list 'org-latex-classes
                '("booklet"
