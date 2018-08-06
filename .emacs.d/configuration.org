@@ -57,6 +57,20 @@
 
 ** Use package
 #+BEGIN_SRC emacs-lisp
+  (use-package smart-mode-line
+    :ensure t
+    :config
+   (setq evil-mode-line-format '(before . mode-line-front-space)))
+
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+
+  (use-package goto-chg
+    :ensure t)
+
   (use-package diminish
     :ensure t)
 
@@ -65,11 +79,9 @@
     :diminish)
 
 
-  (use-package company-mode
+  (use-package company
     :diminish
-    :ensure company
-    :hook
-    (global-company-mode))
+    :ensure company)
 
   (use-package popup)
 
@@ -117,11 +129,6 @@
   (use-package epa-file
     :config
     (epa-file-enable))
-
-  (use-package xah-fly-keys
-    :diminish
-    :config
-    (xah-fly-keys 1))
 
   (use-package which-key
     :ensure t
@@ -272,12 +279,11 @@
 #+END_SRC
 ** Code completion
 #+BEGIN_SRC emacs-lisp
-
   (setq global-company-mode t)
   (setq company-dabbrev-downcase 0)
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 1)
 
-#+END_SRC emacs-lisp
+#+END_SRC
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
 (server-start)
@@ -285,142 +291,157 @@
 #+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
-(setq latex-run-command "pdflatex")
+  (setq latex-run-command "pdflatex")
 
 #+END_SRC
-** Xah-fly and keybinds
-
+** Evil Config
 #+BEGIN_SRC emacs-lisp
 
-  ;; xah fly keymap
-  (xah-fly-keys-set-layout "dvorak") ; required if you use qwertyb
-
-  (define-key xah-fly-c-keymap (kbd "l") (kbd "s u RET")) ; insert new line after
-  (define-key xah-fly-c-keymap (kbd "u") 'capitalize-word)
-
-  (define-key xah-fly-dot-keymap (kbd "r") 'org-refile)
-
-  (define-key xah-fly-c-keymap (kbd "s") 'bookmark-set)
-  (define-key xah-fly-c-keymap (kbd "c") 'helm-filtered-bookmarks)
-
-  (define-key xah-fly-c-keymap (kbd "w") 'writegood-mode)
-
-  (define-key xah-fly--tab-key-map (kbd "t") 'visual-line-mode)
-  (define-key xah-fly--tab-key-map (kbd "l") 'fill-region)
-  (define-key xah-fly--tab-key-map (kbd "c") 'comment-or-uncomment-region)
-  (define-key xah-fly--tab-key-map (kbd "e") 'xah-run-current-file)
-  (define-key xah-fly--tab-key-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
-  (define-key xah-fly--tab-key-map (kbd "b") 'switch-to-buffer)
-  (define-key xah-fly--tab-key-map (kbd "d") 'dired)
-  (define-key xah-fly--tab-key-map (kbd "u") 'ibuffer)
-  (define-key xah-fly--tab-key-map (kbd "f") 'undo-tree-visualize)
-
-
-  (define-key xah-fly-comma-keymap (kbd ".") 'backward-kill-sentence)
-  (define-key xah-fly-comma-keymap (kbd "p") 'kill-sentence)
-
-                                          ; xah-fly deep editing
-                                          ; Custom xah-fly leader layout
-  (xah-fly--define-keys
-   (define-prefix-command 'xah-fly-leader-key-map)
-   '(
-     ("SPC" . xah-fly-insert-mode-activate)
-     ("DEL" . xah-fly-insert-mode-activate)
-     ("RET" . execute-extended-command)
-     ("TAB" . xah-fly--tab-key-map)
-     ("." . xah-fly-dot-keymap)
-     ("'" . xah-fill-or-unfill)
-     ("," . xah-fly-comma-keymap)
-     ("i" . xah-fly-i-keymap)
-     ("-" . xah-display-form-feed-as-line)
-     ;; /
-     ;; ;
-     ;; =
-     ;; [
-     ("\\" . toggle-input-method)
-     ;; `
-
-     ;; 1
-     ;; 2
-     ("3" . delete-window)
-     ("4" . split-window-right)
-     ("5" . balance-windows)
-     ("6" . xah-upcase-sentence)
-     ;; 7
-     ;; 8
-     ("9" . ispell-word)
-     ;; 0
-
-     ("a" . mark-whole-buffer)
-     ("b" . end-of-buffer)
-     ("c" . xah-fly-c-keymap)
-     ("d" . beginning-of-buffer)
-     ("e" . xah-fly-e-keymap)
-     ("f" . xah-search-current-word)
-     ("g" . isearch-forward)
-     ("h" . xah-fly-h-keymap)
-     ("j" . xah-copy-all-or-region)
-     ("k" . xah-paste-or-paste-previous)
-     ("l" . recenter-top-bottom)
-     ("m" . dired-jump)
-     ("n" . xah-fly-n-keymap)
-     ("o" . exchange-point-and-mark)
-     ("p" . query-replace)
-     ("q" . xah-cut-all-or-region)
-     ("r" . xah-fly-r-keymap)
-     ("s" . save-buffer)
-     ("t" . xah-fly-t-keymap)
-     ("u" . switch-to-buffer)
-     ;; v
-     ("w" . xah-fly-w-keymap)
-     ;; x
-     ("y" . xah-show-kill-ring)
-     ;; z
-     ;;
-     ))
-
-  (xah-fly--define-keys
-   (define-prefix-command 'xah-fly-i-keymap)
-   '(
-     ("a" . org-agenda)
-     ("c" . org-capture)
-     ("s" . org-schedule)
-     ("o" . org-open-at-point)
-     ("l" . org-store-link)
-     ("i" . org-insert-link)
-     ("m" . helm-imenu)
-     ("h" . helm-org-in-buffer-headings)
-     ("x" . org-archive-done-tasks)
-     ))
-
-
-  (defvar my-keys-minor-mode-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "M-c") 'scroll-other-window-down)
-      (define-key map (kbd "M-t") 'scroll-other-window)
-      (define-key map (kbd "M-g") 'my-mark-word-backward)
-      (define-key map (kbd "M-r") 'my-mark-word)
-      (define-key map (kbd "SPC-i-t") 'scroll-other-window)
-      (define-key map (kbd "C-o") 'helm-find-files)
-      (define-key map (kbd "M-x") 'helm-M-x)
-      (define-key map (kbd "S") nil) ; unset problematic binding from somewhere
-      (define-key map (kbd "S-P") nil)
-      (define-key map (kbd "M-z") 'zap-up-to-char)
-      map)
-    "my-keys-minor-mode keymap.")
-
-  (define-minor-mode my-keys-minor-mode
-    "A minor mode so that my key settings override annoying major modes."
-    :init-value t
-    :lighter "mf")
-
-  (my-keys-minor-mode 1)
-
+  (setq evil-want-integration nil) ; Must be done before loading evil
+  (add-to-list 'load-path "~/.emacs.d/lisp/evil")
+  (require 'evil)
+  (evil-mode 1)
 
 #+END_SRC
+** Keybindings
+#+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'evil-maps
+        (progn
+          (defvar my-leader-map (make-sparse-keymap))
+          (defvar my-org-menu (make-sparse-keymap))
+          (defvar my-nav-menu (make-sparse-keymap))
+          (defvar my-buffer-menu (make-sparse-keymap))
+          (defvar my-window-menu (make-sparse-keymap))
 
+          (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
+
+          (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
+          (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
+          (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
+          (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
+
+          (define-key my-leader-map (kbd "o") my-org-menu)
+          (define-key my-leader-map (kbd "c") my-nav-menu)
+          (define-key my-leader-map (kbd "b") my-buffer-menu)
+          (define-key my-leader-map (kbd "w") my-window-menu)
+          (define-key my-leader-map (kbd "SPC") 'helm-M-x)
+          (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
+
+          (define-key my-org-menu (kbd "c") 'org-capture)
+          (define-key my-org-menu (kbd "a") 'org-agenda)
+          (define-key my-org-menu (kbd "r") 'org-refile)
+
+          (define-key my-nav-menu (kbd "s") 'bookmark-set)
+          (define-key my-nav-menu (kbd "c") 'helm-filtered-bookmarks)
+          (define-key my-nav-menu (kbd "m") 'helm-imenu)
+          (define-key my-nav-menu (kbd "n") 'evil-buffer-new)
+
+          (define-key my-buffer-menu (kbd "b") 'helm-mini)
+          (define-key my-buffer-menu (kbd "I") 'ibuffer)
+          (define-key my-buffer-menu (kbd "d") 'kill-buffer)
+
+          (define-key my-window-menu (kbd "c") 'delete-window)
+          (define-key my-window-menu (kbd "d") 'delete-other-windows)
+          (define-key my-window-menu (kbd "h") 'split-window-horizontally)
+          (define-key my-window-menu (kbd "v") 'split-window-vertically)
+          (define-key my-window-menu (kbd "o") 'other-window)
+  ))
+
+    #+END_SRC
+** Org-agenda Vim Keybindings                                 :orgmode:evil:
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'org-agenda
+ '(progn
+    (evil-set-initial-state 'org-agenda-mode 'normal)
+    (evil-define-key 'normal org-agenda-mode-map
+      (kbd "<RET>") 'org-agenda-switch-to
+      (kbd "\t") 'org-agenda-goto
+
+      "q" 'org-agenda-quit
+      "r" 'org-agenda-redo
+      "S" 'org-save-all-org-buffers
+      "gj" 'org-agenda-goto-date
+      "gJ" 'org-agenda-clock-goto
+      "gm" 'org-agenda-bulk-mark
+      "go" 'org-agenda-open-link
+      "s" 'org-agenda-schedule
+      "+" 'org-agenda-priority-up
+      "," 'org-agenda-priority
+      "-" 'org-agenda-priority-down
+      "y" 'org-agenda-todo-yesterday
+      "n" 'org-agenda-add-note
+      "t" 'org-agenda-todo
+      ":" 'org-agenda-set-tags
+      ";" 'org-timer-set-timer
+      "I" 'helm-org-task-file-headings
+      "i" 'org-agenda-clock-in-avy
+      "O" 'org-agenda-clock-out-avy
+      "u" 'org-agenda-bulk-unmark
+      "x" 'org-agenda-exit
+      "j"  'org-agenda-next-line
+      "k"  'org-agenda-previous-line
+      "vt" 'org-agenda-toggle-time-grid
+      "va" 'org-agenda-archives-mode
+      "vw" 'org-agenda-week-view
+      "vl" 'org-agenda-log-mode
+      "vd" 'org-agenda-day-view
+      "vc" 'org-agenda-show-clocking-issues
+      "g/" 'org-agenda-filter-by-tag
+      "o" 'delete-other-windows
+      "gh" 'org-agenda-holiday
+      "gv" 'org-agenda-view-mode-dispatch
+      "f" 'org-agenda-later
+      "b" 'org-agenda-earlier
+      "c" 'helm-org-capture-templates
+      "e" 'org-agenda-set-effort
+      "n" nil  ; evil-search-next
+      "{" 'org-agenda-manipulate-query-add-re
+      "}" 'org-agenda-manipulate-query-subtract-re
+      "A" 'org-agenda-toggle-archive-tag
+      "." 'org-agenda-goto-today
+      "0" 'evil-digit-argument-or-evil-beginning-of-line
+      "<" 'org-agenda-filter-by-category
+      ">" 'org-agenda-date-prompt
+      "F" 'org-agenda-follow-mode
+      "D" 'org-agenda-deadline
+      "H" 'org-agenda-holidays
+      "J" 'org-agenda-next-date-line
+      "K" 'org-agenda-previous-date-line
+      "L" 'org-agenda-recenter
+      "P" 'org-agenda-show-priority
+      "R" 'org-agenda-clockreport-mode
+      "Z" 'org-agenda-sunrise-sunset
+      "T" 'org-agenda-show-tags
+      "X" 'org-agenda-clock-cancel
+      "[" 'org-agenda-manipulate-query-add
+      "g\\" 'org-agenda-filter-by-tag-refine
+      "]" 'org-agenda-manipulate-query-subtract)))
+#+END_SRC
+
+** Evil escape
+#+BEGIN_SRC emacs-lisp
+
+  (use-package evil-escape
+    :ensure t
+    :commands evil-escape-mode
+    :init
+    (setq evil-escape-excluded-states '(normal visual multiedit
+          emacs motion) evil-escape-excluded-major-modes
+          '(neotree-mode) evil-escape-key-sequence "jk"
+          evil-escape-delay 0.25)
+    (add-hook 'after-init-hook #'evil-escape-mode)
+    :config
+    ;; no `evil-escape' in minibuffer
+    (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+
+    (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+    (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+    (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+    (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+#+END_SRC
 ** org-mode
 #+BEGIN_SRC emacs-lisp
+
   (setq org-imenu-depth 5)
   (setq org-hide-emphasis-markers t)
   (setq org-default-notes-file notes-file)
