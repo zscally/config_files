@@ -74,10 +74,8 @@
   (use-package diminish
     :ensure t)
 
-
   (use-package auto-indent-mode
     :diminish)
-
 
   (use-package company
     :diminish
@@ -326,6 +324,7 @@
           (define-key my-leader-map (kbd "w") my-window-menu)
           (define-key my-leader-map (kbd "SPC") 'helm-M-x)
           (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
+          (define-key my-leader-map (kbd "m") 'dired-jump)
 
           (define-key my-org-menu (kbd "c") 'org-capture)
           (define-key my-org-menu (kbd "a") 'org-agenda)
@@ -339,13 +338,16 @@
           (define-key my-buffer-menu (kbd "b") 'helm-mini)
           (define-key my-buffer-menu (kbd "I") 'ibuffer)
           (define-key my-buffer-menu (kbd "d") 'kill-buffer)
+          (define-key my-buffer-menu (kbd "n") 'next-buffer)
+          (define-key my-buffer-menu (kbd "p") 'previous-buffer)
 
-          (define-key my-window-menu (kbd "c") 'delete-window)
-          (define-key my-window-menu (kbd "d") 'delete-other-windows)
+          (define-key my-window-menu (kbd "d") 'delete-window)
+          (define-key my-window-menu (kbd "c") 'delete-other-windows)
           (define-key my-window-menu (kbd "h") 'split-window-horizontally)
           (define-key my-window-menu (kbd "v") 'split-window-vertically)
           (define-key my-window-menu (kbd "o") 'other-window)
   ))
+
 
     #+END_SRC
 ** Org-agenda Vim Keybindings                                 :orgmode:evil:
