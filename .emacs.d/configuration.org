@@ -337,16 +337,17 @@
           (define-key my-leader-map (kbd "b") my-buffer-menu)
           (define-key my-leader-map (kbd "w") my-window-menu)
           (define-key my-leader-map (kbd "SPC") 'helm-M-x)
+          (define-key my-leader-map (kbd "f") 'helm-find-files)
           (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
           (define-key my-leader-map (kbd "m") 'dired-jump)
 
           (define-key my-org-menu (kbd "c") 'org-capture)
           (define-key my-org-menu (kbd "a") 'org-agenda)
           (define-key my-org-menu (kbd "r") 'org-refile)
+          (define-key my-org-menu (kbd "m") 'helm-imenu)
 
           (define-key my-nav-menu (kbd "s") 'bookmark-set)
           (define-key my-nav-menu (kbd "c") 'helm-filtered-bookmarks)
-          (define-key my-nav-menu (kbd "m") 'helm-imenu)
           (define-key my-nav-menu (kbd "n") 'evil-buffer-new)
 
           (define-key my-buffer-menu (kbd "b") 'helm-mini)
