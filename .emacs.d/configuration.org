@@ -20,8 +20,8 @@
   (add-to-list 'package-archives
                '("elpa" . "https://elpa.gnu.org/packages/") t)
   (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/")
-              t)
+               '("org" . "https://orgmode.org/elpa/") t)
+  (package-refresh-contents)
 
   (eval-when-compile
     (add-to-list 'load-path "~/.emacs.d/use-package/")
@@ -69,7 +69,11 @@
       (setq sml/theme 'dark)
       (setq sml/no-confirm-load-theme t)
       (sml/setup)
-    ))
+      ))
+
+  (use-package evil-leader
+    :after evil
+    :ensure t)
 
   (use-package evil-collection
     :after evil
@@ -102,10 +106,6 @@
 
   (use-package popup)
 
-  (use-package ox-confluence
-    :if
-    (eq system-type 'windows-nt))
-
   (use-package org-bullets
     :if
     (eq system-type 'gnu/linux)
@@ -117,7 +117,8 @@
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
   (use-package org
-    :ensure org
+    :ensure org-plus-contrib
+    :pin org
     :diminish
     :config
     (setq org-agenda-files (list notes-file)))
@@ -128,6 +129,7 @@
     (eq system-type 'gnu/linux))
 
   (use-package ox-latex)
+
 
   (use-package dired+
     :init
@@ -293,7 +295,7 @@
 ** Code completion
 #+BEGIN_SRC emacs-lisp
   (setq company-dabbrev-downcase 0)
-  (setq company-idle-delay 1)
+  (setq company-idle-delay 0.3)
 
 #+END_SRC
 ** Operating System Integration
@@ -306,66 +308,79 @@
   (setq latex-run-command "pdflatex")
 
 #+END_SRC
+** Keybindings
+#+BEGIN_SRC emacs-lisp
+  (setq evil-want-integration nil) ; Must be done before loading evil
+  (global-evil-leader-mode)
+
+  (defvar my-leader-map (make-sparse-keymap))
+  (defvar my-org-menu (make-sparse-keymap))
+  (defvar my-nav-menu (make-sparse-keymap))
+  (defvar my-buffer-menu (make-sparse-keymap))
+  (defvar my-window-menu (make-sparse-keymap))
+
+  (evil-leader/set-leader "<SPC>")
+
+  (evil-leader/set-key
+    "o" my-org-menu
+    "c" my-nav-menu
+    "b" my-buffer-menu
+    "w" my-window-menu
+    "SPC" 'helm-M-x
+    "f" 'helm-find-files
+    "n" (lambda () (interactive) (find-file notes-file))
+    "m" 'dired-jump
+    )
+
+
+  (with-eval-after-load 'evil-maps
+    (progn
+      (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
+      (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
+      (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
+      (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
+      ))
+
+
+  (define-key my-leader-map (kbd "o") my-org-menu)
+  (define-key my-leader-map (kbd "c") my-nav-menu)
+  (define-key my-leader-map (kbd "b") my-buffer-menu)
+  (define-key my-leader-map (kbd "w") my-window-menu)
+  (define-key my-leader-map (kbd "SPC") 'helm-M-x)
+  (define-key my-leader-map (kbd "f") 'helm-find-files)
+  (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
+  (define-key my-leader-map (kbd "m") 'dired-jump)
+
+  (define-key my-org-menu (kbd "c") 'org-capture)
+  (define-key my-org-menu (kbd "a") 'org-agenda)
+  (define-key my-org-menu (kbd "r") 'org-refile)
+  (define-key my-org-menu (kbd "m") 'helm-imenu)
+
+  (define-key my-nav-menu (kbd "s") 'bookmark-set)
+  (define-key my-nav-menu (kbd "c") 'helm-filtered-bookmarks)
+  (define-key my-nav-menu (kbd "n") 'evil-buffer-new)
+
+  (define-key my-buffer-menu (kbd "b") 'helm-mini)
+  (define-key my-buffer-menu (kbd "I") 'ibuffer)
+  (define-key my-buffer-menu (kbd "d") 'kill-buffer)
+  (define-key my-buffer-menu (kbd "n") 'next-buffer)
+  (define-key my-buffer-menu (kbd "p") 'previous-buffer)
+
+  (define-key my-window-menu (kbd "k") 'delete-window)
+  (define-key my-window-menu (kbd "c") 'delete-other-windows)
+  (define-key my-window-menu (kbd "h") 'split-window-horizontally)
+  (define-key my-window-menu (kbd "v") 'split-window-vertically)
+  (define-key my-window-menu (kbd "o") 'other-window)
+  (define-key my-window-menu (kbd "f") 'toggle-frame-fullscreen)
+    #+END_SRC
 ** Evil Config
 #+BEGIN_SRC emacs-lisp
 
-  (setq evil-want-integration nil) ; Must be done before loading evil
   (add-to-list 'load-path "~/.emacs.d/lisp/evil")
   (require 'evil)
   (evil-mode 1)
 
 #+END_SRC
-** Keybindings
-#+BEGIN_SRC emacs-lisp
-      (with-eval-after-load 'evil-maps
-        (progn
-          (defvar my-leader-map (make-sparse-keymap))
-          (defvar my-org-menu (make-sparse-keymap))
-          (defvar my-nav-menu (make-sparse-keymap))
-          (defvar my-buffer-menu (make-sparse-keymap))
-          (defvar my-window-menu (make-sparse-keymap))
-
-          (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
-
-          (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
-          (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
-          (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
-          (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
-
-          (define-key my-leader-map (kbd "o") my-org-menu)
-          (define-key my-leader-map (kbd "c") my-nav-menu)
-          (define-key my-leader-map (kbd "b") my-buffer-menu)
-          (define-key my-leader-map (kbd "w") my-window-menu)
-          (define-key my-leader-map (kbd "SPC") 'helm-M-x)
-          (define-key my-leader-map (kbd "f") 'helm-find-files)
-          (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
-          (define-key my-leader-map (kbd "m") 'dired-jump)
-
-          (define-key my-org-menu (kbd "c") 'org-capture)
-          (define-key my-org-menu (kbd "a") 'org-agenda)
-          (define-key my-org-menu (kbd "r") 'org-refile)
-          (define-key my-org-menu (kbd "m") 'helm-imenu)
-
-          (define-key my-nav-menu (kbd "s") 'bookmark-set)
-          (define-key my-nav-menu (kbd "c") 'helm-filtered-bookmarks)
-          (define-key my-nav-menu (kbd "n") 'evil-buffer-new)
-
-          (define-key my-buffer-menu (kbd "b") 'helm-mini)
-          (define-key my-buffer-menu (kbd "I") 'ibuffer)
-          (define-key my-buffer-menu (kbd "d") 'kill-buffer)
-          (define-key my-buffer-menu (kbd "n") 'next-buffer)
-          (define-key my-buffer-menu (kbd "p") 'previous-buffer)
-
-          (define-key my-window-menu (kbd "k") 'delete-window)
-          (define-key my-window-menu (kbd "c") 'delete-other-windows)
-          (define-key my-window-menu (kbd "h") 'split-window-horizontally)
-          (define-key my-window-menu (kbd "v") 'split-window-vertically)
-          (define-key my-window-menu (kbd "o") 'other-window)
-          (define-key my-window-menu (kbd "f") 'toggle-frame-fullscreen)
-  ))
-
-
-    #+END_SRC
 ** Org-agenda Vim Keybindings                                 :orgmode:evil:
 #+BEGIN_SRC emacs-lisp
 (eval-after-load 'org-agenda
