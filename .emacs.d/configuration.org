@@ -318,13 +318,16 @@
 
 #+END_SRC
 ** Keybindings
+
 #+BEGIN_SRC emacs-lisp
+
   (setq evil-want-integration nil) ; Must be done before loading evil
   (global-evil-leader-mode)
 
   (defvar my-leader-map (make-sparse-keymap))
   (defvar my-org-menu (make-sparse-keymap))
   (defvar my-nav-menu (make-sparse-keymap))
+  (defvar my-command-menu (make-sparse-keymap))
   (defvar my-buffer-menu (make-sparse-keymap))
   (defvar my-window-menu (make-sparse-keymap))
 
@@ -332,15 +335,16 @@
 
   (evil-leader/set-key
     "o" my-org-menu
-    "c" my-nav-menu
+    "c" my-command-menu
     "b" my-buffer-menu
     "w" my-window-menu
+    "g" my-nav-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
-    "n" (lambda () (interactive) (find-file notes-file))
+    "n" 'evil-buffer-new
     "m" 'dired-jump
-    )
-
+    "s" 'save-buffer
+    "TAB" 'company-try-hard)
 
   (with-eval-after-load 'evil-maps
     (progn
@@ -350,6 +354,19 @@
       (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
       ))
 
+  (defun load-notes ()
+    "Load notes org"
+    (interactive)
+    (find-file notes-file))
+
+  (defun load-config ()
+    "Load emacs config"
+    (interactive)
+    (find-file config-file))
+
+
+  (define-key my-nav-menu (kbd "n") 'load-notes)
+  (define-key my-nav-menu (kbd "c") 'load-config)
 
   (define-key my-leader-map (kbd "o") my-org-menu)
   (define-key my-leader-map (kbd "c") my-nav-menu)
@@ -357,7 +374,6 @@
   (define-key my-leader-map (kbd "w") my-window-menu)
   (define-key my-leader-map (kbd "SPC") 'helm-M-x)
   (define-key my-leader-map (kbd "f") 'helm-find-files)
-  (define-key my-leader-map (kbd "n") (lambda () (interactive) (find-file notes-file)))
   (define-key my-leader-map (kbd "m") 'dired-jump)
 
   (define-key my-org-menu (kbd "c") 'org-capture)
@@ -365,12 +381,11 @@
   (define-key my-org-menu (kbd "r") 'org-refile)
   (define-key my-org-menu (kbd "m") 'helm-imenu)
 
-  (define-key my-nav-menu (kbd "s") 'bookmark-set)
-  (define-key my-nav-menu (kbd "c") 'helm-filtered-bookmarks)
-  (define-key my-nav-menu (kbd "n") 'evil-buffer-new)
+  (define-key my-command-menu (kbd "s") 'bookmark-set)
+  (define-key my-command-menu (kbd "c") 'helm-filtered-bookmarks)
 
   (define-key my-buffer-menu (kbd "b") 'helm-mini)
-  (define-key my-buffer-menu (kbd "I") 'ibuffer)
+  (define-key my-buffer-menu (kbd "i") 'ibuffer)
   (define-key my-buffer-menu (kbd "d") 'kill-buffer)
   (define-key my-buffer-menu (kbd "n") 'next-buffer)
   (define-key my-buffer-menu (kbd "p") 'previous-buffer)
