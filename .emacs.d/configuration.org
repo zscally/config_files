@@ -41,21 +41,25 @@
 ** Os specific
 #+BEGIN_SRC emacs-lisp
 
-  (when (boundp 'w32-pipe-read-delay)
-          (setq w32-pipe-read-delay 0))
-        ;; Set the buffer size to 64K on Windows (from the original 4K)
-        (when (boundp 'w32-pipe-buffer-size)
-          (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+    (when (boundp 'w32-pipe-read-delay)
+            (setq w32-pipe-read-delay 0))
+          ;; Set the buffer size to 64K on Windows (from the original 4K)
+          (when (boundp 'w32-pipe-buffer-size)
+            (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
-  (getenv "HOME")
+    (getenv "HOME")
 
-  (if (eq system-type 'windows-nt)
-      (setq notes-file (getenv "NOTESORG"))
-    (setq notes-file "~/Desktop/Notes.org.gpg"))
+    (if (eq system-type 'windows-nt)
+        (setq notes-file (getenv "NOTESORG"))
+      (setq notes-file "~/Desktop/Notes.org.gpg"))
 
-  (if (eq system-type 'windows-nt)
-      (progn
-        (setq w32-get-true-file-attributes nil)))
+    (if (eq system-type 'windows-nt)
+        (setq config-file (getenv "EMACSCONFIG"))
+      (setq config-file "~/.emacs.d/configuration.org"))
+
+    (if (eq system-type 'windows-nt)
+        (progn
+          (setq w32-get-true-file-attributes nil)))
 
 #+END_SRC
 
@@ -90,6 +94,12 @@
   (use-package auto-indent-mode
     :diminish)
 
+  (use-package ac-php
+    :ensure t)
+
+  (use-package company-try-hard
+    :ensure t)
+
   (use-package company
     :diminish
     :ensure company
@@ -97,12 +107,11 @@
     (add-hook 'after-init-hook 'global-company-mode)
     (setq company-backends
           '((company-files
-             company-dabbrev
              company-keywords
+             company-capf
+             company-predictive
              company-yasnippet
              company-cmake))))
-
-
 
   (use-package popup)
 
