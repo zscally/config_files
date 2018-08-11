@@ -5,6 +5,7 @@
 #+END_SRC
 ** Initialization
 #+BEGIN_SRC emacs-lisp
+  (define-obsolete-function-alias 'org-define-error 'define-error)
 
   (load-file "~/.emacs.d/custom.el")
   (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -279,7 +280,9 @@
   (show-paren-mode 1)
   (display-time-mode 1)
 
-  (load-theme 'leuven)
+  (if (eq system-type 'gnu/linux)
+    (load-theme 'manoj-dark)
+    (load-theme 'leuven))
 
   (set-face-attribute 'default nil :height 200)
 
