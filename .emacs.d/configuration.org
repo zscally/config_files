@@ -348,6 +348,7 @@
     "m" 'dired-jump
     "s" 'save-buffer
     "TAB" 'company-try-hard)
+    "v" 'visual-line-mode)
 
   (with-eval-after-load 'evil-maps
     (progn
@@ -370,14 +371,6 @@
 
   (define-key my-nav-menu (kbd "n") 'load-notes)
   (define-key my-nav-menu (kbd "c") 'load-config)
-
-  (define-key my-leader-map (kbd "o") my-org-menu)
-  (define-key my-leader-map (kbd "c") my-nav-menu)
-  (define-key my-leader-map (kbd "b") my-buffer-menu)
-  (define-key my-leader-map (kbd "w") my-window-menu)
-  (define-key my-leader-map (kbd "SPC") 'helm-M-x)
-  (define-key my-leader-map (kbd "f") 'helm-find-files)
-  (define-key my-leader-map (kbd "m") 'dired-jump)
 
   (define-key my-org-menu (kbd "c") 'org-capture)
   (define-key my-org-menu (kbd "a") 'org-agenda)
@@ -408,6 +401,18 @@
   (evil-mode 1)
 
 #+END_SRC
+** Evil sentence
+#+BEGIN_SRC emacs-lisp
+
+(define-key evil-motion-state-map ")" 'sentence-nav-evil-forward)
+(define-key evil-motion-state-map "(" 'sentence-nav-evil-backward)
+(define-key evil-motion-state-map "g)" 'sentence-nav-evil-forward-end)
+(define-key evil-motion-state-map "g(" 'sentence-nav-evil-backward-end)
+(define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-a-sentence)
+(define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
+
+#+END_SRC
+
 ** Org-agenda Vim Keybindings                                 :orgmode:evil:
 #+BEGIN_SRC emacs-lisp
 (eval-after-load 'org-agenda
