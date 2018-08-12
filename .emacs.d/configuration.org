@@ -1,5 +1,5 @@
 * Load paths and imports
-**  Custom Set Variables (MUST BE FIRST)
+** Custom Set Variables (MUST BE FIRST)
 #+BEGIN_SRC emacs-lisp
   (custom-set-variables '(helm-ag-command-option "-i"))
 #+END_SRC
@@ -85,6 +85,8 @@
     :ensure t
     :config
     (evil-collection-init))
+
+  (use-package sentence-navigation)
 
   (use-package goto-chg
     :ensure t)
@@ -347,7 +349,7 @@
     "n" 'evil-buffer-new
     "m" 'dired-jump
     "s" 'save-buffer
-    "TAB" 'company-try-hard)
+    "TAB" 'company-try-hard
     "v" 'visual-line-mode)
 
   (with-eval-after-load 'evil-maps
