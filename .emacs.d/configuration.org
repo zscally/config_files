@@ -86,6 +86,9 @@
     :config
     (evil-collection-init))
 
+  (use-package ample-regexps
+    :ensure t)
+
   (use-package sentence-navigation)
 
   (use-package goto-chg
@@ -209,7 +212,6 @@
     :ensure t)
 #+END_SRC
 * Mode control
-
 ** Auto mode alist
 #+BEGIN_SRC emacs-lisp
 
@@ -350,7 +352,8 @@
     "m" 'dired-jump
     "s" 'save-buffer
     "TAB" 'company-try-hard
-    "v" 'visual-line-mode)
+    "v" 'visual-line-mode
+    "q" 'save-buffers-kill-terminal)
 
   (with-eval-after-load 'evil-maps
     (progn
