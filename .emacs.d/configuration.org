@@ -387,7 +387,7 @@
 
   (define-key my-buffer-menu (kbd "b") 'helm-mini)
   (define-key my-buffer-menu (kbd "i") 'ibuffer)
-  (define-key my-buffer-menu (kbd "d") 'kill-buffer)
+  (define-key my-buffer-menu (kbd "c") 'kill-buffer)
   (define-key my-buffer-menu (kbd "n") 'next-buffer)
   (define-key my-buffer-menu (kbd "p") 'previous-buffer)
 
