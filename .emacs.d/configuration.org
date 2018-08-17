@@ -145,6 +145,9 @@
 
   (use-package ox-latex)
 
+  (use-package atomic-chrome
+    :if (eq system-type 'windows-nt))
+
 
   (use-package dired+
     :init
@@ -182,6 +185,8 @@
     (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
 
   (use-package cygwin-mount)
+
+  (use-package setup-cygwin)
 
   (use-package unbound)
 
@@ -242,15 +247,15 @@
 * File handling
 ** Encryption
 #+BEGIN_SRC emacs-lisp
-
-(epa-file-enable)
+  (setf epa-pinentry-mode 'loopback)
+  (epa-file-enable)
 
 #+END_SRC
 ** Backups & versioning
 #+BEGIN_SRC emacs-lisp
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
+(setq auto-save-default nil) ; stop creating #autosave# files
 ;; keep old versions, much version control
 (setq delete-old-versions -1)
 (setq version-control t)
