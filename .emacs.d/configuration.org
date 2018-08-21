@@ -186,7 +186,8 @@
 
   (use-package cygwin-mount)
 
-  (use-package setup-cygwin)
+  (use-package setup-cygwin
+    :if (eq system-type 'windows-nt))
 
   (use-package unbound)
 
@@ -247,7 +248,8 @@
 * File handling
 ** Encryption
 #+BEGIN_SRC emacs-lisp
-  (setf epa-pinentry-mode 'loopback)
+  (if (eq system-type 'window-nt)
+      (setf epa-pinentry-mode 'loopback))
   (epa-file-enable)
 
 #+END_SRC
@@ -332,7 +334,6 @@
 ** Keybindings
 
 #+BEGIN_SRC emacs-lisp
-
   (setq evil-want-integration nil) ; Must be done before loading evil
   (global-evil-leader-mode)
 
@@ -342,6 +343,7 @@
   (defvar my-command-menu (make-sparse-keymap))
   (defvar my-buffer-menu (make-sparse-keymap))
   (defvar my-window-menu (make-sparse-keymap))
+  (defvar my-visual-menu (make-sparse-keymap))
 
   (evil-leader/set-leader "<SPC>")
 
@@ -351,13 +353,13 @@
     "b" my-buffer-menu
     "w" my-window-menu
     "g" my-nav-menu
+    "v" my-visual-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
     "n" 'evil-buffer-new
     "m" 'dired-jump
     "s" 'save-buffer
     "TAB" 'company-try-hard
-    "v" 'visual-line-mode
     "q" 'save-buffers-kill-terminal)
 
   (with-eval-after-load 'evil-maps
@@ -386,6 +388,9 @@
   (define-key my-org-menu (kbd "a") 'org-agenda)
   (define-key my-org-menu (kbd "r") 'org-refile)
   (define-key my-org-menu (kbd "m") 'helm-imenu)
+
+  (define-key my-visual-menu (kbd "v") 'visual-line-mode)
+  (define-key my-visual-menu (kbd "c") 'centered-cursor-mode)
 
   (define-key my-command-menu (kbd "s") 'bookmark-set)
   (define-key my-command-menu (kbd "c") 'helm-filtered-bookmarks)
