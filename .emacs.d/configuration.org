@@ -119,6 +119,8 @@
              company-yasnippet
              company-cmake))))
 
+  (use-package powerbuilder-mode)
+
   (use-package popup)
 
   (use-package org-bullets
@@ -186,8 +188,7 @@
 
   (use-package cygwin-mount)
 
-  (use-package setup-cygwin
-    :if (eq system-type 'windows-nt))
+  (use-package setup-cygwin)
 
   (use-package unbound)
 
@@ -323,8 +324,13 @@
 #+END_SRC
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
-(server-start)
-(setq delete-by-moving-to-trash t)
+  (server-start)
+  (setq delete-by-moving-to-trash t)
+
+  (if (eq system-type 'window-nt)
+      (progn
+        'atomic-chrome-start-httpd
+        'atomic-chrome-start-server))
 #+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
@@ -334,6 +340,7 @@
 ** Keybindings
 
 #+BEGIN_SRC emacs-lisp
+
   (setq evil-want-integration nil) ; Must be done before loading evil
   (global-evil-leader-mode)
 
