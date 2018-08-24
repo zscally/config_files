@@ -256,8 +256,8 @@
 ** Backups & versioning
 #+BEGIN_SRC emacs-lisp
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-(setq auto-save-default nil) ; stop creating #autosave# files
+((setq backup-directory-alist
+          `(("." . ,(concat user-emacs-directory "backups"))))
 ;; keep old versions, much version control
 (setq delete-old-versions -1)
 (setq version-control t)
