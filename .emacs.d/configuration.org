@@ -165,8 +165,7 @@
     :ensure t)
 
   (use-package epa-file
-    :config
-    (epa-file-enable))
+    :config)
 
   (use-package which-key
     :ensure t
@@ -188,7 +187,8 @@
 
   (use-package cygwin-mount)
 
-  (use-package setup-cygwin)
+  (use-package setup-cygwin
+    :if (eq system-type 'windows-nt))
 
   (use-package unbound)
 
@@ -257,7 +257,7 @@
 ** Backups & versioning
 #+BEGIN_SRC emacs-lisp
 
-((setq backup-directory-alist
+(setq backup-directory-alist
           `(("." . ,(concat user-emacs-directory "backups"))))
 ;; keep old versions, much version control
 (setq delete-old-versions -1)
@@ -282,7 +282,6 @@
 ** Graphics / UI
 
 #+BEGIN_SRC emacs-lisp
-
   (setq inhibit-splash-screen t)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq visible-bell 1)
@@ -293,13 +292,12 @@
   (display-time-mode 1)
 
   (if (eq system-type 'gnu/linux)
-    (load-theme 'manoj-dark)
-    (load-theme 'leuven))
+      (load-theme 'tango-dark)
+      (load-theme 'leuven))
 
   (set-face-attribute 'default nil :height 200)
 
   (global-prettify-symbols-mode t)
-
 #+END_SRC
 ** Interaction / input
 #+BEGIN_SRC emacs-lisp
@@ -340,7 +338,6 @@
 ** Keybindings
 
 #+BEGIN_SRC emacs-lisp
-
   (setq evil-want-integration nil) ; Must be done before loading evil
   (global-evil-leader-mode)
 
