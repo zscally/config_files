@@ -547,3 +547,7 @@
                  ))
 
 #+END_SRC
+** Bookmarks
+#+BEGIN_SRC emacs-lisp
+  (setq bookmark-save-flag 1)
+#+END_SRC
