@@ -218,6 +218,9 @@
 
   (use-package darkroom
     :ensure t)
+
+  (use-package yasnippet
+    :ensure t)
 #+END_SRC
 * Mode control
 ** Auto mode alist
@@ -233,11 +236,13 @@
 
 (winner-mode 1)
 
-(prettify-symbols-mode)
+(if (not (eq system-type 'windows-nt))
+    (prettify-symbols-mode))
 
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
+(yas-global-mode 1)
 
 #+END_SRC
 ** Load hooks
