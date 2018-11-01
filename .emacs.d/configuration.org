@@ -41,186 +41,191 @@
 #+END_SRC
 ** Os specific
 #+BEGIN_SRC emacs-lisp
+  (when (boundp 'w32-pipe-read-delay)
+          (setq w32-pipe-read-delay 0))
+        ;; Set the buffer size to 64K on Windows (from the original 4K)
+        (when (boundp 'w32-pipe-buffer-size)
+          (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
-    (when (boundp 'w32-pipe-read-delay)
-            (setq w32-pipe-read-delay 0))
-          ;; Set the buffer size to 64K on Windows (from the original 4K)
-          (when (boundp 'w32-pipe-buffer-size)
-            (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+  (getenv "HOME")
 
-    (getenv "HOME")
+  (if (eq system-type 'windows-nt)
+      (setq notes-file (getenv "NOTESORG"))
+    (setq notes-file "~/Desktop/Notes.org.gpg"))
 
-    (if (eq system-type 'windows-nt)
-        (setq notes-file (getenv "NOTESORG"))
-      (setq notes-file "~/Desktop/Notes.org.gpg"))
+  (if (eq system-type 'windows-nt)
+      (setq config-file (getenv "EMACSCONFIG"))
+    (setq config-file "~/.emacs.d/configuration.org"))
 
-    (if (eq system-type 'windows-nt)
-        (setq config-file (getenv "EMACSCONFIG"))
-      (setq config-file "~/.emacs.d/configuration.org"))
+  (if (eq system-type 'windows-nt)
+      (progn
+        (setq w32-get-true-file-attributes nil)))
 
-    (if (eq system-type 'windows-nt)
-        (progn
-          (setq w32-get-true-file-attributes nil)))
-
+  (if (eq system-type 'windows-nt)
+      (progn
+        (setq exec-path (append exec-path '("c:/Cygwin64/bin/")))
+        (setq python-shell-interpreter "c:/cygwin64/bin/python3.6m.exe")
+        ))
 #+END_SRC
 
 ** Use package
 #+BEGIN_SRC emacs-lisp
-  (use-package smart-mode-line
-    :ensure t
-    :config
-    (progn
-      (setq evil-mode-line-format '(before . mode-line-front-space))
-      (setq sml/theme 'dark)
-      (setq sml/no-confirm-load-theme t)
-      (sml/setup)
-      ))
+        (use-package smart-mode-line
+          :ensure t
+          :config
+          (progn
+            (setq evil-mode-line-format '(before . mode-line-front-space))
+            (setq sml/theme 'dark)
+            (setq sml/no-confirm-load-theme t)
+            (sml/setup)
+            ))
 
-  (use-package evil-leader
-    :after evil
-    :ensure t)
+        (use-package evil-leader
+          :after evil
+          :ensure t)
 
-  (use-package evil-collection
-    :after evil
-    :ensure t
-    :config
-    (evil-collection-init))
+        (use-package evil-collection
+          :after evil
+          :ensure t
+          :config
+          (evil-collection-init))
 
-  (use-package ample-regexps
-    :ensure t)
+        (use-package ample-regexps
+          :ensure t)
 
-  (use-package sentence-navigation)
+        (use-package sentence-navigation)
 
-  (use-package goto-chg
-    :ensure t)
+        (use-package goto-chg
+          :ensure t)
 
-  (use-package diminish
-    :ensure t)
+        (use-package diminish
+          :ensure t)
 
-  (use-package auto-indent-mode
-    :diminish)
+        (use-package auto-indent-mode
+          :diminish
+          :config
+          (auto-indent-global-mode))
 
-  (use-package ac-php
-    :ensure t)
+        (use-package ac-php
+          :ensure t)
 
-  (use-package company-try-hard
-    :ensure t)
+        (use-package company-try-hard
+          :ensure t)
 
-  (use-package company
-    :diminish
-    :ensure company
-    :config
-    (add-hook 'after-init-hook 'global-company-mode)
-    (setq company-backends
-          '((company-files
-             company-keywords
-             company-capf
-             company-predictive
-             company-yasnippet
-             company-cmake))))
+        (use-package company
+          :diminish
+          :ensure company
+          :config
+          (add-hook 'after-init-hook 'global-company-mode)
+          (setq company-backends
+                '((company-files
+                   company-keywords
+                   company-capf
+                   company-predictive
+                   company-cmake))))
 
-  (use-package powerbuilder-mode
-    :if (eq system-type 'windows-nt))
+        (use-package powerbuilder-mode
+          :if (eq system-type 'windows-nt))
 
-  (use-package popup)
+        (use-package popup)
 
-  (use-package org-bullets
-    :if
-    (eq system-type 'gnu/linux)
-    :ensure t
-    :init
-    (setq org-bullets-bullet-list
-          '("◉" "◎" "⚫" "○" "►" "◇"))
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+        (use-package org-bullets
+          :if
+          (eq system-type 'gnu/linux)
+          :ensure t
+          :init
+          (setq org-bullets-bullet-list
+                '("◉" "◎" "⚫" "○" "►" "◇"))
+          :config
+          (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-  (use-package org
-    :ensure org-plus-contrib
-    :pin org
-    :diminish
-    :config
-    (setq org-agenda-files (list notes-file)))
+        (use-package org
+          :ensure org-plus-contrib
+          :pin org
+          :diminish
+          :config
+          (setq org-agenda-files (list notes-file)))
 
-  (use-package ox-md)
-  (use-package ox-twbs
-    :if
-    (eq system-type 'gnu/linux))
+        (use-package ox-md)
+        (use-package ox-twbs
+          :if
+          (eq system-type 'gnu/linux))
 
-  (use-package ox-latex)
+        (use-package ox-latex)
 
-  (use-package atomic-chrome
-    :if (eq system-type 'windows-nt))
+        (use-package atomic-chrome
+          :if (eq system-type 'windows-nt))
 
 
-  (use-package dired+
-    :init
-    (setq dired-dwim-target t)
-    :hook
-    (dired-hide-details-mode))
+        (use-package dired+
+          :init
+          (setq dired-dwim-target t)
+          :hook
+          (dired-hide-details-mode))
 
-  (use-package windows-path)
+        (use-package windows-path)
 
-  (use-package ps-ccrypt)
+        (use-package ps-ccrypt)
 
-  (use-package dirtree
-    :ensure t)
+        (use-package dirtree
+          :ensure t)
 
-  (use-package epa-file
-    :config)
+        (use-package epa-file
+          :config)
 
-  (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode))
+        (use-package which-key
+          :ensure t
+          :config
+          (which-key-mode))
 
-  (use-package helm
-    :ensure t
-    :config
-    (helm-mode 1)
-    (setq helm-bookmark-show-location t))
+        (use-package helm
+          :ensure t
+          :config
+          (helm-mode 1)
+          (setq helm-bookmark-show-location t))
 
-  (use-package ws-trim
-    :diminish
-    :config
-    (global-ws-trim-mode t)
-    (set-default 'ws-trim-level 2)
-    (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
+        (use-package ws-trim
+          :diminish
+          :config
+          (global-ws-trim-mode t)
+          (set-default 'ws-trim-level 2)
+          (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
 
-  (use-package cygwin-mount)
+        (use-package cygwin-mount)
 
-  (use-package setup-cygwin
-    :if (eq system-type 'windows-nt))
+        (use-package setup-cygwin
+          :if (eq system-type 'windows-nt))
 
-  (use-package unbound)
+        (use-package unbound)
 
-  (use-package auto-indent-mode)
+        (use-package adjust-parens
+          :ensure t)
 
-  (use-package adjust-parens
-    :ensure t)
+        (use-package auto-correct
+          :diminish
+          :ensure t
+          :config
+          (auto-correct-mode))
 
-  (use-package auto-correct
-    :diminish
-    :ensure t
-    :config
-    (auto-correct-mode))
+        (use-package csv-mode
+          :ensure t)
 
-  (use-package csv-mode
-    :ensure t)
+        (use-package vlf-setup
+          :ensure vlf)
 
-  (use-package vlf-setup
-    :ensure vlf)
+        (use-package wconf
+          :ensure t)
 
-  (use-package wconf
-    :ensure t)
+        (use-package undo-tree
+          :ensure t)
 
-  (use-package undo-tree
-    :ensure t)
+        (use-package darkroom
+          :ensure t)
 
-  (use-package darkroom
-    :ensure t)
-
-  (use-package yasnippet
-    :ensure t)
+        (use-package yasnippet
+          :ensure t
+          :config
+          (yas-global-mode 1))
 #+END_SRC
 * Mode control
 ** Auto mode alist
@@ -242,13 +247,18 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
-(yas-global-mode 1)
 
 #+END_SRC
 ** Load hooks
 #+BEGIN_SRC emacs-lisp
 
   (add-hook 'before-save-hook 'whitespace-cleanup)
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq python-indent 2)
+              (setq tab-width 2)))
 
 
 #+END_SRC
@@ -291,9 +301,8 @@
   (setq inhibit-splash-screen t)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq visible-bell 1)
-  (setq tab-width 2)
   (setq-default tab-width 2)
-  (setq indent-tab-mode t)
+  (setq-default indent-tabs-mode t)
   (show-paren-mode 1)
   (display-time-mode 1)
 
@@ -301,7 +310,7 @@
       (load-theme 'tango-dark)
       (load-theme 'leuven))
 
-  (set-face-attribute 'default nil :height 200)
+  (set-face-attribute 'default nil :height 160)
 
   (global-prettify-symbols-mode t)
 #+END_SRC
