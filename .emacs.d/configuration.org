@@ -581,6 +581,7 @@
                  ("\\section{%s}" . "\\section*{%s}")
                  ))
 
+  (setq org-export-with-smart-quotes t)
 #+END_SRC
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
