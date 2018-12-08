@@ -201,7 +201,11 @@
   (use-package cygwin-mount)
 
   (use-package setup-cygwin
-    :if (eq system-type 'windows-nt))
+    :if (eq system-type 'windows-nt)
+    :config
+    (set-shell-cmdproxy)
+    (setq w32-quote-process-args t)
+    (setq-default w32-quote-process-args t))
 
   (use-package unbound)
 
@@ -233,6 +237,13 @@
     :ensure t
     :config
     (yas-global-mode 1))
+
+  (use-package highlight-indent-guides
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+
+
 #+END_SRC
 * Mode control
 ** Auto mode alist
@@ -350,6 +361,16 @@
       (progn
         'atomic-chrome-start-httpd
         'atomic-chrome-start-server))
+
+  (if (eq system-type 'windows-nt)
+      (progn
+        (let ((proc (start-process "cmd" nil "cmd.exe" "/C" "start" "cmd.exe")))
+          (set-process-query-on-exit-flag proc nil))))
+
+  (defcustom powershell-location-of-exe
+    "c:\\windows\\SYSWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"
+    "A string, providing the location of the Powershell.exe."
+    :group 'powershell)
 #+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
@@ -368,6 +389,7 @@
   (defvar my-org-menu (make-sparse-keymap))
   (defvar my-nav-menu (make-sparse-keymap))
   (defvar my-command-menu (make-sparse-keymap))
+  (defvar my-display-menu (make-sparse-keymap))
   (defvar my-buffer-menu (make-sparse-keymap))
   (defvar my-window-menu (make-sparse-keymap))
   (defvar my-visual-menu (make-sparse-keymap))
@@ -379,6 +401,7 @@
     "c" my-command-menu
     "b" my-buffer-menu
     "w" my-window-menu
+    "d" my-display-menu
     "g" my-nav-menu
     "v" my-visual-menu
     "SPC" 'helm-M-x
@@ -438,6 +461,9 @@
   (define-key my-window-menu (kbd "v") 'split-window-vertically)
   (define-key my-window-menu (kbd "o") 'other-window)
   (define-key my-window-menu (kbd "f") 'toggle-frame-fullscreen)
+
+  (define-key my-display-menu (kbd "i") 'text-scale-increase)
+  (define-key my-display-menu (kbd "d") 'text-scale-decrease)
 #+END_SRC
 ** Evil Config
 #+BEGIN_SRC emacs-lisp
