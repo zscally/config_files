@@ -42,13 +42,14 @@
 ** Os specific
 #+BEGIN_SRC emacs-lisp
   (when (boundp 'w32-pipe-read-delay)
-          (setq w32-pipe-read-delay 0))
-        ;; Set the buffer size to 64K on Windows (from the original 4K)
-        (when (boundp 'w32-pipe-buffer-size)
-          (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+    (setq w32-pipe-read-delay 0))
+  ;; Set the buffer size to 64K on Windows (from the original 4K)
+  (when (boundp 'w32-pipe-buffer-size)
+    (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
   (getenv "HOME")
 
+  (setq notes-file nil)
   (if (eq system-type 'windows-nt)
       (setq notes-file (getenv "NOTESORG"))
     (setq notes-file "~/Desktop/Notes.org.gpg"))
@@ -578,13 +579,12 @@
 #+END_SRC
 ** org-mode
 #+BEGIN_SRC emacs-lisp
-
   (setq org-imenu-depth 5)
   (setq org-hide-emphasis-markers t)
   (setq org-default-notes-file notes-file)
   (setq org-indent-mode t)
   (setq org-todo-keywords
-    '((sequence "TODO(t)" "MAYBE(m!)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELED(c@)")))
+        '((sequence "TODO(t)" "MAYBE(m!)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELED(c@)")))
 
   (setq org-keyword-faces
         '(("TODO(t)" . org-warning) ("IN PROGRESS(p!)" . "yellow") ("MAYBE(m!)" . "blue") ("DONE(d!)" . "green") ("CANCELED(c@)" . (:foreground "red" :background "yellow" :weight bold))))
@@ -608,6 +608,12 @@
                  ))
 
   (setq org-export-with-smart-quotes t)
+
+  (if (eq system-type 'gnu/linux)
+      (load "~/.emacs.d/capture-templates.el")
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline notes-file "Tasks")
+             "* TODO %?\n %i\n %a"))))
 #+END_SRC
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
