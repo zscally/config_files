@@ -279,6 +279,13 @@
               (setq python-indent 2)
               (setq tab-width 2)))
 
+  (add-hook 'powershell-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq powershell-indent 2)
+              (setq tab-width 2)))
+
+
 
 #+END_SRC
 * File handling
