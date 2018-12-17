@@ -584,7 +584,7 @@
   (setq org-default-notes-file notes-file)
   (setq org-indent-mode t)
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "MAYBE(m!)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELED(c@)")))
+        '((sequence "TODO(t)" "MAYBE(m!)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELLED(c@)")))
 
   (setq org-keyword-faces
         '(("TODO(t)" . org-warning) ("IN PROGRESS(p!)" . "yellow") ("MAYBE(m!)" . "blue") ("DONE(d!)" . "green") ("CANCELED(c@)" . (:foreground "red" :background "yellow" :weight bold))))
