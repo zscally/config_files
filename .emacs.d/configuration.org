@@ -609,11 +609,8 @@
 
   (setq org-export-with-smart-quotes t)
 
-  (if (eq system-type 'gnu/linux)
-      (load "~/.emacs.d/capture-templates.el")
-    (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline notes-file "Tasks")
-             "* TODO %?\n %i\n %a"))))
+  (load "~/.emacs.d/capture-templates.el")
+  (setq org-agenda-skip-scheduled-if-done t)
 #+END_SRC
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
