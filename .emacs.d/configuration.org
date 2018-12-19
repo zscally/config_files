@@ -1,3 +1,5 @@
+#+STARTUP: showeverything
+
 * Load paths and imports
 ** Custom Set Variables (MUST BE FIRST)
 #+BEGIN_SRC emacs-lisp
