@@ -249,13 +249,16 @@
 
 #+END_SRC
 * Mode control
-** Auto mode alist
+** Auto mode alist & hooks
 #+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.log\\'" . log-view-mode))
+  (add-to-list 'auto-mode-alist '("\\.bat\\'" . bat-mode))
 
-  (add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode))
+  (add-hook 'log-view-mode-hook 'auto-revert-mode)
+  (add-hook 'bat-mode-hook 'auto-revert-mode)
+
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
   (add-to-list 'auto-mode-alist '("\\.org.gpg\\'" . org-mode))
-
 #+END_SRC
 ** Global and toggled modes
 #+BEGIN_SRC emacs-lisp
@@ -270,10 +273,9 @@
 (tool-bar-mode -1)
 
 #+END_SRC
-** Load hooks
+** Code Type Load hooks
 #+BEGIN_SRC emacs-lisp
 
-  (add-hook 'before-save-hook 'whitespace-cleanup)
 
   (add-hook 'python-mode-hook
             (lambda ()
