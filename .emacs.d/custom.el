@@ -120,6 +120,14 @@ Version 2018-03-01"
 		 (setq org-map-continue-from (outline-previous-heading)))
 	 "/DONE" 'tree))
 
+(defun org-archive-cancelled-tasks ()
+	(interactive)
+	(org-map-entries
+	 (lambda ()
+		 (org-archive-subtree)
+		 (setq org-map-continue-from (outline-previous-heading)))
+	 "/CANCELLED" 'tree))
+
 (defun copy-file-name-to-clipboard ()
 	"Copy the current buffer file name to the clipboard."
 	(interactive)

@@ -57,6 +57,9 @@
     (setq notes-file "~/Desktop/Notes.org.gpg"))
 
   (if (eq system-type 'windows-nt)
+      (setq org-archive-location (getenv "ORGARCHIVE")))
+
+  (if (eq system-type 'windows-nt)
       (setq config-file (getenv "EMACSCONFIG"))
     (setq config-file "~/.emacs.d/configuration.org"))
 
@@ -199,7 +202,7 @@
     :config
     (global-ws-trim-mode t)
     (set-default 'ws-trim-level 2)
-    (setq ws-trim-global-modes '(guess (not message-mode eshell-mode))))
+    (setq ws-trim-global-modes '(guess (not message-mode eshell-mode shell-mode))))
 
   (use-package cygwin-mount)
 
@@ -347,6 +350,10 @@
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   (undo-tree-mode)
+
+  (setq comint-password-prompt-regexp
+        (concat comint-password-prompt-regexp
+                "\\|Enter password"))
 #+END_SRC
 
 ** Text
