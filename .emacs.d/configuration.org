@@ -153,7 +153,6 @@
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
   (use-package org
-    :ensure org-plus-contrib
     :pin org
     :diminish
     :config
