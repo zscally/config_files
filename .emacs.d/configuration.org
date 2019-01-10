@@ -275,9 +275,10 @@
 (tool-bar-mode -1)
 
 #+END_SRC
-** Code Type Load hooks
+** Load hooks
 #+BEGIN_SRC emacs-lisp
 
+  (add-hook 'before-save-hook 'whitespace-cleanup)
 
   (add-hook 'python-mode-hook
             (lambda ()
@@ -335,6 +336,8 @@
   (setq visible-bell 1)
   (setq-default tab-width 2)
   (setq-default indent-tabs-mode t)
+  (setq tab-width 2)
+  (setq indent-tabs-mode t)
   (show-paren-mode 1)
   (display-time-mode 1)
 
@@ -624,6 +627,13 @@
                  ("\\section{%s}" . "\\section*{%s}")
                  ))
 
+  (add-to-list 'org-latex-classes
+               '("book"
+                 "\\documentclass[11pt,a4paper]{book}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ))
+
   (setq org-export-with-smart-quotes t)
 
   (load "~/.emacs.d/capture-templates.el")
@@ -632,4 +642,10 @@
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
   (setq bookmark-save-flag 1)
+#+END_SRC
+
+* Language specific
+** Rust
+#+BEGIN_SRC emacs-lisp
+  (setq rust-indent-offset 2)
 #+END_SRC
