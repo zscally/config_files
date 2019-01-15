@@ -119,6 +119,12 @@
     :config
     (auto-indent-global-mode))
 
+  (use-package centered-cursor-mode
+    :ensure t
+    :diminish
+    :config
+    (global-centered-cursor-mode))
+
   (use-package ac-php
     :ensure t)
 
