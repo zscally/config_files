@@ -611,6 +611,7 @@
   (setq org-hide-emphasis-markers t)
   (setq org-default-notes-file notes-file)
   (setq org-indent-mode t)
+  (setq org-startup-truncated nil)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "MAYBE(m!)" "IN PROGRESS(p!)" "DONE(d!)" "CANCELLED(c@)")))
 
