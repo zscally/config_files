@@ -4,6 +4,3 @@
 [submodule ".emacs.d/company-mode"]
 	path = .emacs.d/company-mode
 	url = https://github.com/company-mode/company-mode.git
-[submodule ".emacs.d/evil-writer"]
-	path = .emacs.d/evil-writer
-	url = git@github.com:emil-r-petersen/evil-writer.git
