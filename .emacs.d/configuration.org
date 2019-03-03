@@ -495,7 +495,8 @@
 
   (setq-default search-invisible t)
 
-  (set-face-attribute 'default nil :height 200)
+  (if (eq system-type 'darwin)
+      (set-face-attribute 'default nil :height 200))
 
   (setq ccm-recenter-at-end-of-file t)
 
