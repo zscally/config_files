@@ -52,8 +52,11 @@
   (getenv "HOME")
 
   (setq notes-file nil)
-  (if (eq system-type 'windows-nt)
-      (setq notes-file (getenv "NOTESORG"))
+
+  (setq mac-command-modifier 'control)
+
+  (if (eq system-type 'darwin)
+      (setq notes-file "~/Desktop/Notes.org")
     (setq notes-file "~/Desktop/Notes.org.gpg"))
 
   (if (eq system-type 'windows-nt)
@@ -77,11 +80,24 @@
   (if (eq system-type 'windows-nt)
       (let ((proc (start-process "cmd" nil "cmd.exe" "/C" "start" "cmd.exe")))
         (set-process-query-on-exit-flag proc nil)))
+
+  (if (eq system-type 'darwin)
+      (setq ispell-program-name "/usr/local/bin/ispell"))
 #+END_SRC
 
 ** Use package
 #+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-integration t)
+    :config
+    (evil-mode 1))
+
   (use-package smart-mode-line
+    :after evil
     :ensure t
     :config
     (progn
@@ -90,8 +106,6 @@
       (setq sml/no-confirm-load-theme t)
       (sml/setup)
       ))
-
-  (setq evil-want-keybinding nil)
 
   (use-package evil-leader
     :after evil
@@ -131,9 +145,6 @@
   (use-package ac-php
     :ensure t)
 
-  (use-package company-try-hard
-    :ensure t)
-
   (use-package company
     :diminish
     :ensure company
@@ -145,6 +156,9 @@
              company-capf
              company-predictive
              company-cmake))))
+
+  (use-package company-try-hard
+    :ensure t)
 
   (use-package powerbuilder-mode
     :if (eq system-type 'windows-nt))
@@ -168,6 +182,7 @@
     (setq org-agenda-files (list notes-file)))
 
   (use-package ox-md)
+
   (use-package ox-twbs
     :if
     (eq system-type 'gnu/linux))
@@ -177,7 +192,6 @@
   (use-package atomic-chrome
     :if (eq system-type 'windows-nt))
 
-
   (use-package dired+
     :init
     (setq dired-dwim-target t)
@@ -186,7 +200,9 @@
 
   (use-package windows-path)
 
-  (use-package ps-ccrypt)
+  (use-package ps-ccrypt
+    :defer t
+    :if (eq system-type 'gnu/linux))
 
   (use-package dirtree
     :ensure t)
@@ -209,10 +225,11 @@
     :diminish
     :config
     (global-ws-trim-mode t)
-    (set-default 'ws-trim-level 2)
+    (set-default 'ws-trim-level 1)
     (setq ws-trim-global-modes '(guess (not message-mode eshell-mode shell-mode))))
 
-  (use-package cygwin-mount)
+  (use-package cygwin-mount
+    :if (eq system-type 'windows-nt))
 
   (use-package setup-cygwin
     :if (eq system-type 'windows-nt)
@@ -241,11 +258,9 @@
   (use-package wconf
     :ensure t)
 
-  (use-package undo-tree
-    :ensure t)
-
   (use-package darkroom
-    :ensure t)
+    :ensure t
+    :defer t)
 
   (use-package yasnippet
     :ensure t
@@ -257,6 +272,105 @@
     :config
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize))
+
+  (use-package flycheck
+    :ensure t)
+
+  (use-package magit
+    :ensure t)
+
+  (use-package evil-magit
+    :ensure t
+    :config (evil-magit-init))
+
+  (use-package perspective
+    :ensure t
+    :init
+    (persp-mode))
+
+  (use-package ace-window
+    :config
+    (global-set-key (kbd "M-o") 'ace-window))
+
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (setq treemacs-collapse-dirs                 (if (executable-find "python") 3 0)
+            treemacs-deferred-git-apply-delay      0.5
+            treemacs-display-in-side-window        t
+            treemacs-file-event-delay              5000
+            treemacs-file-follow-delay             0.2
+            treemacs-follow-after-init             t
+            treemacs-git-command-pipe              ""
+            treemacs-goto-tag-strategy             'refetch-index
+            treemacs-indentation                   1
+            treemacs-indentation-string            " "
+            treemacs-is-never-other-window         t
+            treemacs-max-git-entries               5000
+            treemacs-no-png-images                 nil
+            treemacs-no-delete-other-windows       t
+            treemacs-project-follow-cleanup        nil
+            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-recenter-distance             0.1
+            treemacs-recenter-after-file-follow    nil
+            treemacs-recenter-after-tag-follow     nil
+            treemacs-recenter-after-project-jump   'always
+            treemacs-recenter-after-project-expand 'on-distance
+            treemacs-show-cursor                   nil
+            treemacs-show-hidden-files             t
+            treemacs-silent-filewatch              nil
+            treemacs-silent-refresh                nil
+            treemacs-sorting                       'alphabetic-desc
+            treemacs-space-between-root-nodes      t
+            treemacs-tag-follow-cleanup            t
+            treemacs-tag-follow-delay              1.5
+            treemacs-width                         35)
+
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t)
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null (executable-find "python3"))))
+        (`(t . t)
+         (treemacs-git-mode 'deferred))
+        (`(t . _)
+         (treemacs-git-mode 'simple))))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-evil
+    :after treemacs evil
+    :ensure t)
+
+  (use-package treemacs-magit
+    :after treemacs magit
+    :ensure t)
+
+  (use-package ag
+    :defer t
+    :ensure t)
+
+  (use-package json-mode
+    :ensure t)
 
 #+END_SRC
 * Mode control
@@ -286,20 +400,30 @@
 #+END_SRC
 ** Load hooks
 #+BEGIN_SRC emacs-lisp
-
   (add-hook 'before-save-hook 'whitespace-cleanup)
 
   (add-hook 'python-mode-hook
             (lambda ()
-              (setq indent-tabs-mode t)
-              (setq python-indent 2)
-              (setq tab-width 2)))
+              (setq python-indent 2)))
 
   (add-hook 'powershell-mode-hook
             (lambda ()
+              (setq powershell-indent 2)))
+
+  (add-hook 'php-mode-hook
+            (lambda ()
               (setq indent-tabs-mode t)
-              (setq powershell-indent 2)
-              (setq tab-width 2)))
+              (setq tab-width 4)
+              (c-set-style "symfony2")))
+
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (setq js-indent-level 4)))
+
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (make-local-variable 'js-indent-level)
+              (setq js-indent-level 2)))
 
 
 
@@ -343,10 +467,6 @@
   (setq inhibit-splash-screen t)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq visible-bell 1)
-  (setq-default tab-width 2)
-  (setq-default indent-tabs-mode t)
-  (setq tab-width 2)
-  (setq indent-tabs-mode t)
   (show-paren-mode 1)
   (display-time-mode 1)
 
@@ -375,18 +495,24 @@
 
   (setq-default search-invisible t)
 
+  (set-face-attribute 'default nil :height 200)
+
   (setq ccm-recenter-at-end-of-file t)
 
+  (setq-default tab-width 4)
+
 #+END_SRC
-** Code completion
+** Code completion / show
 #+BEGIN_SRC emacs-lisp
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0.3)
 
+  (setq dumb-jump-prefer-searcher 'ag)
+
 #+END_SRC
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
-  (server-start)
+  ;(server-start)
   (setq delete-by-moving-to-trash t)
 
   (if (eq system-type 'window-nt)
@@ -409,10 +535,16 @@
   (setq latex-run-command "pdflatex")
 
 #+END_SRC
-** Keybindings
+** Evil Mode Config
+#+BEGIN_SRC emacs-lisp
+
+ ; For modes where we don't want to use evil
+
+#+END_SRC
+
+** Keybindings / shortcuts
 
 #+BEGIN_SRC emacs-lisp
-  (setq evil-want-integration nil) ; Must be done before loading evil
   (global-evil-leader-mode)
 
   (windmove-default-keybindings)
@@ -425,7 +557,10 @@
   (defvar my-buffer-menu (make-sparse-keymap))
   (defvar my-window-menu (make-sparse-keymap))
   (defvar my-visual-menu (make-sparse-keymap))
+  (defvar my-perspective-menu (make-sparse-keymap))
+  (defvar my-treemacs-menu (make-sparse-keymap))
 
+  (global-set-key  (kbd "C-x b") 'helm-mini)
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
@@ -436,11 +571,14 @@
     "d" my-display-menu
     "g" my-nav-menu
     "v" my-visual-menu
+    "p" my-perspective-menu
+    "t" my-treemacs-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
     "n" 'evil-buffer-new
     "m" 'dired-jump
     "s" 'save-buffer
+    "r" 'rename-buffer
     "TAB" 'company-try-hard
     "q" 'save-buffers-kill-terminal)
 
@@ -472,6 +610,7 @@
 
   (define-key my-org-menu (kbd "c") 'org-capture)
   (define-key my-org-menu (kbd "a") 'org-agenda)
+  (define-key my-org-menu (kbd "t") 'org-todo-list)
   (define-key my-org-menu (kbd "r") 'org-refile)
   (define-key my-org-menu (kbd "m") 'helm-imenu)
 
@@ -496,13 +635,17 @@
 
   (define-key my-display-menu (kbd "i") 'text-scale-increase)
   (define-key my-display-menu (kbd "d") 'text-scale-decrease)
-#+END_SRC
-** Evil Config
-#+BEGIN_SRC emacs-lisp
 
-  (add-to-list 'load-path "~/.emacs.d/lisp/evil")
-  (require 'evil)
-  (evil-mode 1)
+
+  (define-key my-treemacs-menu (kbd "s") 'treemacs-switch-workspace)
+  (define-key my-treemacs-menu (kbd "b") 'treemacs-bookmark)
+  (define-key my-treemacs-menu (kbd "s") 'treemacs-add-bookmark)
+  (define-key my-treemacs-menu (kbd "w") 'treemacs-create-workspace)
+  (define-key my-treemacs-menu (kbd "c") 'treemacs-delete-other-windows)
+  (define-key my-treemacs-menu (kbd "f") 'treemacs-find-file)
+  (define-key my-treemacs-menu (kbd "t") 'treemacs)
+  (define-key my-treemacs-menu (kbd "g") 'treemacs-switch-workspace)
+
 
 #+END_SRC
 ** Evil sentence
@@ -655,7 +798,21 @@
 #+BEGIN_SRC emacs-lisp
   (setq bookmark-save-flag 1)
 #+END_SRC
+** Perspective config
+#+BEGIN_SRC emacs-lisp
 
+  (define-key my-perspective-menu (kbd "s") 'persp-switch)
+  (define-key my-perspective-menu (kbd "k") 'persp-remove-buffer)
+  (define-key my-perspective-menu (kbd "c") 'persp-kill)
+
+  (define-key my-perspective-menu (kbd "r") 'persp-rename)
+  (define-key my-perspective-menu (kbd "a") 'persp-add-buffer)
+  (define-key my-perspective-menu (kbd "A") 'persp-set-buffer)
+  (define-key my-perspective-menu (kbd "i") 'persp-import)
+  (define-key my-perspective-menu (kbd "n") 'persp-next)
+  (define-key my-perspective-menu (kbd "p") 'persp-prev)
+
+#+END_SRC
 * Language specific
 ** Rust
 #+BEGIN_SRC emacs-lisp
