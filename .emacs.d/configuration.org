@@ -372,6 +372,9 @@
   (use-package json-mode
     :ensure t)
 
+  (use-package multi-term
+    :ensure t)
+
 #+END_SRC
 * Mode control
 ** Auto mode alist & hooks
@@ -461,7 +464,7 @@
 #+END_SRC
 
 * Editor config
-** Graphics / UI
+** Graphics / UI / Appearance
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-splash-screen t)
@@ -475,6 +478,20 @@
       (load-theme 'leuven))
 
   (set-face-attribute 'default nil :height 160)
+
+  (blink-cursor-mode -1)
+
+#+END_SRC
+** Startup hook
+#+BEGIN_SRC emacs-lisp
+
+  ; Open split shell on launch
+  (add-hook 'emacs-startup-hook
+    (lambda ()
+      (let ((w (split-window-below -10)))
+        (select-window w)
+        (multi-term))
+        (switch-to-buffer "*terminal<1>*")))
 
 #+END_SRC
 ** Interaction / input
@@ -505,6 +522,7 @@
 #+END_SRC
 ** Code completion / show
 #+BEGIN_SRC emacs-lisp
+
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0.3)
 
@@ -560,12 +578,15 @@
   (defvar my-visual-menu (make-sparse-keymap))
   (defvar my-perspective-menu (make-sparse-keymap))
   (defvar my-treemacs-menu (make-sparse-keymap))
+  (defvar my-ag-menu (make-sparse-keymap))
+  (defvar my-multiterm-menu (make-sparse-keymap))
 
   (global-set-key  (kbd "C-x b") 'helm-mini)
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
     "o" my-org-menu
+    "a" my-ag-menu
     "c" my-command-menu
     "b" my-buffer-menu
     "w" my-window-menu
@@ -574,10 +595,11 @@
     "v" my-visual-menu
     "p" my-perspective-menu
     "t" my-treemacs-menu
+    "m" my-multiterm-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
     "n" 'evil-buffer-new
-    "m" 'dired-jump
+    "i" 'dired-jump
     "s" 'save-buffer
     "r" 'rename-buffer
     "TAB" 'company-try-hard
@@ -648,6 +670,12 @@
   (define-key my-treemacs-menu (kbd "g") 'treemacs-switch-workspace)
 
 
+  (define-key my-ag-menu (kbd "p") 'ag-project)
+
+  (define-key my-multiterm-menu (kbd "m") 'multi-term)
+  (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
+  (define-key my-multiterm-menu (kbd "n") 'multi-term-next)
+
 #+END_SRC
 ** Evil sentence
 #+BEGIN_SRC emacs-lisp
@@ -663,72 +691,72 @@
 
 ** Org-agenda Vim Keybindings                                 :orgmode:evil:
 #+BEGIN_SRC emacs-lisp
-(eval-after-load 'org-agenda
- '(progn
-    (evil-set-initial-state 'org-agenda-mode 'normal)
-    (evil-define-key 'normal org-agenda-mode-map
-      (kbd "<RET>") 'org-agenda-switch-to
-      (kbd "\t") 'org-agenda-goto
+  (eval-after-load 'org-agenda
+   '(progn
+      (evil-set-initial-state 'org-agenda-mode 'normal)
+      (evil-define-key 'normal org-agenda-mode-map
+        (kbd "<RET>") 'org-agenda-switch-to
+        (kbd "\t") 'org-agenda-goto
 
-      "q" 'org-agenda-quit
-      "r" 'org-agenda-redo
-      "S" 'org-save-all-org-buffers
-      "gj" 'org-agenda-goto-date
-      "gJ" 'org-agenda-clock-goto
-      "gm" 'org-agenda-bulk-mark
-      "go" 'org-agenda-open-link
-      "s" 'org-agenda-schedule
-      "+" 'org-agenda-priority-up
-      "," 'org-agenda-priority
-      "-" 'org-agenda-priority-down
-      "y" 'org-agenda-todo-yesterday
-      "n" 'org-agenda-add-note
-      "t" 'org-agenda-todo
-      ":" 'org-agenda-set-tags
-      ";" 'org-timer-set-timer
-      "I" 'helm-org-task-file-headings
-      "i" 'org-agenda-clock-in-avy
-      "O" 'org-agenda-clock-out-avy
-      "u" 'org-agenda-bulk-unmark
-      "x" 'org-agenda-exit
-      "j"  'org-agenda-next-line
-      "k"  'org-agenda-previous-line
-      "vt" 'org-agenda-toggle-time-grid
-      "va" 'org-agenda-archives-mode
-      "vw" 'org-agenda-week-view
-      "vl" 'org-agenda-log-mode
-      "vd" 'org-agenda-day-view
-      "vc" 'org-agenda-show-clocking-issues
-      "g/" 'org-agenda-filter-by-tag
-      "o" 'delete-other-windows
-      "gh" 'org-agenda-holiday
-      "gv" 'org-agenda-view-mode-dispatch
-      "f" 'org-agenda-later
-      "b" 'org-agenda-earlier
-      "c" 'helm-org-capture-templates
-      "e" 'org-agenda-set-effort
-      "n" nil  ; evil-search-next
-      "{" 'org-agenda-manipulate-query-add-re
-      "}" 'org-agenda-manipulate-query-subtract-re
-      "A" 'org-agenda-toggle-archive-tag
-      "." 'org-agenda-goto-today
-      "0" 'evil-digit-argument-or-evil-beginning-of-line
-      "<" 'org-agenda-filter-by-category
-      ">" 'org-agenda-date-prompt
-      "F" 'org-agenda-follow-mode
-      "D" 'org-agenda-deadline
-      "H" 'org-agenda-holidays
-      "J" 'org-agenda-next-date-line
-      "K" 'org-agenda-previous-date-line
-      "L" 'org-agenda-recenter
-      "P" 'org-agenda-show-priority
-      "R" 'org-agenda-clockreport-mode
-      "Z" 'org-agenda-sunrise-sunset
-      "T" 'org-agenda-show-tags
-      "X" 'org-agenda-clock-cancel
-      "[" 'org-agenda-manipulate-query-add
-      "g\\" 'org-agenda-filter-by-tag-refine
-      "]" 'org-agenda-manipulate-query-subtract)))
+        "q" 'org-agenda-quit
+        "r" 'org-agenda-redo
+        "S" 'org-save-all-org-buffers
+        "gj" 'org-agenda-goto-date
+        "gJ" 'org-agenda-clock-goto
+        "gm" 'org-agenda-bulk-mark
+        "go" 'org-agenda-open-link
+        "s" 'org-agenda-schedule
+        "+" 'org-agenda-priority-up
+        "," 'org-agenda-priority
+        "-" 'org-agenda-priority-down
+        "y" 'org-agenda-todo-yesterday
+        "n" 'org-agenda-add-note
+        "t" 'org-agenda-todo
+        ":" 'org-agenda-set-tags
+        ";" 'org-timer-set-timer
+        "I" 'helm-org-task-file-headings
+        "i" 'org-agenda-clock-in-avy
+        "O" 'org-agenda-clock-out-avy
+        "u" 'org-agenda-bulk-unmark
+        "x" 'org-agenda-exit
+        "j"  'org-agenda-next-line
+        "k"  'org-agenda-previous-line
+        "vt" 'org-agenda-toggle-time-grid
+        "va" 'org-agenda-archives-mode
+        "vw" 'org-agenda-week-view
+        "vl" 'org-agenda-log-mode
+        "vd" 'org-agenda-day-view
+        "vc" 'org-agenda-show-clocking-issues
+        "g/" 'org-agenda-filter-by-tag
+        "o" 'delete-other-windows
+        "gh" 'org-agenda-holiday
+        "gv" 'org-agenda-view-mode-dispatch
+        "f" 'org-agenda-later
+        "b" 'org-agenda-earlier
+        "c" 'helm-org-capture-templates
+        "e" 'org-agenda-set-effort
+        "n" nil  ; evil-search-next
+        "{" 'org-agenda-manipulate-query-add-re
+        "}" 'org-agenda-manipulate-query-subtract-re
+        "A" 'org-agenda-toggle-archive-tag
+        "." 'org-agenda-goto-today
+        "0" 'evil-digit-argument-or-evil-beginning-of-line
+        "<" 'org-agenda-filter-by-category
+        ">" 'org-agenda-date-prompt
+        "F" 'org-agenda-follow-mode
+        "D" 'org-agenda-deadline
+        "H" 'org-agenda-holidays
+        "J" 'org-agenda-next-date-line
+        "K" 'org-agenda-previous-date-line
+        "L" 'org-agenda-recenter
+        "P" 'org-agenda-show-priority
+        "R" 'org-agenda-clockreport-mode
+        "Z" 'org-agenda-sunrise-sunset
+        "T" 'org-agenda-show-tags
+        "X" 'org-agenda-clock-cancel
+        "[" 'org-agenda-manipulate-query-add
+        "g\\" 'org-agenda-filter-by-tag-refine
+        "]" 'org-agenda-manipulate-query-subtract)))
 #+END_SRC
 
 ** Evil escape
@@ -794,6 +822,10 @@
 
   (load "~/.emacs.d/capture-templates.el")
   (setq org-agenda-skip-scheduled-if-done t)
+
+
+  (advice-add 'org-archive-done-tasks :after #'org-save-all-org-buffers)
+  (advice-add 'org-archive-cancelled-tasks :after #'org-save-all-org-buffers)
 #+END_SRC
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
