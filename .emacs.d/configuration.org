@@ -84,7 +84,6 @@
   (if (eq system-type 'darwin)
       (setq ispell-program-name "/usr/local/bin/ispell"))
 #+END_SRC
-
 ** Use package
 #+BEGIN_SRC emacs-lisp
   (use-package evil
@@ -138,9 +137,7 @@
 
   (use-package centered-cursor-mode
     :ensure t
-    :diminish
-    :config
-    (global-centered-cursor-mode))
+    :diminish)
 
   (use-package ac-php
     :ensure t)
@@ -462,7 +459,7 @@
 #+END_SRC
 
 * Editor config
-** Graphics / UI / Appearance
+** Graphics / UI / Appearance / look
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-splash-screen t)
@@ -479,16 +476,25 @@
 
   (blink-cursor-mode -1)
 
+  (global-hl-line-mode +1)
+
 #+END_SRC
 ** Startup hook
 #+BEGIN_SRC emacs-lisp
-  ; Open split shell on launch
-  (add-hook 'emacs-startup-hook
-    (lambda ()
-      (let ((w (split-window-below -10)))
-        (select-window w)
-        (multi-term))
-        (switch-to-buffer "*terminal<1>*")))
+; Open split shell on launch
+    (add-hook 'emacs-startup-hook
+      (lambda ()
+        (let ((w (split-window-below -10)))
+          (select-window w)
+          (multi-term))
+          (switch-to-buffer "*terminal<1>*")))
+
+
+  (defun split-for-term ()
+      (interactive)
+        (let ((w (split-window-below -10)))
+          (select-window w)
+          (switch-to-buffer "*terminal<1>*")))
 
 #+END_SRC
 ** Interaction / input
@@ -503,7 +509,8 @@
 ** Multi-term mode
 #+BEGIN_SRC emacs-lisp
 
-  (add-to-list 'evil-emacs-state-modes 'term)
+  (evil-set-initial-state 'term-mode 'emacs)
+  (add-hook 'term-mode (lambda () (local-set-key (kbd "M-o") #'ace-window)))
 
 #+END_SRC
 ** Text
@@ -533,7 +540,7 @@
 #+END_SRC
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
-  ;(server-start)
+                                          ;(server-start)
   (setq delete-by-moving-to-trash t)
 
   (if (eq system-type 'window-nt)
@@ -550,6 +557,8 @@
     "c:\\windows\\SYSWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"
     "A string, providing the location of the Powershell.exe."
     :group 'powershell)
+
+  (setq save-interprogram-paste-before-kill t)
 #+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
@@ -584,6 +593,10 @@
   (defvar my-multiterm-menu (make-sparse-keymap))
 
   (global-set-key  (kbd "C-x b") 'helm-mini)
+  (global-set-key  (kbd "C-c m") my-multiterm-menu)
+  (global-set-key  (kbd "C-c p") my-perspective-menu)
+  (global-set-key  (kbd "C-c r") 'rename-buffer)
+  (global-set-key  (kbd "C-c g") my-nav-menu)
   (global-set-key (kbd "M-o") 'ace-window)
   (evil-leader/set-leader "<SPC>")
 
@@ -678,6 +691,8 @@
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
   (define-key my-multiterm-menu (kbd "n") 'multi-term-next)
+  (define-key my-multiterm-menu (kbd "s") 'split-for-term)
+
 
 #+END_SRC
 ** Evil sentence
