@@ -370,6 +370,9 @@
   (use-package multi-term
     :ensure t)
 
+  (use-package bind-key
+    :ensure t)
+
 #+END_SRC
 * Mode control
 ** Auto mode alist & hooks
@@ -510,7 +513,6 @@
 #+BEGIN_SRC emacs-lisp
 
   (evil-set-initial-state 'term-mode 'emacs)
-  (add-hook 'term-mode (lambda () (local-set-key (kbd "M-o") #'ace-window)))
 
 #+END_SRC
 ** Text
@@ -592,12 +594,15 @@
   (defvar my-ag-menu (make-sparse-keymap))
   (defvar my-multiterm-menu (make-sparse-keymap))
 
-  (global-set-key  (kbd "C-x b") 'helm-mini)
-  (global-set-key  (kbd "C-c m") my-multiterm-menu)
-  (global-set-key  (kbd "C-c p") my-perspective-menu)
-  (global-set-key  (kbd "C-c r") 'rename-buffer)
-  (global-set-key  (kbd "C-c g") my-nav-menu)
-  (global-set-key (kbd "M-o") 'ace-window)
+  (bind-keys*
+   ("C-x b" . helm-mini)
+   ("C-c r" . rename-buffer)
+   ("M-o" . ace-window))
+
+  (global-set-key (kbd "C-c m") my-multiterm-menu)
+  (global-set-key (kbd "C-c p") my-perspective-menu)
+  (global-set-key (kbd "C-c g") my-nav-menu)
+
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
