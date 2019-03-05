@@ -597,13 +597,14 @@
   (bind-keys*
    ("C-x b" . helm-mini)
    ("C-c r" . rename-buffer)
-   ("M-o" . ace-window))
+   ("M-o" . ace-window)
+   ("M-x" . helm-M-x))
 
   (global-set-key (kbd "C-c m") my-multiterm-menu)
   (global-set-key (kbd "C-c p") my-perspective-menu)
   (global-set-key (kbd "C-c g") my-nav-menu)
-
-  (evil-leader/set-leader "<SPC>")
+  (global-set-key (kbd "C-c c") my-command-menu)
+  (global-set-key (kbd "C-c t") my-treemacs-menu)
 
   (evil-leader/set-key
     "o" my-org-menu
