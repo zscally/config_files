@@ -292,9 +292,7 @@
     :init
     (persp-mode))
 
-  (use-package ace-window
-    :config
-    (global-set-key (kbd "M-o") 'ace-window))
+  (use-package ace-window)
 
   (use-package treemacs
     :ensure t
@@ -484,7 +482,6 @@
 #+END_SRC
 ** Startup hook
 #+BEGIN_SRC emacs-lisp
-
   ; Open split shell on launch
   (add-hook 'emacs-startup-hook
     (lambda ()
@@ -503,7 +500,12 @@
         (concat comint-password-prompt-regexp
                 "\\|Enter password"))
 #+END_SRC
+** Multi-term mode
+#+BEGIN_SRC emacs-lisp
 
+  (add-to-list 'evil-emacs-state-modes 'term)
+
+#+END_SRC
 ** Text
 #+BEGIN_SRC emacs-lisp
 
@@ -582,6 +584,7 @@
   (defvar my-multiterm-menu (make-sparse-keymap))
 
   (global-set-key  (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "M-o") 'ace-window)
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
