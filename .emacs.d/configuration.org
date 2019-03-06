@@ -487,6 +487,8 @@
   (global-hl-line-mode)
   (set-face-background hl-line-face "limeGreen")
 
+  (set-cursor-color "#ff83cf")
+
 #+END_SRC
 ** Startup hook
 #+BEGIN_SRC emacs-lisp
@@ -601,6 +603,8 @@
    ("M-o" . ace-window)
    ("M-x" . helm-M-x)
    ("C-c C-p" . org-previous-visible-heading)
+   ("C-y" . evil-paste-after)
+   ("C-c C-y" . term-paste)
    ("C-c C-n" . org-next-visible-heading))
 
   (bind-key* "C-c m" my-multiterm-menu)
@@ -635,6 +639,8 @@
   (with-eval-after-load 'evil-maps
     (progn
       (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
+      (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-after)
+      (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-after)
       (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
       (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
       (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
@@ -706,6 +712,7 @@
   (define-key my-multiterm-menu (kbd "n") 'multi-term-next)
   (define-key my-multiterm-menu (kbd "s") 'split-for-term)
   (define-key my-multiterm-menu (kbd "l") 'term-line-mode)
+  (define-key my-multiterm-menu (kbd "c") 'term-char-mode)
 
 #+END_SRC
 ** Evil sentence
