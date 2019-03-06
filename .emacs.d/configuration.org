@@ -360,8 +360,7 @@
     :after treemacs magit
     :ensure t)
 
-  (use-package ag
-    :defer t
+  (use-package helm-ag
     :ensure t)
 
   (use-package json-mode
@@ -380,11 +379,19 @@
   (add-to-list 'auto-mode-alist '("\\.log\\'" . log-view-mode))
   (add-to-list 'auto-mode-alist '("\\.bat\\'" . bat-mode))
 
-  (add-hook 'log-view-mode-hook 'auto-revert-mode)
-  (add-hook 'bat-mode-hook 'auto-revert-mode)
 
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
   (add-to-list 'auto-mode-alist '("\\.org.gpg\\'" . org-mode))
+
+  (add-hook 'log-view-mode-hook 'auto-revert-mode)
+  (add-hook 'bat-mode-hook 'auto-revert-mode)
+
+  (add-hook 'php-mode-hook 'centered-cursor-mode)
+  (add-hook 'org-mode-hook 'centered-cursor-mode)
+  (add-hook 'text-mode-hook 'centered-cursor-mode)
+
+
+
 #+END_SRC
 ** Global and toggled modes
 #+BEGIN_SRC emacs-lisp
@@ -401,6 +408,7 @@
 #+END_SRC
 ** Load hooks
 #+BEGIN_SRC emacs-lisp
+
   (add-hook 'before-save-hook 'whitespace-cleanup)
 
   (add-hook 'python-mode-hook
@@ -425,8 +433,6 @@
             (lambda ()
               (make-local-variable 'js-indent-level)
               (setq js-indent-level 2)))
-
-
 
 #+END_SRC
 * File handling
@@ -473,48 +479,41 @@
 
   (if (eq system-type 'gnu/linux)
       (load-theme 'tango-dark)
-      (load-theme 'leuven))
+    (load-theme 'leuven))
 
   (set-face-attribute 'default nil :height 160)
 
   (blink-cursor-mode -1)
 
-  (global-hl-line-mode +1)
+  (global-hl-line-mode)
+  (set-face-background hl-line-face "limeGreen")
 
 #+END_SRC
 ** Startup hook
 #+BEGIN_SRC emacs-lisp
-; Open split shell on launch
-    (add-hook 'emacs-startup-hook
-      (lambda ()
-        (let ((w (split-window-below -10)))
-          (select-window w)
-          (multi-term))
-          (switch-to-buffer "*terminal<1>*")))
-
+  ; Open split shell on launch
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (let ((w (split-window-below -10)))
+                (select-window w)
+                (multi-term))
+              (switch-to-buffer "*terminal<1>*")))
 
   (defun split-for-term ()
-      (interactive)
-        (let ((w (split-window-below -10)))
-          (select-window w)
-          (switch-to-buffer "*terminal<1>*")))
-
+    (interactive)
+    (let ((w (split-window-below -10)))
+      (select-window w)
+      (switch-to-buffer "*terminal<1>*")))
 #+END_SRC
 ** Interaction / input
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
-  (undo-tree-mode)
 
   (setq comint-password-prompt-regexp
         (concat comint-password-prompt-regexp
                 "\\|Enter password"))
 #+END_SRC
-** Multi-term mode
-#+BEGIN_SRC emacs-lisp
 
-  (evil-set-initial-state 'term-mode 'emacs)
-
-#+END_SRC
 ** Text
 #+BEGIN_SRC emacs-lisp
 
@@ -569,14 +568,17 @@
 #+END_SRC
 ** Evil Mode Config
 #+BEGIN_SRC emacs-lisp
+  ; For modes where we don't want to use evil
 
- ; For modes where we don't want to use evil
+  (evil-set-initial-state 'term-mode 'emacs)
 
+  (setq evil-want-keybinding nil)
 #+END_SRC
 
 ** Keybindings / shortcuts
 
 #+BEGIN_SRC emacs-lisp
+
   (global-evil-leader-mode)
 
   (windmove-default-keybindings)
@@ -598,13 +600,17 @@
    ("C-x b" . helm-mini)
    ("C-c r" . rename-buffer)
    ("M-o" . ace-window)
-   ("M-x" . helm-M-x))
+   ("M-x" . helm-M-x)
+   ("C-c C-p" . org-previous-visible-heading)
+   ("C-c C-n" . org-next-visible-heading))
 
-  (global-set-key (kbd "C-c m") my-multiterm-menu)
-  (global-set-key (kbd "C-c p") my-perspective-menu)
-  (global-set-key (kbd "C-c g") my-nav-menu)
-  (global-set-key (kbd "C-c c") my-command-menu)
-  (global-set-key (kbd "C-c t") my-treemacs-menu)
+  (bind-key* "C-c m" my-multiterm-menu)
+  (bind-key* "C-c p" my-perspective-menu)
+  (bind-key* "C-c g" my-nav-menu)
+  (bind-key* "C-c c" my-command-menu)
+  (bind-key* "C-c o" my-org-menu)
+
+  (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
     "o" my-org-menu
@@ -649,9 +655,9 @@
   (define-key my-nav-menu (kbd "n") 'load-notes)
   (define-key my-nav-menu (kbd "c") 'load-config)
   (define-key my-nav-menu (kbd "s") '(lambda nil
-                                     (interactive)
-                                   (switch-to-buffer (get-buffer-create "*scratch*"))
-                                   (lisp-interaction-mode)))
+                                       (interactive)
+                                       (switch-to-buffer (get-buffer-create "*scratch*"))
+                                       (lisp-interaction-mode)))
 
   (define-key my-org-menu (kbd "c") 'org-capture)
   (define-key my-org-menu (kbd "a") 'org-agenda)
@@ -692,13 +698,15 @@
   (define-key my-treemacs-menu (kbd "g") 'treemacs-switch-workspace)
 
 
-  (define-key my-ag-menu (kbd "p") 'ag-project)
+  (define-key my-ag-menu (kbd "p") 'helm-ag-project-root)
+  (define-key my-ag-menu (kbd "a") 'helm-ag)
+  (define-key my-ag-menu (kbd "f") 'helm-ag-this-file)
 
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
   (define-key my-multiterm-menu (kbd "n") 'multi-term-next)
   (define-key my-multiterm-menu (kbd "s") 'split-for-term)
-
+  (define-key my-multiterm-menu (kbd "l") 'term-line-mode)
 
 #+END_SRC
 ** Evil sentence
