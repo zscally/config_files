@@ -388,6 +388,7 @@
   (add-hook 'php-mode-hook 'centered-cursor-mode)
   (add-hook 'org-mode-hook 'centered-cursor-mode)
   (add-hook 'text-mode-hook 'centered-cursor-mode)
+  (add-hook 'lisp-interaction-mode-hook  'centered-cursor-mode)
 
 
 
@@ -612,6 +613,9 @@
   (bind-key* "C-c g" my-nav-menu)
   (bind-key* "C-c c" my-command-menu)
   (bind-key* "C-c o" my-org-menu)
+  (bind-key* "C-c t" my-treemacs-menu)
+  (bind-key* "C-c b" my-buffer-menu)
+  (bind-key* "C-c a" my-ag-menu)
 
   (evil-leader/set-leader "<SPC>")
 
