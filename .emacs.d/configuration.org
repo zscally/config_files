@@ -595,7 +595,7 @@
   (defvar my-multiterm-menu (make-sparse-keymap))
 
   (bind-keys*
-   ("C-x b" . helm-mini)
+   ("C-x b" . helm-buffers-list)
    ("C-c r" . rename-buffer)
    ("M-o" . ace-window)
    ("M-x" . helm-M-x)
@@ -676,7 +676,7 @@
   (define-key my-command-menu (kbd "s") 'bookmark-set)
   (define-key my-command-menu (kbd "c") 'helm-filtered-bookmarks)
 
-  (define-key my-buffer-menu (kbd "b") 'helm-mini)
+  (define-key my-buffer-menu (kbd "b") 'helm-buffers-list)
   (define-key my-buffer-menu (kbd "i") 'ibuffer)
   (define-key my-buffer-menu (kbd "c") 'kill-buffer)
   (define-key my-buffer-menu (kbd "n") 'next-buffer)
@@ -864,6 +864,12 @@
 
   (advice-add 'org-archive-done-tasks :after #'org-save-all-org-buffers)
   (advice-add 'org-archive-cancelled-tasks :after #'org-save-all-org-buffers)
+#+END_SRC
+** Helm mode
+#+BEGIN_SRC emacs-lisp
+
+  (setq helm-boring-buffer-regexp-list (list (rx "*magit-") (rx "*helm") (rx "*Minibuf") (rx "*Echo area")))
+
 #+END_SRC
 ** Bookmarks
 #+BEGIN_SRC emacs-lisp
