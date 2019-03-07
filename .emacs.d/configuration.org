@@ -252,8 +252,7 @@
     :ensure t)
 
   (use-package darkroom
-    :ensure t
-    :defer t)
+    :ensure t)
 
   (use-package yasnippet
     :ensure t
