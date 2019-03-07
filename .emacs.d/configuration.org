@@ -367,6 +367,9 @@
   (use-package bind-key
     :ensure t)
 
+  (use-package org-jira
+    :ensure t)
+
 #+END_SRC
 * Mode control
 ** Auto mode alist & hooks
@@ -511,7 +514,12 @@
         (concat comint-password-prompt-regexp
                 "\\|Enter password"))
 #+END_SRC
+** JIRA
+#+BEGIN_SRC emacs-lisp
 
+  (setq jiralib-url "https://celltrak.atlassian.net")
+
+#+END_SRC
 ** Text
 #+BEGIN_SRC emacs-lisp
 
