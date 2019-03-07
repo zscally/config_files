@@ -577,6 +577,7 @@
   ; For modes where we don't want to use evil
 
   (evil-set-initial-state 'term-mode 'emacs)
+  (evil-set-initial-state 'dired-mode 'emacs)
 
   (setq evil-want-keybinding nil)
 #+END_SRC
