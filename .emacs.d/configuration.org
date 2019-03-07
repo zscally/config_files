@@ -200,9 +200,6 @@
     :defer t
     :if (eq system-type 'gnu/linux))
 
-  (use-package dirtree
-    :ensure t)
-
   (use-package epa-file
     :config)
 
