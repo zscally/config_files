@@ -610,7 +610,7 @@
    ("M-o" . ace-window)
    ("M-x" . helm-M-x)
    ("C-c C-p" . org-previous-visible-heading)
-   ("C-y" . evil-paste-after)
+   ("C-y" . evil-paste-before)
    ("C-c u" . universal-argument)
    ("C-c C-y" . term-paste)
    ("C-c C-n" . org-next-visible-heading))
@@ -650,12 +650,11 @@
   (with-eval-after-load 'evil-maps
     (progn
       (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
-      (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-after)
-      (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-after)
+      (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-before)
+      (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-evil-paste-before)
       (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
       (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
-      (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)
-      ))
+      (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)))
 
   (defun load-notes ()
     "Load notes org"
@@ -710,6 +709,7 @@
   (define-key my-treemacs-menu (kbd "s") 'treemacs-add-bookmark)
   (define-key my-treemacs-menu (kbd "w") 'treemacs-create-workspace)
   (define-key my-treemacs-menu (kbd "c") 'treemacs-delete-other-windows)
+  (define-key my-treemacs-menu (kbd "a") 'treemacs-add-project-to-workspace)
   (define-key my-treemacs-menu (kbd "f") 'treemacs-find-file)
   (define-key my-treemacs-menu (kbd "t") 'treemacs)
   (define-key my-treemacs-menu (kbd "g") 'treemacs-switch-workspace)
