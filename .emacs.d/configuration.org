@@ -470,6 +470,7 @@
 ** Graphics / UI / Appearance / look
 
 #+BEGIN_SRC emacs-lisp
+
   (setq inhibit-splash-screen t)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq visible-bell 1)
@@ -610,6 +611,7 @@
    ("M-x" . helm-M-x)
    ("C-c C-p" . org-previous-visible-heading)
    ("C-y" . evil-paste-after)
+   ("C-c u" . universal-argument)
    ("C-c C-y" . term-paste)
    ("C-c C-n" . org-next-visible-heading))
 
@@ -678,6 +680,7 @@
   (define-key my-org-menu (kbd "t") 'org-todo-list)
   (define-key my-org-menu (kbd "r") 'org-refile)
   (define-key my-org-menu (kbd "m") 'helm-imenu)
+  (define-key my-org-menu (kbd "i") 'org-insert-item)
 
   (define-key my-visual-menu (kbd "v") 'visual-line-mode)
   (define-key my-visual-menu (kbd "c") 'centered-cursor-mode)
@@ -713,8 +716,10 @@
 
 
   (define-key my-ag-menu (kbd "p") 'helm-ag-project-root)
+  (define-key my-ag-menu (kbd "P") 'helm-do-ag-project-root)
   (define-key my-ag-menu (kbd "a") 'helm-ag)
   (define-key my-ag-menu (kbd "f") 'helm-ag-this-file)
+  (define-key my-ag-menu (kbd "d") 'helm-do-ag)
 
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
@@ -877,7 +882,7 @@
 ** Helm mode
 #+BEGIN_SRC emacs-lisp
 
-  (setq helm-boring-buffer-regexp-list (list (rx "*magit-") (rx "*helm") (rx "*Minibuf") (rx "*Echo area")))
+  (setq helm-boring-buffer-regexp-list (list (rx "*magit-") (rx "*helm") (rx "*Minibuf") (rx "*Echo area") (rx "*Treemacs-Framebuffer*") (rx "*which-key*")))
 
 #+END_SRC
 ** Bookmarks
