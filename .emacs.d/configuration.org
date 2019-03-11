@@ -370,6 +370,16 @@
   (use-package org-jira
     :ensure t)
 
+  (use-package projectile
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+
+  (use-package helm-projectile
+    :ensure t)
+
 #+END_SRC
 * Mode control
 ** Auto mode alist & hooks
@@ -384,7 +394,6 @@
   (add-hook 'log-view-mode-hook 'auto-revert-mode)
   (add-hook 'bat-mode-hook 'auto-revert-mode)
 
-  (add-hook 'php-mode-hook 'centered-cursor-mode)
   (add-hook 'org-mode-hook 'centered-cursor-mode)
   (add-hook 'text-mode-hook 'centered-cursor-mode)
   (add-hook 'lisp-interaction-mode-hook  'centered-cursor-mode)
@@ -581,6 +590,7 @@
 
   (evil-set-initial-state 'term-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
+  (evil-select-search-module  'evil-search-module 'evil-search)
 
   (setq evil-want-keybinding nil)
 #+END_SRC
