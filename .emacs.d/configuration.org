@@ -653,7 +653,7 @@
     (progn
       (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
       (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-before)
-      (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-evil-paste-before)
+      (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-before)
       (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
       (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
       (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)))
