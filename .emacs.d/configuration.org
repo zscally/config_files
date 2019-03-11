@@ -391,8 +391,6 @@
   (add-hook 'sh-mode  'centered-cursor-mode)
   (add-hook 'js-mode  'centered-cursor-mode)
 
-
-
 #+END_SRC
 ** Global and toggled modes
 #+BEGIN_SRC emacs-lisp
@@ -428,7 +426,9 @@
 
   (add-hook 'js-mode-hook
             (lambda ()
-              (setq js-indent-level 4)))
+              (setq indent-tabs-mode t)
+              (setq tab-width 2)
+              (setq js-indent-level 2)))
 
   (add-hook 'json-mode-hook
             (lambda ()
