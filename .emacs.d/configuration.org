@@ -388,6 +388,8 @@
   (add-hook 'org-mode-hook 'centered-cursor-mode)
   (add-hook 'text-mode-hook 'centered-cursor-mode)
   (add-hook 'lisp-interaction-mode-hook  'centered-cursor-mode)
+  (add-hook 'sh-mode  'centered-cursor-mode)
+  (add-hook 'js-mode  'centered-cursor-mode)
 
 
 
@@ -579,7 +581,6 @@
 
   (evil-set-initial-state 'term-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
-  (evil-set-initial-state 'sh-mode 'emacs)
 
   (setq evil-want-keybinding nil)
 #+END_SRC
