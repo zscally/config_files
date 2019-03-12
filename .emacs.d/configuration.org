@@ -218,7 +218,7 @@
     :diminish
     :config
     (global-ws-trim-mode t)
-    (set-default 'ws-trim-level 1)
+    (set-default 'ws-trim-level 3)
     (setq ws-trim-global-modes '(guess (not message-mode eshell-mode shell-mode))))
 
   (use-package cygwin-mount
@@ -373,11 +373,14 @@
   (use-package projectile
     :ensure t)
 
-  (use-package treemacs-projectile
-    :after treemacs projectile
-    :ensure t)
+  ;(use-package treemacs-projectile
+  ;  :after treemacs projectile
+  ;  :ensure t)
 
   (use-package helm-projectile
+    :ensure t)
+
+  (use-package dumb-jump
     :ensure t)
 
 #+END_SRC
@@ -607,12 +610,12 @@
   (defvar my-org-menu (make-sparse-keymap))
   (defvar my-nav-menu (make-sparse-keymap))
   (defvar my-command-menu (make-sparse-keymap))
-  (defvar my-display-menu (make-sparse-keymap))
   (defvar my-buffer-menu (make-sparse-keymap))
   (defvar my-window-menu (make-sparse-keymap))
   (defvar my-visual-menu (make-sparse-keymap))
   (defvar my-perspective-menu (make-sparse-keymap))
   (defvar my-treemacs-menu (make-sparse-keymap))
+  (defvar my-helm-menu (make-sparse-keymap))
   (defvar my-ag-menu (make-sparse-keymap))
   (defvar my-multiterm-menu (make-sparse-keymap))
 
@@ -622,6 +625,8 @@
    ("M-o" . ace-window)
    ("M-x" . helm-M-x)
    ("C-c C-p" . org-previous-visible-heading)
+   ("C-c j" . dumb-jump-go)
+   ("C-c d" . dired-jump)
    ("C-y" . evil-paste-before)
    ("C-c u" . universal-argument)
    ("C-c C-y" . term-paste)
@@ -633,6 +638,7 @@
   (bind-key* "C-c c" my-command-menu)
   (bind-key* "C-c o" my-org-menu)
   (bind-key* "C-c t" my-treemacs-menu)
+  (bind-key* "C-c h" my-helm-menu)
   (bind-key* "C-c b" my-buffer-menu)
   (bind-key* "C-c a" my-ag-menu)
 
@@ -644,16 +650,17 @@
     "c" my-command-menu
     "b" my-buffer-menu
     "w" my-window-menu
-    "d" my-display-menu
+    "d" 'dired-jump
     "g" my-nav-menu
     "v" my-visual-menu
     "p" my-perspective-menu
     "t" my-treemacs-menu
     "m" my-multiterm-menu
+    "h" my-helm-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
     "n" 'evil-buffer-new
-    "i" 'dired-jump
+    "j" 'dumb-jump-go
     "s" 'save-buffer
     "r" 'rename-buffer
     "TAB" 'company-try-hard
@@ -712,10 +719,6 @@
   (define-key my-window-menu (kbd "o") 'other-window)
   (define-key my-window-menu (kbd "f") 'toggle-frame-fullscreen)
 
-  (define-key my-display-menu (kbd "i") 'text-scale-increase)
-  (define-key my-display-menu (kbd "d") 'text-scale-decrease)
-
-
   (define-key my-treemacs-menu (kbd "s") 'treemacs-switch-workspace)
   (define-key my-treemacs-menu (kbd "b") 'treemacs-bookmark)
   (define-key my-treemacs-menu (kbd "s") 'treemacs-add-bookmark)
@@ -732,6 +735,9 @@
   (define-key my-ag-menu (kbd "a") 'helm-ag)
   (define-key my-ag-menu (kbd "f") 'helm-ag-this-file)
   (define-key my-ag-menu (kbd "d") 'helm-do-ag)
+
+
+  (define-key my-helm-menu (kbd "p") 'helm-projectile)
 
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
