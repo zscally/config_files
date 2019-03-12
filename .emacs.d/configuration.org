@@ -900,7 +900,7 @@
 ** Helm mode
 #+BEGIN_SRC emacs-lisp
 
-  (setq helm-boring-buffer-regexp-list (list (rx "*magit-") (rx "*helm") (rx "*Minibuf") (rx "*Echo area") (rx "*Treemacs-Framebuffer*") (rx "*which-key*")))
+  (setq helm-boring-buffer-regexp-list (list (rx "*magit-") (rx "*helm") (rx "*Minibuf") (rx "*Echo area") (rx "*Treemacs-Framebuff*") (rx "*which-key*") (rx "*Help*") (rx "*Buffer List*") (rx "*Org Todo*")))
 
 #+END_SRC
 ** Bookmarks
