@@ -434,6 +434,7 @@
             (lambda ()
               (setq indent-tabs-mode t)
               (setq tab-width 4)
+              (setq php-mode-indent-level 2)
               (c-set-style "symfony2")))
 
   (add-hook 'js-mode-hook
@@ -615,7 +616,7 @@
   (defvar my-visual-menu (make-sparse-keymap))
   (defvar my-perspective-menu (make-sparse-keymap))
   (defvar my-treemacs-menu (make-sparse-keymap))
-  (defvar my-helm-menu (make-sparse-keymap))
+  (defvar my-project-menu (make-sparse-keymap))
   (defvar my-ag-menu (make-sparse-keymap))
   (defvar my-multiterm-menu (make-sparse-keymap))
 
@@ -633,12 +634,12 @@
    ("C-c C-n" . org-next-visible-heading))
 
   (bind-key* "C-c m" my-multiterm-menu)
-  (bind-key* "C-c p" my-perspective-menu)
+  (bind-key* "C-c e" my-perspective-menu)
+  (bind-key* "C-c p" my-project-menu)
   (bind-key* "C-c g" my-nav-menu)
   (bind-key* "C-c c" my-command-menu)
   (bind-key* "C-c o" my-org-menu)
   (bind-key* "C-c t" my-treemacs-menu)
-  (bind-key* "C-c h" my-helm-menu)
   (bind-key* "C-c b" my-buffer-menu)
   (bind-key* "C-c a" my-ag-menu)
 
@@ -653,10 +654,10 @@
     "d" 'dired-jump
     "g" my-nav-menu
     "v" my-visual-menu
-    "p" my-perspective-menu
+    "e" my-perspective-menu
+    "p" my-project-menu
     "t" my-treemacs-menu
     "m" my-multiterm-menu
-    "h" my-helm-menu
     "SPC" 'helm-M-x
     "f" 'helm-find-files
     "n" 'evil-buffer-new
@@ -736,8 +737,11 @@
   (define-key my-ag-menu (kbd "f") 'helm-ag-this-file)
   (define-key my-ag-menu (kbd "d") 'helm-do-ag)
 
-
-  (define-key my-helm-menu (kbd "p") 'helm-projectile)
+  (define-key my-project-menu (kbd "h") 'helm-projectile)
+  (define-key my-project-menu (kbd "a") 'helm-projectile-ag)
+  (define-key my-project-menu (kbd "r") 'projectile-replace)
+  (define-key my-project-menu (kbd "f") 'helm-projectile-find-file)
+  (define-key my-project-menu (kbd "g") 'treemacs-find-file)
 
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
