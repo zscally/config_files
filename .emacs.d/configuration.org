@@ -501,7 +501,7 @@
   (blink-cursor-mode -1)
 
   (global-hl-line-mode)
-  (set-face-background hl-line-face "limeGreen")
+  (set-face-background hl-line-face "#66ff66")
 
   (set-cursor-color "#ff83cf")
 
@@ -742,6 +742,7 @@
   (define-key my-project-menu (kbd "r") 'projectile-replace)
   (define-key my-project-menu (kbd "f") 'helm-projectile-find-file)
   (define-key my-project-menu (kbd "g") 'treemacs-find-file)
+  (define-key my-project-menu (kbd "t") 'treemacs)
 
   (define-key my-multiterm-menu (kbd "m") 'multi-term)
   (define-key my-multiterm-menu (kbd "p") 'multi-term-prev)
