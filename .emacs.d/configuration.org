@@ -501,7 +501,7 @@
   (blink-cursor-mode -1)
 
   (global-hl-line-mode)
-  (set-face-background hl-line-face "limeGreen")
+  (set-face-background hl-line-face "#66ff66")
 
   (set-cursor-color "#ff83cf")
 
