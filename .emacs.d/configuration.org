@@ -102,6 +102,8 @@
       (setq evil-mode-line-format '(before . mode-line-front-space))
       (setq sml/theme 'dark)
       (setq sml/no-confirm-load-theme t)
+      (setq sml/name-width 40)
+      (setq sml/mode-width "full")
       (sml/setup)
       ))
 
