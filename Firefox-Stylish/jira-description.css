@@ -1,0 +1,5 @@
+/* Increase JIRA issue content block readability, without zooming in on the page as a whole */
+.user-content-block p {
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
