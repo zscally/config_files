@@ -12,6 +12,7 @@
   (load-file "~/.emacs.d/custom.el")
   (add-to-list 'load-path "~/.emacs.d/lisp/")
   (add-to-list 'load-path "~/.emacs.d/use-package/")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
   (add-to-list 'load-path "~/.cargo/bin")
 
   (require 'package)
@@ -496,7 +497,7 @@
 
   (if (eq system-type 'gnu/linux)
       (load-theme 'tango-dark)
-    (load-theme 'leuven))
+    (load-theme 'zenburn))
 
   (set-face-attribute 'default nil :height 160)
 
@@ -531,6 +532,12 @@
   (setq comint-password-prompt-regexp
         (concat comint-password-prompt-regexp
                 "\\|Enter password"))
+#+END_SRC
+** Terminal
+#+BEGIN_SRC emacs-lisp
+  (setq term-input-ring-size 200)
+  (setq term-buffer-maximum-size 8191)
+
 #+END_SRC
 ** JIRA
 #+BEGIN_SRC emacs-lisp
