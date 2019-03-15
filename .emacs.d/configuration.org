@@ -496,15 +496,15 @@
   (display-time-mode 1)
 
   (if (eq system-type 'gnu/linux)
-      (load-theme 'tango-dark)
-    (load-theme 'zenburn))
+      (load-theme 'tango-dark t)
+    (load-theme 'zenburn t))
 
   (set-face-attribute 'default nil :height 160)
 
   (blink-cursor-mode -1)
 
   (global-hl-line-mode)
-  (set-face-background hl-line-face "#66ff66")
+  (set-face-background hl-line-face "#800000")
 
   (set-cursor-color "#ff83cf")
 
