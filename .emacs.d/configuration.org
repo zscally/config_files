@@ -390,98 +390,31 @@
   (use-package dumb-jump
     :ensure t)
 #+END_SRC
-* Mode control
-** Auto mode alist & hooks
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.log\\'" . log-view-mode))
-  (add-to-list 'auto-mode-alist '("\\.bat\\'" . bat-mode))
-
-
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-  (add-to-list 'auto-mode-alist '("\\.org.gpg\\'" . org-mode))
-
-  (add-hook 'log-view-mode-hook 'auto-revert-mode)
-  (add-hook 'bat-mode-hook 'auto-revert-mode)
-
-#+END_SRC
-** Global and toggled modes
-#+BEGIN_SRC emacs-lisp
-
-(winner-mode 1)
-
-(if (not (eq system-type 'windows-nt))
-    (global-prettify-symbols-mode t))
-
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
-
-#+END_SRC
-** Load hooks
-#+BEGIN_SRC emacs-lisp
-
-  (add-hook 'before-save-hook 'whitespace-cleanup)
-
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (setq python-indent 2)))
-
-  (add-hook 'powershell-mode-hook
-            (lambda ()
-              (setq powershell-indent 2)))
-
-  (add-hook 'php-mode-hook
-            (lambda ()
-              (setq indent-tabs-mode t)
-              (setq tab-width 4)
-              (setq php-mode-indent-level 2)
-              (c-set-style "symfony2")))
-
-  (add-hook 'js-mode-hook
-            (lambda ()
-              (setq indent-tabs-mode t)
-              (setq tab-width 2)
-              (setq js-indent-level 2)))
-
-  (add-hook 'json-mode-hook
-            (lambda ()
-              (make-local-variable 'js-indent-level)
-              (setq js-indent-level 2)))
-
-#+END_SRC
-* File handling
-** Encryption
-#+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'window-nt)
-      (setf epa-pinentry-mode 'loopback))
-  (epa-file-enable)
-
-#+END_SRC
-** Backups & versioning
-#+BEGIN_SRC emacs-lisp
-
-(setq backup-directory-alist
-          `(("." . ,(concat user-emacs-directory "backups"))))
-;; keep old versions, much version control
-(setq delete-old-versions -1)
-(setq version-control t)
-(setq vc-make-backup-files t)
-
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-
-(setq savehist-file "~/.emacs.d/savehist")
-(savehist-mode 1)
-(setq history-length t)
-(setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-additional-variables
-      '(kill-ring
-  search-ring
-  regexp-search-ring))
-
-#+END_SRC
 
 * Editor config
+** Operating System Integration
+#+BEGIN_SRC emacs-lisp
+  (setq delete-by-moving-to-trash t)
+
+  (setq x-select-enable-clipboard nil)
+
+  (if (eq system-type 'window-nt)
+      (progn
+        'atomic-chrome-start-httpd
+        'atomic-chrome-start-server))
+
+  (if (eq system-type 'windows-nt)
+      (progn
+        (let ((proc (start-process "cmd" nil "cmd.exe" "/C" "start" "cmd.exe")))
+          (set-process-query-on-exit-flag proc nil))))
+
+  (defcustom powershell-location-of-exe
+    "c:\\windows\\SYSWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"
+    "A string, providing the location of the Powershell.exe."
+    :group 'powershell)
+
+  (setq save-interprogram-paste-before-kill t)
+#+END_SRC
 ** Graphics / UI / Appearance / look
 
 #+BEGIN_SRC emacs-lisp
@@ -569,29 +502,6 @@
   (setq dumb-jump-prefer-searcher 'ag)
 
 #+END_SRC
-** Operating System Integration
-#+BEGIN_SRC emacs-lisp
-  (setq delete-by-moving-to-trash t)
-
-  (setq x-select-enable-clipboard nil)
-
-  (if (eq system-type 'window-nt)
-      (progn
-        'atomic-chrome-start-httpd
-        'atomic-chrome-start-server))
-
-  (if (eq system-type 'windows-nt)
-      (progn
-        (let ((proc (start-process "cmd" nil "cmd.exe" "/C" "start" "cmd.exe")))
-          (set-process-query-on-exit-flag proc nil))))
-
-  (defcustom powershell-location-of-exe
-    "c:\\windows\\SYSWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"
-    "A string, providing the location of the Powershell.exe."
-    :group 'powershell)
-
-  (setq save-interprogram-paste-before-kill t)
-#+END_SRC
 ** LaTex
 #+BEGIN_SRC emacs-lisp
   (setq latex-run-command "pdflatex")
@@ -638,6 +548,8 @@
    ("C-c d" . dired-jump)
    ("C-y" . evil-paste-before)
    ("C-c u" . universal-argument)
+   ("C-c v" . paste-from-clipboard)
+   ("C-c f" . helm-find-files)
    ("M-w" . copy-to-clipboard)
    ("C-c C-n" . org-next-visible-heading))
 
@@ -655,10 +567,6 @@
                           (setq x-select-enable-clipboard t)
                           (term-paste)
                           (setq x-select-enable-clipboard nil)))
-  (bind-key* "C-c v"  (lambda ()
-                        (interactive)
-                        (yank)
-                        (setq x-select-enable-clipboard nil)))
 
   (evil-leader/set-leader "<SPC>")
 
@@ -946,6 +854,96 @@
   (define-key my-perspective-menu (kbd "i") 'persp-import)
   (define-key my-perspective-menu (kbd "n") 'persp-next)
   (define-key my-perspective-menu (kbd "p") 'persp-prev)
+
+#+END_SRC
+* Mode control
+** Auto mode alist & hooks
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.log\\'" . log-view-mode))
+  (add-to-list 'auto-mode-alist '("\\.bat\\'" . bat-mode))
+
+
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+  (add-to-list 'auto-mode-alist '("\\.org.gpg\\'" . org-mode))
+
+  (add-hook 'log-view-mode-hook 'auto-revert-mode)
+  (add-hook 'bat-mode-hook 'auto-revert-mode)
+
+#+END_SRC
+** Global and toggled modes
+#+BEGIN_SRC emacs-lisp
+
+(winner-mode 1)
+
+(if (not (eq system-type 'windows-nt))
+    (global-prettify-symbols-mode t))
+
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+
+#+END_SRC
+** Load hooks
+#+BEGIN_SRC emacs-lisp
+
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq python-indent 2)))
+
+  (add-hook 'powershell-mode-hook
+            (lambda ()
+              (setq powershell-indent 2)))
+
+  (add-hook 'php-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq tab-width 4)
+              (setq php-mode-indent-level 2)
+              (c-set-style "symfony2")))
+
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq tab-width 2)
+              (setq js-indent-level 2)))
+
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (make-local-variable 'js-indent-level)
+              (setq js-indent-level 2)))
+
+#+END_SRC
+* File handling
+** Encryption
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'window-nt)
+      (setf epa-pinentry-mode 'loopback))
+  (epa-file-enable)
+
+#+END_SRC
+** Backups & versioning
+#+BEGIN_SRC emacs-lisp
+
+(setq backup-directory-alist
+          `(("." . ,(concat user-emacs-directory "backups"))))
+;; keep old versions, much version control
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+(setq savehist-file "~/.emacs.d/savehist")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+  search-ring
+  regexp-search-ring))
 
 #+END_SRC
 * Language specific
