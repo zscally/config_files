@@ -506,6 +506,7 @@
 
   (global-hl-line-mode)
   (set-face-background hl-line-face "#C00000")
+  (set-face-attribute 'evil-ex-lazy-highlight nil :foreground "grey" :background "darkGreen")
 
   (set-cursor-color "#ff83cf")
 
