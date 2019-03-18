@@ -139,7 +139,15 @@
 
   (use-package centered-cursor-mode
     :ensure t
-    :diminish)
+    :diminish
+    :config
+    (define-global-minor-mode my-global-centered-cursor-mode centered-cursor-mode
+      (lambda ()
+        (when (not (memq major-mode
+                         (list 'Info-mode 'term-mode 'eshell-mode 'shell-mode 'php-mode)))
+          (centered-cursor-mode))))
+    (my-global-centered-cursor-mode 1)
+    )
 
   (use-package ac-php
     :ensure t)
@@ -376,16 +384,11 @@
   (use-package projectile
     :ensure t)
 
-  ;(use-package treemacs-projectile
-  ;  :after treemacs projectile
-  ;  :ensure t)
-
   (use-package helm-projectile
     :ensure t)
 
   (use-package dumb-jump
     :ensure t)
-
 #+END_SRC
 * Mode control
 ** Auto mode alist & hooks
@@ -399,13 +402,6 @@
 
   (add-hook 'log-view-mode-hook 'auto-revert-mode)
   (add-hook 'bat-mode-hook 'auto-revert-mode)
-
-  (add-hook 'org-mode-hook 'centered-cursor-mode)
-  (add-hook 'text-mode-hook 'centered-cursor-mode)
-  (add-hook 'lisp-interaction-mode-hook  'centered-cursor-mode)
-  (add-hook 'sh-mode  'centered-cursor-mode)
-  (add-hook 'js-mode  'centered-cursor-mode)
-  (add-hook 'rust-mode  'centered-cursor-mode)
 
 #+END_SRC
 ** Global and toggled modes
@@ -496,17 +492,14 @@
   (show-paren-mode 1)
   (display-time-mode 1)
 
-  (if (eq system-type 'gnu/linux)
-      (load-theme 'tango-dark t)
-    (load-theme 'zenburn t))
+  (load-theme 'zenburn t)
 
   (set-face-attribute 'default nil :height 160)
 
   (blink-cursor-mode -1)
 
   (global-hl-line-mode)
-  (set-face-background hl-line-face "#C00000")
-  (set-face-attribute 'evil-ex-lazy-highlight nil :foreground "grey" :background "darkGreen")
+  (set-face-background hl-line-face "#800000")
 
   (set-cursor-color "#ff83cf")
 
@@ -519,7 +512,8 @@
               (let ((w (split-window-below -10)))
                 (select-window w)
                 (multi-term))
-              (switch-to-buffer "*terminal<1>*")))
+              (switch-to-buffer "*terminal<1>*")
+              (other-window 1))) ; attempt workaround for weird cursor centering issue
 
   (defun split-for-term ()
     (interactive)
@@ -539,6 +533,9 @@
 #+BEGIN_SRC emacs-lisp
   (setq term-input-ring-size 200)
   (setq term-buffer-maximum-size 8191)
+
+  (add-hook 'term-load-hook (lambda ()
+                              (other-window 3)))
 
 #+END_SRC
 ** JIRA
@@ -574,8 +571,9 @@
 #+END_SRC
 ** Operating System Integration
 #+BEGIN_SRC emacs-lisp
-                                          ;(server-start)
   (setq delete-by-moving-to-trash t)
+
+  (setq x-select-enable-clipboard nil)
 
   (if (eq system-type 'window-nt)
       (progn
@@ -613,7 +611,6 @@
 ** Keybindings / shortcuts
 
 #+BEGIN_SRC emacs-lisp
-
   (global-evil-leader-mode)
 
   (windmove-default-keybindings)
@@ -641,7 +638,7 @@
    ("C-c d" . dired-jump)
    ("C-y" . evil-paste-before)
    ("C-c u" . universal-argument)
-   ("C-c C-y" . term-paste)
+   ("M-w" . copy-to-clipboard)
    ("C-c C-n" . org-next-visible-heading))
 
   (bind-key* "C-c m" my-multiterm-menu)
@@ -653,6 +650,15 @@
   (bind-key* "C-c t" my-treemacs-menu)
   (bind-key* "C-c b" my-buffer-menu)
   (bind-key* "C-c a" my-ag-menu)
+  (bind-key* "C-c C-y"  (lambda ()
+                          (interactive)
+                          (setq x-select-enable-clipboard t)
+                          (term-paste)
+                          (setq x-select-enable-clipboard nil)))
+  (bind-key* "C-c v"  (lambda ()
+                        (interactive)
+                        (yank)
+                        (setq x-select-enable-clipboard nil)))
 
   (evil-leader/set-leader "<SPC>")
 
@@ -683,6 +689,7 @@
       (define-key evil-normal-state-map (kbd "M-t") 'scroll-other-window)
       (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-before)
       (define-key evil-insert-state-map (kbd "C-y") 'evil-paste-before)
+      (define-key evil-insert-state-map (kbd "C-v") 'paste-from-clipboard)
       (define-key evil-normal-state-map (kbd "M-c") 'scroll-other-window-down)
       (define-key evil-normal-state-map (kbd "g t") 'evil-next-buffer)
       (define-key evil-normal-state-map (kbd "g T") 'evil-prev-buffer)))
@@ -761,7 +768,6 @@
   (define-key my-multiterm-menu (kbd "s") 'split-for-term)
   (define-key my-multiterm-menu (kbd "l") 'term-line-mode)
   (define-key my-multiterm-menu (kbd "c") 'term-char-mode)
-
 #+END_SRC
 ** Evil sentence
 #+BEGIN_SRC emacs-lisp
@@ -882,6 +888,10 @@
 
   (if (eq system-type 'gnu/linux)
       (setq org-ellipsis "▼"))
+
+  (setq org-blank-before-new-entry
+        '((heading . always)
+          (plain-list-item . nil)))
 
   (add-to-list 'org-latex-classes
                '("booklet"

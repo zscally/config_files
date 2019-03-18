@@ -1,3 +1,15 @@
+(defun paste-from-clipboard ()
+  (interactive)
+  (setq x-select-enable-clipboard t)
+  (yank)
+  (setq x-select-enable-clipboard nil))
+
+(defun copy-to-clipboard ()
+  (interactive)
+  (setq x-select-enable-clipboard t)
+  (kill-ring-save (region-beginning) (region-end))
+  (setq x-select-enable-clipboard nil))
+
 (defun sum-d10-rolls (num)
 	"Roll 'num' d10 and return the sum"
 	(interactive "nNum dice? ")
