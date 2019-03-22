@@ -450,7 +450,7 @@
 
   (defun split-for-term ()
     (interactive)
-    (let ((w (split-window-below -10)))
+    (let ((w (split-window-below -20)))
       (select-window w)
       (switch-to-buffer "*terminal<1>*")))
 #+END_SRC
