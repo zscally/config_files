@@ -396,7 +396,12 @@
 #+BEGIN_SRC emacs-lisp
   (setq delete-by-moving-to-trash t)
 
-  (setq x-select-enable-clipboard nil)
+  (setq select-enable-clipboard nil)
+
+  (defun enable-system-clipboard ()
+    (interactive)
+    (setq select-enable-clipboard t))
+
 
   (if (eq system-type 'window-nt)
       (progn
@@ -564,9 +569,9 @@
   (bind-key* "C-c a" my-ag-menu)
   (bind-key* "C-c C-y"  (lambda ()
                           (interactive)
-                          (setq x-select-enable-clipboard t)
+                          (setq select-enable-clipboard t)
                           (term-paste)
-                          (setq x-select-enable-clipboard nil)))
+                          (setq select-enable-clipboard nil)))
 
   (evil-leader/set-leader "<SPC>")
 
