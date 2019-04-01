@@ -109,8 +109,9 @@
       ))
 
   (use-package evil-leader
-    :after evil
-    :ensure t)
+    :ensure t
+    :config
+    (global-evil-leader-mode))
 
   (use-package evil-collection
     :after evil
@@ -397,7 +398,10 @@
   (use-package ein
     :ensure t
     :config
-    (require 'ein-multilang))
+    (require 'ein-multilang)
+    (require 'ein-notebook)
+    (require 'ein-subpackages)
+    (setq ein:jupyter-default-server-command "~/anaconda3/bin/jupyter"))
 
   (use-package elpy
     :ensure t
@@ -408,6 +412,10 @@
           python-shell-prompt-detect-failure-warning nil)
     (add-to-list 'python-shell-completion-native-disabled-interpreters
                  "jupyter"))
+  (use-package winum
+    :ensure t
+    :config
+    (winum-mode))
 
 #+END_SRC
 
@@ -619,6 +627,16 @@
     "s" 'save-buffer
     "r" 'rename-buffer
     "TAB" 'company-try-hard
+    "1" 'winum-select-window-1
+    "2" 'winum-select-window-2
+    "3" 'winum-select-window-3
+    "4" 'winum-select-window-4
+    "5" 'winum-select-window-5
+    "6" 'winum-select-window-6
+    "7" 'winum-select-window-7
+    "7" 'winum-select-window-7
+    "8" 'winum-select-window-8
+    "9" 'winum-select-window-9
     "q" 'save-buffers-kill-terminal)
 
   (with-eval-after-load 'evil-maps
@@ -888,6 +906,8 @@
 
 ** Jupyter ein setup
 #+BEGIN_SRC emacs-lisp
+  (ein:jupyter-server-start "~/anaconda3/bin/jupyter" "~/Projects/analysis_workbooks")
+
   (define-key ein:notebook-multilang-mode-map (kbd "M-j") 'ein:worksheet-move-cell-down)
   (define-key ein:notebook-multilang-mode-map (kbd "M-k") 'ein:worksheet-move-cell-up)
 
