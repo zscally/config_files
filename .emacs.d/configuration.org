@@ -278,7 +278,8 @@
   (use-package exec-path-from-shell
     :ensure t
     :init
-    (exec-path-from-shell-initialize))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PATH"))
 
   (use-package flycheck
     :ensure t)
@@ -397,6 +398,17 @@
     :ensure t
     :config
     (require 'ein-multilang))
+
+  (use-package elpy
+    :ensure t
+    :config
+    (elpy-enable)
+    (setq python-shell-interpreter "jupyter"
+          python-shell-interpreter-args "console --simple-prompt"
+          python-shell-prompt-detect-failure-warning nil)
+    (add-to-list 'python-shell-completion-native-disabled-interpreters
+                 "jupyter"))
+
 #+END_SRC
 
 * Editor config / specific mode setup
