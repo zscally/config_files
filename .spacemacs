@@ -58,6 +58,7 @@ values."
 	 markdown
 	 windows-scripts
 	 vagrant
+	 shell
 	 )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -319,6 +320,20 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq mac-command-modifier 'control)
+
+  (setq ein:jupyter-default-server-command "~/anaconda3/bin/jupyter")
+  (ein:jupyter-server-start "~/anaconda3/bin/jupyter" "~/Projects/analysis_workbooks")
+
+  (define-key ein:notebook-multilang-mode-map (kbd "M-j") 'ein:worksheet-move-cell-down)
+  (define-key ein:notebook-multilang-mode-map (kbd "M-k") 'ein:worksheet-move-cell-up)
+
+  (define-key ein:notebook-multilang-mode-map (kbd "C-j") 'ein:worksheet-goto-next-input)
+  (define-key ein:notebook-multilang-mode-map (kbd "C-k") 'ein:worksheet-goto-prev-input)
+  (define-key ein:notebook-multilang-mode-map (kbd "C-c y") 'ein:worksheet-yank-cell)
+
+  (setq-default dotspacemacs-configuration-layers
+                '((shell :variables shell-default-shell 'multi-term)))
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
