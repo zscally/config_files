@@ -334,6 +334,10 @@ you should place your code here."
   (setq-default dotspacemacs-configuration-layers
                 '((shell :variables shell-default-shell 'multi-term)))
 
+  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
