@@ -322,7 +322,19 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq mac-command-modifier 'control)
 
-  (ein:jupyter-server-start "jupyter" "~/Projects/analysis_workbooks")
+  (use-package ein
+    :ensure t
+    :config
+    (require 'ein-multilang)
+    (require 'ein-notebook)
+    (require 'ein-subpackages))
+
+
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PATH"))
 
   (define-key ein:notebook-multilang-mode-map (kbd "M-j") 'ein:worksheet-move-cell-down)
   (define-key ein:notebook-multilang-mode-map (kbd "M-k") 'ein:worksheet-move-cell-up)
@@ -332,7 +344,10 @@ you should place your code here."
   (define-key ein:notebook-multilang-mode-map (kbd "C-c y") 'ein:worksheet-yank-cell)
 
   (setq-default dotspacemacs-configuration-layers
-                '((shell :variables shell-default-shell 'multi-term)))
+                '((shell :variables shell-default-shell 'term)))
+
+  (load "~/.emacs.d/capture-templates.el")
+  (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (spacemacs/toggle-maximize-frame-on)
   )
