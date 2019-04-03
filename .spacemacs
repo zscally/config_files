@@ -59,6 +59,7 @@ values."
 	 windows-scripts
 	 vagrant
 	 shell
+   movement-menus
 	 )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -333,6 +334,7 @@ you should place your code here."
   (setq-default dotspacemacs-configuration-layers
                 '((shell :variables shell-default-shell 'multi-term)))
 
+  (spacemacs/toggle-maximize-frame-on)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
