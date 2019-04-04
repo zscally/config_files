@@ -59,6 +59,7 @@ values."
    windows-scripts
    vagrant
    shell
+   system-integration
    ;; movement-menus
    )
    ;; List of additional packages that will be installed without being
@@ -302,6 +303,8 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup 'all
+
+   dotspacemacs-mode-line-theme 'spacemacs
    ))
 
 (defun dotspacemacs/user-init ()
@@ -322,19 +325,13 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq mac-command-modifier 'control)
 
+  ;; TODO: Move to layer / contrib
   (use-package ein
-    :ensure t
-    :config
-    (require 'ein-multilang)
-    (require 'ein-notebook)
-    (require 'ein-subpackages))
-
-
-  (use-package exec-path-from-shell
-    :ensure t
-    :init
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "PATH"))
+      :ensure t
+      :config
+      (require 'ein-multilang)
+      (require 'ein-notebook)
+      (require 'ein-subpackages))
 
   (define-key ein:notebook-multilang-mode-map (kbd "M-j") 'ein:worksheet-move-cell-down)
   (define-key ein:notebook-multilang-mode-map (kbd "M-k") 'ein:worksheet-move-cell-up)
