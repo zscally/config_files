@@ -343,6 +343,8 @@ you should place your code here."
   (define-key ein:notebook-multilang-mode-map (kbd "C-k") 'ein:worksheet-goto-prev-input)
   (define-key ein:notebook-multilang-mode-map (kbd "C-c y") 'ein:worksheet-yank-cell)
 
+  (setq flycheck-python-pycompile-executable "python3")
+
   (setq-default dotspacemacs-configuration-layers
                 '((shell :variables shell-default-shell 'term)))
 
