@@ -323,7 +323,20 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (projectile-global-mode)
   (setq mac-command-modifier 'control)
+
+  (if (eq system-type 'gnu/linux)
+      (setq notes-file "~/Desktop/Notes.org.gpg")
+    (setq notes-file "~/Desktop/Notes.org"))
+
+  (defun goto-notes
+      (find-file notes-file))
+
+  (spacemacs/set-leader-keys
+    "mn" (lambda () 'goto-notes)
+    )
+
 
   ;; TODO: Move to layer / contrib
   (use-package ein
@@ -339,6 +352,8 @@ you should place your code here."
   (define-key ein:notebook-multilang-mode-map (kbd "C-j") 'ein:worksheet-goto-next-input)
   (define-key ein:notebook-multilang-mode-map (kbd "C-k") 'ein:worksheet-goto-prev-input)
   (define-key ein:notebook-multilang-mode-map (kbd "C-c y") 'ein:worksheet-yank-cell)
+
+  (setq projectile-globally-ignored-directories '("env"))
 
   (setq flycheck-python-pycompile-executable "python3")
 
