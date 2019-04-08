@@ -323,19 +323,31 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (projectile-global-mode)
   (setq mac-command-modifier 'control)
 
+  (projectile-global-mode)
   (if (eq system-type 'gnu/linux)
       (setq notes-file "~/Desktop/Notes.org.gpg")
     (setq notes-file "~/Desktop/Notes.org"))
+
+  (setq org-use-speed-commands t)
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'text-mode-hook #'visual-line-mode)
+
+
+  (add-hook 'org-mode-hook (lambda ()
+                             (add-to-list 'org-latex-classes
+                                          '("memoir-book"
+                                            "\\documentclass[11pt,a4paper]{memoir}"
+                                            ("\\chapter{%s}" . "\\chapter*{%s}")
+                                            ("\\section{%s}" . "\\section*{%s}")
+                                            ))))
 
   (defun goto-notes
       (find-file notes-file))
 
   (spacemacs/set-leader-keys
-    "mn" (lambda () 'goto-notes)
-    )
+    "mn" (lambda () 'goto-notes))
 
 
   ;; TODO: Move to layer / contrib
