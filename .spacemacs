@@ -36,8 +36,8 @@ values."
    ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
    ;; <M-m f e R> (Emacs style) to install them.
    ;; ----------------------------------------------------------------
-   helm
    auto-completion
+   ivy
    better-defaults
    emacs-lisp
    git
@@ -56,15 +56,11 @@ values."
    html
    javascript
    markdown
-   windows-scripts
    vagrant
    shell
-   system-integration
    fasd
    docker
-   pandoc
    yaml
-   github
    ;; movement-menus
    )
    ;; List of additional packages that will be installed without being
@@ -330,8 +326,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (projectile-global-mode)
   (setq mac-command-modifier 'control)
-
-  (add-hook 'text-mode-hook #'visual-line-mode)
+  (toggle-truncate-lines 0)
 
   (if (eq system-type 'gnu/linux)
       (setq notes-file "~/Desktop/Notes.org.gpg")
