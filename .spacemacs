@@ -36,7 +36,6 @@ values."
    ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
    ;; <M-m f e R> (Emacs style) to install them.
    ;; ----------------------------------------------------------------
-   auto-completion
    ivy
    better-defaults
    emacs-lisp
@@ -337,13 +336,14 @@ you should place your code here."
   (add-hook 'text-mode-hook #'visual-line-mode)
 
 
-  (add-hook 'org-mode-hook (lambda ()
-                             (add-to-list 'org-latex-classes
-                                          '("memoir-book"
-                                            "\\documentclass[11pt,a4paper]{memoir}"
-                                            ("\\chapter{%s}" . "\\chapter*{%s}")
-                                            ("\\section{%s}" . "\\section*{%s}")
-                                            ))))
+  (if (eq system-type 'gnu/linux)
+      (add-hook 'org-mode-hook (lambda ()
+                                 (add-to-list 'org-latex-classes
+                                              '("memoir-book"
+                                                "\\documentclass[11pt,a4paper]{memoir}"
+                                                ("\\chapter{%s}" . "\\chapter*{%s}")
+                                                ("\\section{%s}" . "\\section*{%s}")
+                                                )))))
 
   (defun load-notes ()
     "Load notes org"
