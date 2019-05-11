@@ -386,6 +386,8 @@ you should place your code here."
   (load "~/.emacs.d/private/capture-templates.el")
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
+  (org-catch-invisible-edits 'show-and-error)
+
   (spacemacs/toggle-maximize-frame-on)
   )
 
