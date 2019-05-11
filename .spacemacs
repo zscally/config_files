@@ -336,15 +336,14 @@ you should place your code here."
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'text-mode-hook #'visual-line-mode)
 
-
   (if (eq system-type 'gnu/linux)
-      (add-hook 'org-mode-hook (lambda ()
-                                 (add-to-list 'org-latex-classes
-                                              '("memoir-book"
-                                                "\\documentclass[11pt,a4paper]{memoir}"
-                                                ("\\chapter{%s}" . "\\chapter*{%s}")
-                                                ("\\section{%s}" . "\\section*{%s}")
-                                                )))))
+      (with-eval-after-load 'ox-latex
+        (add-to-list 'org-latex-classes
+                     '("memoir-book"
+                       "\\documentclass[11pt,a4paper]{memoir}"
+                       ("\\chapter{%s}" . "\\chapter*{%s}")
+                       ("\\section{%s}" . "\\section*{%s}")
+                       ))))
 
   (defun load-notes ()
     "Load notes org"
@@ -379,6 +378,7 @@ you should place your code here."
   (setq projectile-globally-ignored-directories '("env"))
 
   (setq flycheck-python-pycompile-executable "python3")
+  (setq python-shell-interpreter "python3")
 
   (setq-default dotspacemacs-configuration-layers
                 '((shell :variables shell-default-shell 'term)))
