@@ -368,7 +368,8 @@ you should place your code here."
 
   (setq flycheck-python-flake8-executable "flake8")
   (setq flycheck-python-pylint-executable "python3")
-  (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  (with-eval-after-load 'flycheck
+    (flycheck-add-next-checker 'python-flake8 'python-pylint))
   (setq python-indent 4)
   (setq-default python-indent 4)
   (setq python-indent-offset 4)
@@ -386,7 +387,7 @@ you should place your code here."
   (load "~/.emacs.d/private/capture-templates.el")
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
-  (org-catch-invisible-edits 'show-and-error)
+  (setq org-catch-invisible-edits 'show-and-error)
 
   (spacemacs/toggle-maximize-frame-on)
   )
