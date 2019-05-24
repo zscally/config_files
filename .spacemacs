@@ -337,6 +337,14 @@ you should place your code here."
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'text-mode-hook #'visual-line-mode)
 
+  (defun ein:save-cell-blackened ()
+    (interactive)
+    (blacken-buffer)
+    (ein:edit-cell-save))
+
+  (define-key ein:edit-cell-mode-map
+    (kbd "C-x C-s") 'ein:save-cell-blackened)
+
   (if (eq system-type 'gnu/linux)
       (with-eval-after-load 'ox-latex
         (add-to-list 'org-latex-classes
