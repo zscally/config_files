@@ -422,6 +422,9 @@ you should place your code here."
   (global-set-key (kbd "M-z") 'zap-up-to-char)
 
   (spacemacs/toggle-maximize-frame-on)
+
+  (global-set-key (kbd "C-+") 'spacemacs/scale-up-font)
+  (global-set-key (kbd "C--") 'spacemacs/scale-down-font)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
