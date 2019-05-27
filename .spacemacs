@@ -337,13 +337,19 @@ you should place your code here."
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'text-mode-hook #'visual-line-mode)
 
-  (defun ein:save-cell-blackened ()
-    (interactive)
-    (blacken-buffer)
-    (ein:edit-cell-save))
+  (evil-define-key 'insert ein:edit-cell-mode-map
+    (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
+  (evil-define-key 'hybrid ein:edit-cell-mode-map
+    (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
+  (evil-define-key 'normal ein:edit-cell-mode-map
+    (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
 
-  (define-key ein:edit-cell-mode-map
-    (kbd "C-x C-s") 'ein:save-cell-blackened)
+  (evil-define-key 'normal ein:edit-cell-mode-map
+    (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+  (evil-define-key 'insert ein:edit-cell-mode-map
+    (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+  (evil-define-key 'hybrid ein:edit-cell-mode-map
+    (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 
   (if (eq system-type 'gnu/linux)
       (with-eval-after-load 'ox-latex
