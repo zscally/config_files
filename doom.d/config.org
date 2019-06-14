@@ -44,3 +44,10 @@
 ;; Set the dvorak version of the improve home row bindings
 (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
 #+END_SRC
+
+* Keybinds
+** Window navigation
+#+BEGIN_SRC emacs-lisp
+(map! (:map override) :g "C-c w" '+workspace/switch-to)
+
+#+END_SRC

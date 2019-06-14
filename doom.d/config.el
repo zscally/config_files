@@ -28,3 +28,5 @@
 
 ;; Set the dvorak version of the improve home row bindings
 (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+
+(map! (:map override) :g "C-c w" '+workspace/switch-to)
