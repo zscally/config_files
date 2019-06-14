@@ -1,0 +1,5 @@
+* Eshell-Bookmark
+#+BEGIN_SRC emacs-lisp
+(after! eshell
+  (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
+#+END_SRC
