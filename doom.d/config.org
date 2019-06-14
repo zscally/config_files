@@ -1,5 +1,38 @@
-* Eshell-Bookmark
+* OS Specific
+#+BEGIN_SRC emacs-lisp
+(setq mac-command-modifier 'control)
+#+END_SRC
+
+* Eshell
 #+BEGIN_SRC emacs-lisp
 (after! eshell
   (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
+
+(setq term-input-ring-size 200)
+(setq term-buffer-maximum-size 8191)
+
+#+END_SRC
+
+* Theming and appearance
+#+BEGIN_SRC emacs-lisp
+(load-theme 'doom-solarized-light t)
+
+(doom-themes-visual-bell-config)
+(doom-themes-neotree-config)
+(doom-themes-treemacs-config)
+(doom-themes-org-config)
+
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(show-paren-mode 1)
+(display-time-mode 1)
+#+END_SRC
+
+* Org Mode
+#+BEGIN_SRC emacs-lisp
+(setq org-imenu-depth 5)
+
+(after! org
+  (load-file "~/capture-templates.el"))
 #+END_SRC

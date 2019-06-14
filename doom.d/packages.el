@@ -7,3 +7,4 @@
 ;; (package! builtin-package :disable t)
 
 (package! eshell-bookmark)
+(package! doom-themes)
