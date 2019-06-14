@@ -3,14 +3,24 @@
 (setq mac-command-modifier 'control)
 #+END_SRC
 
+* Conda
+#+BEGIN_SRC emacs-lisp
+(conda-env-initialize-interactive-shells)
+(conda-env-autoactivate-mode t)
+
+#+END_SRC
+
 * Eshell
 #+BEGIN_SRC emacs-lisp
 (after! eshell
   (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
 
+
 (setq term-input-ring-size 200)
 (setq term-buffer-maximum-size 8191)
+(setq eshell-history-ring 1028)
 
+(conda-env-initialize-eshell)
 #+END_SRC
 
 * Theming and appearance
@@ -35,4 +45,10 @@
 
 (after! org
   (load-file "~/capture-templates.el"))
+#+END_SRC
+
+* ace window
+#+BEGIN_SRC emacs-lisp
+;; Set the dvorak version of the improve home row bindings
+(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
 #+END_SRC
