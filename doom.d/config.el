@@ -1,8 +1,5 @@
 (setq mac-command-modifier 'control)
 
-(conda-env-initialize-interactive-shells)
-(conda-env-autoactivate-mode t)
-
 (after! eshell
   (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
 
@@ -10,8 +7,6 @@
 (setq term-input-ring-size 200)
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
-
-(conda-env-initialize-eshell)
 
 (load-theme 'doom-solarized-light t)
 

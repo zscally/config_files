@@ -3,13 +3,6 @@
 (setq mac-command-modifier 'control)
 #+END_SRC
 
-* Conda
-#+BEGIN_SRC emacs-lisp
-(conda-env-initialize-interactive-shells)
-(conda-env-autoactivate-mode t)
-
-#+END_SRC
-
 * Eshell
 #+BEGIN_SRC emacs-lisp
 (after! eshell
@@ -20,7 +13,6 @@
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
 
-(conda-env-initialize-eshell)
 #+END_SRC
 
 * Theming and appearance
