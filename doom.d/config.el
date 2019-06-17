@@ -48,3 +48,14 @@
         "8" #'+workspace/switch-to-7
         "9" #'+workspace/switch-to-8)
       :g "C-c w" my-workspace-map)
+
+(load "~/config_files/blacken.el")
+(add-hook 'python-mode-hook 'blacken-mode)
+
+(evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
+(evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
+(evil-define-key 'normal ein:edit-cell-mode-map (kbd "C-x C-s") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-save)))
+
+(evil-define-key 'normal ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+(evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+(evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
