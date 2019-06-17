@@ -8,3 +8,4 @@
 
 (package! eshell-bookmark)
 (package! doom-themes)
+(package! darkroom)
