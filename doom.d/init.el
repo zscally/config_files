@@ -1,12 +1,16 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; Copy this file to ~/.doom.d/init.el or ~/.config/doom/init.el ('doom
-;; quickstart' will do this for you). The `doom!' block below controls what
-;; modules are enabled and in what order they will be loaded. Remember to run
-;; 'doom refresh' after modifying it.
-;;
 ;; More information about these modules (and what flags they support) can be
 ;; found in modules/README.org.
+
+;; must be before packages are configured, so it goes here
+(def-package-hook! ace-window
+  :pre-config
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
+        aw-scope 'global
+        aw-background t)
+  nil)
+
 
 (doom! :input
        ;;chinese

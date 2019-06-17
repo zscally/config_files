@@ -26,9 +26,6 @@
   (setq org-imenu-depth 15)
   (setq imenu-max-items 0))
 
-;; Set the dvorak version of the improve home row bindings
-(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
-
 (defvar my-workspace-map (make-sparse-keymap)
   "Project and workspace shifting")
 
