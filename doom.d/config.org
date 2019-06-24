@@ -52,6 +52,8 @@
         "l" #'+workspace/load
         "r" #'+workspace/rename
         "o" #'+workspace/other
+        "u" #'winner-undo
+        "R" #'winner-redo
         [tab]  #'+workspace/display
         "d"  #'+workspace/delete
         "1" #'+workspace/switch-to-0
