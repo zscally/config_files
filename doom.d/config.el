@@ -51,6 +51,8 @@
         "9" #'+workspace/switch-to-8)
       :g "C-c w" my-workspace-map)
 
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
 (load "~/config_files/blacken.el")
 (add-hook 'python-mode-hook 'blacken-mode)
 
@@ -61,3 +63,5 @@
 (evil-define-key 'normal ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+
+(put 'dired-find-alternate-file 'disabled nil)

@@ -68,6 +68,10 @@
       :g "C-c w" my-workspace-map)
 
 #+END_SRC
+* Buffers
+#+BEGIN_SRC emacs-lisp
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+#+END_SRC
 
 * Blacken Things
 #+BEGIN_SRC emacs-lisp
@@ -82,4 +86,9 @@
 (evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 
+#+END_SRC
+
+* dired
+#+BEGIN_SRC emacs-lisp
+(put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC

@@ -9,3 +9,4 @@
 (package! eshell-bookmark)
 (package! doom-themes)
 (package! darkroom)
+(package! centered-cursor-mode)
