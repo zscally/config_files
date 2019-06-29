@@ -53,6 +53,9 @@
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+;; Set the dvorak version of the improve home row bindings
+(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+
 (load "~/config_files/blacken.el")
 (add-hook 'python-mode-hook 'blacken-mode)
 
@@ -65,3 +68,14 @@
 (evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+(add-hook 'darkroom-mode-hook 'visual-line-mode)
+
+(if (eq system-type 'gnu/linux)
+    (with-eval-after-load 'ox-latex
+      (add-to-list 'org-latex-classes
+                   '("memoir-book"
+                     "\\documentclass[11pt,a4paper]{memoir}"
+                     ("\\chapter{%s}" . "\\chapter*{%s}")
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ))))
