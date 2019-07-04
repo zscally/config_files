@@ -68,7 +68,8 @@
 (evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 
-(setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s .")
+(after! counsel
+  (setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s ."))
 
 (put 'dired-find-alternate-file 'disabled nil)
 
