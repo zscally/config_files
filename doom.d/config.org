@@ -94,6 +94,11 @@
 
 #+END_SRC
 
+* Search
+#+BEGIN_SRC emacs-lisp
+(setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s .")
+#+END_SRC
+
 * dired
 #+BEGIN_SRC emacs-lisp
 (put 'dired-find-alternate-file 'disabled nil)
