@@ -25,6 +25,7 @@
 (doom-themes-org-config)
 
 
+(add-hook 'emacs-startup-hook (lambda () (set-face-attribute 'default nil :height 170)))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (show-paren-mode 1)
