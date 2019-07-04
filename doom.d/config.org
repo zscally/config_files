@@ -25,7 +25,7 @@
 (doom-themes-org-config)
 
 
-(add-hook 'emacs-startup-hook (lambda () (set-face-attribute 'default nil :height 170)))
+(add-hook 'doom-after-init-modules-hook (lambda () (set-face-attribute 'default nil :height 170)))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (show-paren-mode 1)
@@ -97,7 +97,8 @@
 
 * Search
 #+BEGIN_SRC emacs-lisp
-(setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s .")
+(after! counsel
+  (setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s ."))
 #+END_SRC
 
 * dired
@@ -117,4 +118,10 @@
                      ("\\section{%s}" . "\\section*{%s}")
                      ))))
 
+#+END_SRC
+
+* Say Hello to confirm things finished
+#+BEGIN_SRC emacs-lisp
+
+(message "Hello, we reached the end")
 #+END_SRC

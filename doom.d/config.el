@@ -83,3 +83,5 @@
                      ("\\chapter{%s}" . "\\chapter*{%s}")
                      ("\\section{%s}" . "\\section*{%s}")
                      ))))
+
+(message "Hello, we reached the end")
