@@ -124,6 +124,14 @@
                      ))))
 
 #+END_SRC
+* Projects
+
+** Treemacs
+#+BEGIN_SRC emacs-lisp
+(after! treemacs
+  (treemacs-follow-mode))
+
+#+END_SRC
 
 * Say Hello to confirm things finished
 #+BEGIN_SRC emacs-lisp

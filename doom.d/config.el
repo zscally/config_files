@@ -88,4 +88,7 @@
                      ("\\section{%s}" . "\\section*{%s}")
                      ))))
 
+(after! treemacs
+  (treemacs-follow-mode))
+
 (message "Hello, we reached the end")
