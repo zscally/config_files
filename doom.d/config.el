@@ -1,5 +1,9 @@
 (setq mac-command-modifier 'control)
 
+
+(when (memq window-system '(mac ns x))
+  (setq php-boris-command "~/boris/bin/boris"))
+
 (after! eshell
   (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
 

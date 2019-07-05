@@ -1,6 +1,11 @@
-* OS Specific
+* OS Integration
 #+BEGIN_SRC emacs-lisp
 (setq mac-command-modifier 'control)
+
+
+(when (memq window-system '(mac ns x))
+  (setq php-boris-command "~/boris/bin/boris"))
+
 #+END_SRC
 
 * Eshell
