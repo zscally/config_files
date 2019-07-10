@@ -54,7 +54,12 @@
         "7" #'+workspace/switch-to-6
         "8" #'+workspace/switch-to-7
         "9" #'+workspace/switch-to-8)
-      :g "C-c w" my-workspace-map)
+      :g "C-c w" my-workspace-map
+      (:after term
+        :map term-mode-map
+        :i "C-y" #'term-paste
+        :map term-raw-map
+        :i "C-y" #'term-paste))
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
