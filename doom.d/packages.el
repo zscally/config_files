@@ -11,3 +11,4 @@
 (package! darkroom)
 (package! centered-cursor-mode)
 (package! exec-path-from-shell)
+(package! vagrant)
