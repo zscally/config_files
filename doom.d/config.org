@@ -22,7 +22,7 @@
 
 * Theming and appearance
 #+BEGIN_SRC emacs-lisp
-(load-theme 'doom-solarized-light t)
+(load-theme 'doom-challenger-deep t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
