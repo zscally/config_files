@@ -28,6 +28,7 @@
 
 (after! org
   (load-file "~/capture-templates.el")
+  (setq org-agenda-files '("~/Desktop/Notes.org"))
   (setq org-imenu-depth 15)
   (setq imenu-max-items 0))
 
@@ -55,6 +56,7 @@
         "8" #'+workspace/switch-to-7
         "9" #'+workspace/switch-to-8)
       :g "C-c w" my-workspace-map
+      :g "M-z" #'zap-up-to-char
       (:after term
         :map term-mode-map
         :i "C-y" #'term-paste
