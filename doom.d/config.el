@@ -42,6 +42,7 @@
         "l" #'+workspace/load
         "r" #'+workspace/rename
         "o" #'+workspace/other
+        "i" #'clone-indirect-buffer
         "u" #'winner-undo
         "R" #'winner-redo
         [tab]  #'+workspace/display
