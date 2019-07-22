@@ -22,7 +22,7 @@
 
 * Theming and appearance
 #+BEGIN_SRC emacs-lisp
-(load-theme 'doom-challenger-deep t)
+(load-theme 'doom-opera-light t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
@@ -94,7 +94,10 @@
 * ace window
 #+BEGIN_SRC emacs-lisp
 ;; Set the dvorak version of the improve home row bindings
-(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+(after! 'ace-window
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+  (custom-set-faces
+   '(aw-leading-char-face ((t (:foreground "red" :background "black" :height 4.0)))))
 #+END_SRC
 
 * Blacken Things

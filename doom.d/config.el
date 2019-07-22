@@ -12,7 +12,7 @@
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
 
-(load-theme 'doom-challenger-deep t)
+(load-theme 'doom-opera-light t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
@@ -69,7 +69,10 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; Set the dvorak version of the improve home row bindings
-(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+(after! 'ace-window
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+  (custom-set-faces
+   '(aw-leading-char-face ((t (:foreground "red" :background "black" :height 4.0)))))
 
 (load "~/config_files/blacken.el")
 (add-hook 'python-mode-hook 'blacken-mode)
