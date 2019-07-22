@@ -29,6 +29,7 @@
 (after! org
   (load-file "~/capture-templates.el")
   (setq org-agenda-files '("~/Desktop/Notes.org"))
+  (remove-hook 'org-mode-hook #'auto-fill-mode)
   (setq org-imenu-depth 15)
   (setq imenu-max-items 0))
 
@@ -58,6 +59,7 @@
         "9" #'+workspace/switch-to-8)
       :g "C-c w" my-workspace-map
       :g "M-z" #'zap-up-to-char
+      :g [f12] #'org-pomodoro
       (:after term
         :map term-mode-map
         :i "C-y" #'term-paste
