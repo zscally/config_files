@@ -12,7 +12,7 @@
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
 
-(load-theme 'doom-opera-light t)
+(load-theme 'doom-solarized-light t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
