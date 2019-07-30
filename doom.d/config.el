@@ -66,7 +66,10 @@
           "r" #'org-brain-remove-child
           )
         (:prefix ("r" . "resource")
-          "ri" #'org-brain-visualize-add-resource
+          "i" #'org-brain-visualize-add-resource
+          )
+        (:prefix ("l" . "link")
+          "c" #'org-brain-store-link-to-current-file
           )
         ))
 
@@ -103,6 +106,14 @@
         :i "C-y" #'term-paste
         :map term-raw-map
         :i "C-y" #'term-paste))
+
+(defun org-brain-store-link-to-current-file ()
+  (interactive)
+  (let ((current-file (progn (org-store-link t) (org-insert-last-stored-link t))))
+    (org-brain-add-resource current-file)
+  ))
+
+(org-brain-store-link-to-current-file)
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
