@@ -109,10 +109,11 @@
 
 (defun org-brain-store-link-to-current-file ()
   (interactive)
-  (let ((current-file (progn (org-store-link t) (org-insert-last-stored-link t))))
-    (org-brain-add-resource current-file)
-  ))
-
+  (org-brain-add-resource (concat
+                           (buffer-file-name)
+                           "::"
+                           (number-to-string (line-number-at-pos))))
+  )
 (org-brain-store-link-to-current-file)
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
