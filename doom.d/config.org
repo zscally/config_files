@@ -77,7 +77,7 @@
 (map! :leader
       :desc "org mode" "O" my-org-map
       (:prefix-map ("B" . "brain")
-        :desc "visualize" "v" #'counsel-brain_
+        :desc "visualize" "v" #'counsel-brain
         (:prefix ("p" . "parent")
         "a" #'org-brain-add-parent
         "r" #'org-brain-remove-parent)
