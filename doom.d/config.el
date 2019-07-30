@@ -26,8 +26,11 @@
 (show-paren-mode 1)
 (display-time-mode 1)
 
-(load-file "~/config_files/capture-templates.el")
 (after! org
+  (load-file "~/config_files/capture-templates.el")
+  (let ((personal-templates "~/org/capture-templates.el"))
+    (when (file-exists-p personal-templates)
+      (load-file personal-templates)))
   (setq org-agenda-files (concat org-directory "notes.org"))
   (remove-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-mode-hook '(lambda () (auto-fill-mode -1)))
