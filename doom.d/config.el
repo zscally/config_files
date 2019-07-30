@@ -1,3 +1,7 @@
+(let ((private-config "~/org/private.el"))
+    (when (file-exists-p private-config)
+      (load-file private-config)))
+
 (setq mac-command-modifier 'control)
 
 
@@ -31,7 +35,8 @@
   (let ((personal-templates "~/org/capture-templates.el"))
     (when (file-exists-p personal-templates)
       (load-file personal-templates)))
-  (setq org-agenda-files (concat org-directory "notes.org"))
+  (add-to-list 'org-agenda-files (concat org-directory "notes.org"))
+  (add-to-list 'org-agenda-files (concat org-directory "todo.org"))
   (remove-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-mode-hook '(lambda () (auto-fill-mode -1)))
   (setq org-imenu-depth 15)
