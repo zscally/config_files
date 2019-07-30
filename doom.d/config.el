@@ -54,6 +54,7 @@
 (defvar my-org-map (make-sparse-keymap)
   "Org mode control")
 
+(require 'org-brain)
 (map! :leader
       :desc "org mode" "O" my-org-map
       (:prefix-map ("B" . "brain")
@@ -69,8 +70,8 @@
           "i" #'org-brain-visualize-add-resource
           )
         (:prefix ("l" . "link")
-          :desc "store current line" "l" #'org-brain-store-link-to-current-line
-          :desc "store current file" "f" #'org-brain-store-link-to-current-file
+          :desc "store current line" "l" #'org-brain-add-file-line-as-resource
+          :desc "store current file" "f" #'org-brain-add-file-as-resource
           )
         ))
 
@@ -107,18 +108,6 @@
         :i "C-y" #'term-paste
         :map term-raw-map
         :i "C-y" #'term-paste))
-
-(require 'org-brain)
-(defun org-brain-store-link-to-current-line ()
-  (interactive)
-  (org-brain-add-resource (concat
-                           (buffer-file-name)
-                           "::"
-                           (number-to-string (line-number-at-pos)))))
-
-(defun org-brain-store-link-to-current-file ()
-  (interactive)
-  (org-brain-add-resource (buffer-file-name)))
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 

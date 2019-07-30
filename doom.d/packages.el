@@ -14,4 +14,4 @@
 (package! vagrant)
 (package! groovy-mode)
 (package! org-pomodoro)
-(package! org-brain)
+(package! org-brain :recipe (:fetcher github :repo "Kungsgeten/org-brain"))
