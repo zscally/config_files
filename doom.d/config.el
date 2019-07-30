@@ -108,6 +108,7 @@
         :map term-raw-map
         :i "C-y" #'term-paste))
 
+(require 'org-brain)
 (defun org-brain-store-link-to-current-line ()
   (interactive)
   (org-brain-add-resource (concat
@@ -115,7 +116,7 @@
                            "::"
                            (number-to-string (line-number-at-pos)))))
 
-(defun org-brain-store-link-to-current-line ()
+(defun org-brain-store-link-to-current-file ()
   (interactive)
   (org-brain-add-resource (buffer-file-name)))
 
