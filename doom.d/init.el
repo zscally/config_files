@@ -3,15 +3,6 @@
 ;; More information about these modules (and what flags they support) can be
 ;; found in modules/README.org.
 
-;; must be before packages are configured, so it goes here
-(def-package-hook! ace-window
-  :pre-config
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
-        aw-scope 'global
-        aw-background t)
-  nil)
-
-
 (doom! :input
        ;;chinese
        ;;japanese
@@ -136,7 +127,7 @@
         +habit           ; Keep track of your habits
         +present         ; Emacs for presentations
         +protocol)       ; Support for org-protocol:// links
-       ;;perl              ; write code no one else can comprehend
+       perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -179,7 +170,6 @@
        ;; For literate config users. This will tangle+compile a config.org
        ;; literate config in your `doom-private-dir' whenever it changes.
        literate
-
        ;; The default module sets reasonable defaults for Emacs. It also
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
@@ -190,11 +180,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "ab9456aaeab81ba46a815c00930345ada223e1e7c7ab839659b382b52437b9ea" "a6e3dec0d16222cc5747743c87ef7da79186f7282e2ec4ff74c7f08ed7fe28d2" "1cfc3c062790a8d6f9ce677c50cf671609f45c32695778873b4a7619f1e749b5" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "955426466aa729d7d32483d3b2408cf474a1332550ad364848d1dfe9eecc8a16" "34c99997eaa73d64b1aaa95caca9f0d64229871c200c5254526d0062f8074693" default))))
+   '("9954ed41d89d2dcf601c8e7499b6bb2778180bfcaeb7cdfc648078b8e05348c6" "0fdd9258f9bf92772bf3d7839dee12161a48225f58b91035de33abb5e3a11a73" "155a5de9192c2f6d53efcc9c554892a0d87d87f99ad8cc14b330f4f4be204445" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "ab9456aaeab81ba46a815c00930345ada223e1e7c7ab839659b382b52437b9ea" "a6e3dec0d16222cc5747743c87ef7da79186f7282e2ec4ff74c7f08ed7fe28d2" "1cfc3c062790a8d6f9ce677c50cf671609f45c32695778873b4a7619f1e749b5" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "955426466aa729d7d32483d3b2408cf474a1332550ad364848d1dfe9eecc8a16" "34c99997eaa73d64b1aaa95caca9f0d64229871c200c5254526d0062f8074693" default)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:foreground "red" :background "black" :height 12.0)))))
+ '(aw-leading-char-face ((t (:foreground "red" :background "black" :height 6.0)))))

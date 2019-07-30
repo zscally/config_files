@@ -12,6 +12,10 @@
                                "* TODO %?\n%i\n%a" :prepend t :kill-buffer t)
                               ("pn" "Project notes" entry
                                (file+headline +org-capture-project-notes-file "Inbox")
-                               "* TODO %?\n%i\n" :prepend t :kill-fer t)))
+                               "* TODO %?\n%i\n" :prepend t :kill-fer t)
+                              ("w" "Review: Weekly Review" entry
+                               (file+datetree "~/org/reviews.org")
+                               (file "~/org/templates/weekly_review_template.org")
+                               )))
 (provide 'capture-templates)
 ;;; capture-templates.el ends here

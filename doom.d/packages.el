@@ -13,3 +13,4 @@
 (package! exec-path-from-shell)
 (package! vagrant)
 (package! org-pomodoro)
+(package! org-brain)

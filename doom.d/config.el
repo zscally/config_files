@@ -12,7 +12,7 @@
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
 
-(load-theme 'doom-solarized-light t)
+(load-theme 'doom-nova t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
@@ -26,15 +26,39 @@
 (show-paren-mode 1)
 (display-time-mode 1)
 
+(load-file "~/config_files/capture-templates.el")
 (after! org
-  (load-file "~/capture-templates.el")
-  (setq org-agenda-files '("~/Desktop/Notes.org"))
+  (setq org-agenda-files (concat org-directory "notes.org"))
   (remove-hook 'org-mode-hook #'auto-fill-mode)
+  (add-hook 'org-mode-hook '(lambda () (auto-fill-mode -1)))
   (setq org-imenu-depth 15)
   (setq imenu-max-items 0))
 
+(after! evil
+    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+
 (defvar my-workspace-map (make-sparse-keymap)
   "Project and workspace shifting")
+(defvar my-brain-map (make-sparse-keymap)
+  "Org-brain control")
+(defvar my-org-map (make-sparse-keymap)
+  "Org mode control")
+
+(map! :leader
+      :desc "org mode" "O" my-org-map
+      (:prefix-map ("B" . "brain")
+        :desc "visualize" "v" #'org-brain-visualize
+        (:prefix ("p" . "parent")
+        "a" #'org-brain-add-parent
+        "r" #'org-brain-remove-parent)
+        (:prefix ("c" . "child")
+          "a" #'org-brain-add-child
+          "r" #'org-brain-remove-child
+          )
+        (:prefix ("r" . "resource")
+          "ri" #'org-brain-visualize-add-resource
+          )
+        ))
 
 (map! (:map my-workspace-map
         "." #'+workspace/switch-to
@@ -60,6 +84,10 @@
       :g "C-c w" my-workspace-map
       :g "M-z" #'zap-up-to-char
       :g [f12] #'org-pomodoro
+      (:map my-org-map
+        "ls" #'org-store-link
+        "li" #'org-insert-link
+        )
       (:after term
         :map term-mode-map
         :i "C-y" #'term-paste
@@ -71,8 +99,8 @@
 ;; Set the dvorak version of the improve home row bindings
 (after! 'ace-window
   (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
-  (custom-set-faces
-   '(aw-leading-char-face ((t (:foreground "red" :background "black" :height 4.0)))))
+  (setq aw-scope 'global)
+  (setq aw-background t))
 
 (load "~/config_files/blacken.el")
 (add-hook 'python-mode-hook 'blacken-mode)
@@ -103,5 +131,3 @@
 
 (after! treemacs
   (treemacs-follow-mode))
-
-(message "Hello, we reached the end")
