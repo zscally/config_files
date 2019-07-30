@@ -12,5 +12,6 @@
 (package! centered-cursor-mode)
 (package! exec-path-from-shell)
 (package! vagrant)
+(package! groovy-mode)
 (package! org-pomodoro)
 (package! org-brain)
