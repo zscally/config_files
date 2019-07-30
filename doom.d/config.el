@@ -69,7 +69,8 @@
           "i" #'org-brain-visualize-add-resource
           )
         (:prefix ("l" . "link")
-          "c" #'org-brain-store-link-to-current-file
+          :desc "store current line" "l" #'org-brain-store-link-to-current-line
+          :desc "store current file" "f" #'org-brain-store-link-to-current-file
           )
         ))
 
@@ -107,14 +108,16 @@
         :map term-raw-map
         :i "C-y" #'term-paste))
 
-(defun org-brain-store-link-to-current-file ()
+(defun org-brain-store-link-to-current-line ()
   (interactive)
   (org-brain-add-resource (concat
                            (buffer-file-name)
                            "::"
-                           (number-to-string (line-number-at-pos))))
-  )
-(org-brain-store-link-to-current-file)
+                           (number-to-string (line-number-at-pos)))))
+
+(defun org-brain-store-link-to-current-line ()
+  (interactive)
+  (org-brain-add-resource (buffer-file-name)))
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
