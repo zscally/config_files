@@ -31,7 +31,12 @@
 (display-time-mode 1)
 
 (after! org
+  (map! :map org-mode-map
+        :n "M-j" #'org-metadown
+        :n "M-k" #'org-metaup)
   (load-file "~/config_files/capture-templates.el")
+  ;; NOTE: Be sure to load the repo one (config files) first, as it does a
+  ;; setq while the others append
   (let ((personal-templates "~/org/capture-templates.el"))
     (when (file-exists-p personal-templates)
       (load-file personal-templates)))
@@ -132,6 +137,8 @@
 (evil-define-key 'normal ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'insert ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
 (evil-define-key 'hybrid ein:edit-cell-mode-map (kbd "C-c '") (lambda () (interactive) (blacken-buffer) (ein:edit-cell-exit)))
+
+(setq line-move-visual nil)
 
 (after! counsel
   (setq counsel-rg-base-command "rg -S --no-heading -g !TAGS --line-number --color never %s ."))
