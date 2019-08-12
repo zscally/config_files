@@ -121,6 +121,9 @@
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+(after! magit
+    (evil-set-initial-state 'magit-mode 'emacs))
+
 ;; Set the dvorak version of the improve home row bindings
 (after! 'ace-window
   (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
