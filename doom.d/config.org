@@ -170,10 +170,12 @@
 * ace window
 #+BEGIN_SRC emacs-lisp
 ;; Set the dvorak version of the improve home row bindings
-(after! 'ace-window
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
-  (setq aw-scope 'global)
-  (setq aw-background t))
+(after! ace-window
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
+        aw-scope 'global
+        aw-ignore-current t
+        aw-background t)
+  (ace-window-display-mode))
 #+END_SRC
 
 * Blacken Things

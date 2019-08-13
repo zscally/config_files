@@ -132,14 +132,16 @@
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-(after! magit
-    (evil-set-initial-state 'magit-mode 'emacs))
+(evil-set-initial-state 'magit-status-mode 'emacs)
+(evil-set-initial-state 'magit-popup-mode 'emacs)
 
 ;; Set the dvorak version of the improve home row bindings
-(after! 'ace-window
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
-  (setq aw-scope 'global)
-  (setq aw-background t))
+(after! ace-window
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
+        aw-scope 'global
+        aw-ignore-current t
+        aw-background t)
+  (ace-window-display-mode))
 
 (load "~/config_files/blacken.el")
 (add-hook 'python-mode-hook 'blacken-mode)
