@@ -161,8 +161,8 @@
 
 * Magit
 #+BEGIN_SRC emacs-lisp
-(after! magit
-    (evil-set-initial-state 'magit-mode 'emacs))
+(evil-set-initial-state 'magit-status-mode 'emacs)
+(evil-set-initial-state 'magit-popup-mode 'emacs)
 
 
 #+END_SRC
