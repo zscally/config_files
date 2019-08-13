@@ -70,8 +70,8 @@
       (:prefix-map ("B" . "brain")
         :desc "visualize" "v" #'counsel-brain
         (:prefix ("p" . "parent")
-        "a" #'org-brain-add-parent
-        "r" #'org-brain-remove-parent)
+          "a" #'org-brain-add-parent
+          "r" #'org-brain-remove-parent)
         (:prefix ("c" . "child")
           "a" #'org-brain-add-child
           "r" #'org-brain-remove-child
@@ -84,6 +84,17 @@
           :desc "store current file" "f" #'org-brain-add-file-as-resource
           )
         ))
+
+(map!
+ :g "C-x 5 l" #'lower-frame)
+
+(map!
+ (:after org-brain
+   (:map org-brain-visualize-mode-map
+        (:prefix ([tab] . "grandchildren")
+          :g "a" #'org-brain-show-ancestor-level
+          :g "d" #'org-brain-show-descendant-level
+        ))))
 
 (map! (:map my-workspace-map
         "." #'+workspace/switch-to
