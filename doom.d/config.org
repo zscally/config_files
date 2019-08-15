@@ -114,9 +114,9 @@
 (map!
  (:after org-brain
    (:map org-brain-visualize-mode-map
-        (:prefix ([tab] . "grandchildren")
-          :g "a" #'org-brain-show-ancestor-level
-          :g "d" #'org-brain-show-descendant-level
+        (:prefix ("R" . "grandchildren")
+          :g [tab] #'org-brain-show-descendant-level
+          :g [backtab] #'org-brain-show-ancestor-level
         ))))
 
 (map! (:map my-workspace-map
@@ -172,8 +172,8 @@
 ;; Set the dvorak version of the improve home row bindings
 (after! ace-window
   (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
-        aw-scope 'global
-        aw-ignore-current t
+        aw-scope 'frame
+        aw-ignore-current nil
         aw-background t)
   (ace-window-display-mode))
 #+END_SRC
