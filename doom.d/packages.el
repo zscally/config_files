@@ -15,3 +15,5 @@
 (package! groovy-mode)
 (package! org-pomodoro)
 (package! org-brain :recipe (:fetcher github :repo "Kungsgeten/org-brain"))
+(package! lorem-ipsum)
+(package! org-caldav :recipe (:fetcher github :repo "dengste/org-caldav"))

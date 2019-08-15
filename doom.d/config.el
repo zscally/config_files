@@ -1,4 +1,4 @@
-(let ((private-config "~/org/private.el"))
+(let ((private-config "~/.doom.d/private.el"))
     (when (file-exists-p private-config)
       (load-file private-config)))
 
