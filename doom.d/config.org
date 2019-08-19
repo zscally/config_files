@@ -109,7 +109,9 @@
         ))
 
 (map!
- :g "C-x 5 l" #'lower-frame)
+ :g "C-x 5 l" #'lower-frame
+ :g "C-x b" #'+ivy/switch-workspace-buffer
+ :g "C-x B" #'+ivy/switch-buffer)
 
 (map!
  (:after org-brain
