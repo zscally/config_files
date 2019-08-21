@@ -3,6 +3,7 @@
 (let ((private-config "~/.doom.d/private.el"))
     (when (file-exists-p private-config)
       (load-file private-config)))
+(load-file "~/.doom.d/custom.el")
 #+END_SRC
 
 * OS Integration
@@ -47,7 +48,6 @@
 * Org Mode
 
 #+BEGIN_SRC emacs-lisp
-
 (after! org
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
@@ -73,7 +73,7 @@
       (delete-other-windows))))
 
 (after! evil
-    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+  (evil-set-initial-state 'org-brain-visualize-mode 'normal))
 #+END_SRC
 
 #+RESULTS:
@@ -105,21 +105,54 @@
         (:prefix ("l" . "link")
           :desc "store current line" "l" #'org-brain-add-file-line-as-resource
           :desc "store current file" "f" #'org-brain-add-file-as-resource
-          )
-        ))
+          )))
+(map!
+ (:map org-brain-visualize-mode-map
+   (:prefix ("R" . "grandchildren")
+     :n [tab] #'org-brain-show-descendant-level
+     :n [backtab] #'org-brain-show-ancestor-level)
+   :n "p" 'org-brain-add-parent
+   :n "P" #'org-brain-remove-parent
+   :n "c" #'org-brain-add-child
+   :n "C" #'org-brain-remove-child
+   :n "*" #'org-brain-add-child-headline
+   :n "h" #'org-brain-add-child-headline
+   :n "n" #'org-brain-pin
+   :n "t" #'org-brain-set-title
+   :n "j" #'forward-button
+   :n "k" #'backward-button
+   :n "u" #'org-brain-visualize-parent
+   :n [?\t] 'forward-button
+   :n [backtab] 'backward-button
+   :n "o" #'org-brain-goto-current
+   :n "O" #'org-brain-goto
+   :n "v" #'org-brain-visualize
+   :n "f" #'org-brain-add-friendship
+   :n "F" #'org-brain-remove-friendship
+   :n "d" #'org-brain-delete-entry
+   :n "l" #'org-brain-add-resource
+   :n "r" #'org-brain-open-resource
+   :n "a" #'org-brain-visualize-attach
+   :n "A" #'org-brain-archive
+   :n "b" #'org-brain-visualize-back
+   :n "C-y" 'org-brain-visualize-paste-resource
+   :n "T" #'org-brain-set-tags
+   :n "q" #'org-brain-visualize-quit
+   :n "w" #'org-brain-visualize-random
+   :n "W" #'org-brain-visualize-wander
+   :n "m" #'org-brain-visualize-mind-map
+   :n "+" #'org-brain-show-descendant-level
+   :n "-" #'org-brain-hide-descendant-level
+   :n "#z" 'org-brain-show-ancestor-level
+   :n "#Z" 'org-brain-hide-ancestor-level
+   :n "#e" 'org-brain-annotate-edge))
+
+
 
 (map!
  :g "C-x 5 l" #'lower-frame
  :g "C-x b" #'+ivy/switch-workspace-buffer
  :g "C-x B" #'+ivy/switch-buffer)
-
-(map!
- (:after org-brain
-   (:map org-brain-visualize-mode-map
-        (:prefix ("R" . "grandchildren")
-          :g [tab] #'org-brain-show-descendant-level
-          :g [backtab] #'org-brain-show-ancestor-level
-        ))))
 
 (map! (:map my-workspace-map
         "." #'+workspace/switch-to
