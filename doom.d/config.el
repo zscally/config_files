@@ -41,12 +41,11 @@
   (let ((personal-templates "~/org/capture-templates.el"))
     (when (file-exists-p personal-templates)
       (load-file personal-templates)))
-  (add-to-list 'org-agenda-files (concat org-directory "notes.org"))
-  (add-to-list 'org-agenda-files (concat org-directory "todo.org"))
   (remove-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-mode-hook '(lambda () (auto-fill-mode -1)))
-  (setq org-imenu-depth 15)
-  (setq imenu-max-items 0))
+  (setq org-imenu-depth 15
+        imenu-max-items 0
+        org-agenda-skip-deadline-prewarning-if-scheduled t))
 
 (after! org-brain
   (add-hook 'org-brain-visualize-mode-hook 'visual-line-mode)
