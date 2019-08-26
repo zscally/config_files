@@ -17,7 +17,7 @@
 (setq term-buffer-maximum-size 8191)
 (setq eshell-history-ring 1028)
 
-(load-theme 'doom-nova t)
+(load-theme 'leuven t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)

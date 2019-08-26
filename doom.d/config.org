@@ -30,7 +30,7 @@
 
 * Theming and appearance
 #+BEGIN_SRC emacs-lisp
-(load-theme 'doom-nova t)
+(load-theme 'leuven t)
 
 (doom-themes-visual-bell-config)
 (doom-themes-neotree-config)
