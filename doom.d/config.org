@@ -180,12 +180,7 @@
       (:map my-org-map
         "ls" #'org-store-link
         "li" #'org-insert-link
-        )
-      (:after term
-        :map term-mode-map
-        :i "C-y" #'term-paste
-        :map term-raw-map
-        :i "C-y" #'term-paste))
+        ))
 #+END_SRC
 
 * Buffers
@@ -197,7 +192,25 @@
 #+BEGIN_SRC emacs-lisp
 (evil-set-initial-state 'magit-status-mode 'emacs)
 (evil-set-initial-state 'magit-popup-mode 'emacs)
+#+END_SRC
 
+* multi-term
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:after term
+   :map term-mode-map
+   :i "C-y" #'term-paste
+   :map term-raw-map
+   :i "C-y" #'term-paste)
+ (:prefix ("M-RET" . "multi-term menu")
+   "n" #'multi-term-next
+   "p" #'multi-term-previous
+   "c" #'multi-term
+   "q" #'multi-term-dedicated-close))
+
+(map!
+ :leader
+ :desc "multi-term" "om" #'multi-term-dedicated-toggle)
 
 #+END_SRC
 

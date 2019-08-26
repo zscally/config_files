@@ -158,17 +158,28 @@
       (:map my-org-map
         "ls" #'org-store-link
         "li" #'org-insert-link
-        )
-      (:after term
-        :map term-mode-map
-        :i "C-y" #'term-paste
-        :map term-raw-map
-        :i "C-y" #'term-paste))
+        ))
 
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (evil-set-initial-state 'magit-status-mode 'emacs)
 (evil-set-initial-state 'magit-popup-mode 'emacs)
+
+(map!
+ (:after term
+   :map term-mode-map
+   :i "C-y" #'term-paste
+   :map term-raw-map
+   :i "C-y" #'term-paste)
+ (:prefix ("M-RET" . "multi-term menu")
+   "n" #'multi-term-next
+   "p" #'multi-term-previous
+   "c" #'multi-term
+   "q" #'multi-term-dedicated-close))
+
+(map!
+ :leader
+ :desc "multi-term" "om" #'multi-term-dedicated-toggle)
 
 ;; Set the dvorak version of the improve home row bindings
 (after! ace-window
