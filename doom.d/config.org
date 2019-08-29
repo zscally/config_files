@@ -219,7 +219,7 @@
 ;; Set the dvorak version of the improve home row bindings
 (after! ace-window
   (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
-        aw-scope 'frame
+        aw-scope 'global
         aw-ignore-current nil
         aw-background t)
   (ace-window-display-mode))
