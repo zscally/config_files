@@ -120,9 +120,9 @@
    :n "t" #'org-brain-set-title
    :n "j" #'forward-button
    :n "k" #'backward-button
-   :n "u" #'org-brain-visualize-parent
-   :n [?\t] 'forward-button
+   :n [tab] #'forward-button
    :n [backtab] 'backward-button
+   :n "u" #'org-brain-visualize-parent
    :n "o" #'org-brain-goto-current
    :n "O" #'org-brain-goto
    :n "v" #'org-brain-visualize
