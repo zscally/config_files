@@ -13,9 +13,10 @@
   (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
 
 
-(setq term-input-ring-size 200)
+(setq term-input-ring-size 10000)
 (setq term-buffer-maximum-size 8191)
-(setq eshell-history-ring 1028)
+(setq eshell-history-ring 10000)
+(setq eshell-history-size 10000)
 
 (load-theme 'leuven t)
 
@@ -129,7 +130,9 @@
 (map!
  :g "C-x 5 l" #'lower-frame
  :g "C-x b" #'+ivy/switch-workspace-buffer
- :g "C-x B" #'+ivy/switch-buffer)
+ :g "C-x B" #'+ivy/switch-buffer
+ :g "M-o" #'ace-window
+ :g "C-:" #'evil-avy-goto-char-timer)
 
 (map! (:map my-workspace-map
         "." #'+workspace/switch-to
