@@ -147,12 +147,10 @@
    :n "#Z" 'org-brain-hide-ancestor-level
    :n "#e" 'org-brain-annotate-edge))
 
-
-
 (map!
  :g "C-x 5 l" #'lower-frame
- :g "C-x b" #'+ivy/switch-workspace-buffer
- :g "C-x B" #'+ivy/switch-buffer
+ :g "C-x b" #'+helm/workspace-buffer-list
+ :g "C-x B" #'helm-buffers-list
  :g "M-o" #'ace-window
  :g "C-:" #'evil-avy-goto-char-timer)
 
